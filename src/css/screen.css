@@ -1,7 +1,7 @@
 /* PostCSS */
 
 @import "../js/components/navbar/navbar.css";
-@import "../js/components/navbar/user.css";
-@import "../js/components/navbar/add.css";
-@import "../js/components/navbar/pending.css";
-@import "../js/components/navbar/sync.css";
+@import "../js/components/user/user.css";
+@import "../js/components/add/add.css";
+@import "../js/components/pending/pending.css";
+@import "../js/components/sync/sync.css";

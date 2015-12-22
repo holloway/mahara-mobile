@@ -36,7 +36,7 @@ nav {
 
 	li.active {
 		background:#666;
-    box-shadow: inset 3px 0px 3px #333;
+    box-shadow: inset 0px 3px 3px #333;
     color:white;
 	}
 }
