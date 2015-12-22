@@ -1,6 +1,6 @@
 /*jshint esnext: true */
 import React from 'react';
-import {l10n} from '../../language.js';
+import {i18nReactMixin} from '../../i18n.js';
 
 class Sync extends React.Component {
   render() {

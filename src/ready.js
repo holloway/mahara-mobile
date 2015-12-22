@@ -1,7 +1,7 @@
 (function(){
-  window.mahara = {};
+  window.mahara = {i18n:{}};
   var deps = {
-    json: ['/locales.json'],
+    json: ['/i18n/strings.json'],
     scripts: ['/bundle.js']
   };
 
@@ -9,7 +9,7 @@
     mahara.addResources(deps.json, addScripts, onError);
 
     function addScripts(jsons){
-      mahara.locales = jsons[deps.json[0]];
+      mahara.i18n.strings = jsons[deps.json[0]];
       mahara.addResources(deps.scripts);
     }
   }

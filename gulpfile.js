@@ -1,5 +1,5 @@
 /*jshint esnext:true*/
-/*globals require:true*/
+/*globals require:true, console*/
 
 "use strict"; /* jshint -W097 */
 
@@ -73,22 +73,21 @@ gulp.task('ready', function(){
 });
 
 gulp.task('locale', function (){
-  var locales = {};
-  glob("./src/locale/*/strings.txt", function(er, files){
+  var allStrings = {};
+  glob("./src/i18n/*/strings.txt", function(er, files){
     var filesRemaining = files.length,
         readLang = function(path){
-          var localeId = path.replace(/^.*?locale\//,'').replace(/\/strings.txt.*?$/,''),
-              locale = {};
+          var lang = path.replace(/^.*?i18n\//,'').replace(/\/strings.txt.*?$/,''),
+              strings = {};
 
-          locales[localeId] = locale;
+          allStrings[lang] = strings;
 
           fs.readFile(path, 'utf-8', function(err, data){
-            //console.log(path);
             var lines = data.split("\n");
             for(var i = 0; i < lines.length; i++){
               var line = lines[i],
                   equals = line.indexOf("=");
-              if(equals >= 0) locale[ line.substr(0, equals) ] = line.substr(equals+1);
+              if(equals >= 0) strings[ line.substr(0, equals) ] = line.substr(equals+1);
             }
             end();
           });
@@ -96,7 +95,10 @@ gulp.task('locale', function (){
         end = function(){
           filesRemaining--;
           if(filesRemaining > 0) return;
-          fs.writeFile('./dist/locales.json', JSON.stringify(locales), 'utf-8');
+          fs.mkdir('./dist/i18n', function(e){
+            if(e && e.code !== 'EEXIST') console.log(e);
+            fs.writeFile('./dist/i18n/strings.json', JSON.stringify(allStrings), 'utf-8');
+          });
         };
     for(var i = 0; i < files.length; i++){
       readLang(files[i]);

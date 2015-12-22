@@ -1,0 +1,5 @@
+menu_user=User
+menu_add=Add
+menu_pending=Pending
+menu_sync=Sync
+menu_active=Active

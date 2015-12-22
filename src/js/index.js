@@ -1,19 +1,20 @@
 /*jshint esnext: true */
 
-import { createStore } from 'redux';
-import { Provider}     from 'react-redux';
-import React           from 'react';
-import ReactDOM        from 'react-dom';
-import Grapnel         from 'grapnel';
-import $               from 'jquery';
-import MaharaState     from './mahara-state.js';
-import NavBar          from './components/navbar/navbar.js';
-import UserPage        from './components/user/user.js';
-import Server          from './components/server/server.js';
-import AddPage         from './components/add/add.js';
-import PendingPage     from './components/pending/pending.js';
-import SyncPage        from './components/sync/sync.js';
-import {MENU_ITEMS}    from './constants.js';
+import { createStore }  from 'redux';
+import { Provider}      from 'react-redux';
+import React            from 'react';
+import ReactDOM         from 'react-dom';
+import Grapnel          from 'grapnel';
+import $                from 'jquery';
+import MaharaState      from './mahara-state.js';
+import NavBar           from './components/navbar/navbar.js';
+import UserPage         from './components/user/user.js';
+import Server           from './components/server/server.js';
+import AddPage          from './components/add/add.js';
+import PendingPage      from './components/pending/pending.js';
+import SyncPage         from './components/sync/sync.js';
+import {MENU_ITEMS}     from './constants.js';
+import {getLangStrings} from './i18n.js';
 
 var container = document.getElementById('container');
 
@@ -21,6 +22,7 @@ const store = createStore(MaharaState);
 
 const render = () => {
   var state = store.getState(),
+      strings = getLangStrings(state.lang),
       page;
 
   if(state.menu === MENU_ITEMS.User){
@@ -36,7 +38,7 @@ const render = () => {
   if(page){
     ReactDOM.render(
       <div>
-        <NavBar menu={state.menu}/>
+        <NavBar menu={state.menu} lang={strings}/>
         {page}
       </div>,
       container

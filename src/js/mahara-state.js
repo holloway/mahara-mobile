@@ -3,22 +3,27 @@
 function MaharaState(state, action) {
   if (state === undefined) { //initial state
     return {
+      lang: ['en'],
       menu: 'User'
     };
   }
+  state = JSON.parse(JSON.stringify(state)); // clone so that we don't accidentally overwrite existing object
 
   switch (action.type) {
     case 'MENU_USER':
-      return {menu:'User'};
+      state.menu = 'User';
+      break;
     case 'MENU_ADD':
-      return {menu:'Add'};
+      state.menu = 'Add';
+      break;
     case 'MENU_PENDING':
-      return {menu:'Pending'};
+      state.menu = 'Pending';
+      break;
     case 'MENU_SYNC':
-      return {menu:'Sync'};
-    default:
-      return state;
+      state.menu = 'Sync';
+      break;
   }
+  return state;
 }
 
 export default MaharaState;
