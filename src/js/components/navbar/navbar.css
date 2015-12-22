@@ -23,11 +23,12 @@ nav {
   a {
     color: white;
     display:block;
-    padding: 0.5em 0px;
+    padding: 1em 0px;
     text-decoration:none;
     text-shadow: 1px 1px 1px #777;
 
 		&:active,
+		&:focus,
     &:hover {
       color:white;
       text-decoration:none;
@@ -36,7 +37,7 @@ nav {
 
 	li.active {
 		background:#666;
-    box-shadow: inset 0px 3px 3px #333;
+    box-shadow: inset 0px 3px 3px #666;
     color:white;
 	}
 }
