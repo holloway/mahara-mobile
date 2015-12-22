@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html class='loading'>
+<html class=loading lang=en>
 <head>
   <meta charset="utf-8">
-  <link href='lib/bootstrap-3.3.6/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-  <style type='text/css'> html.loading, html.loading > body {height:100%; min-height:100%; background: #fff url('images/loading.gif') no-repeat center center} </style>
+  <meta name=viewport content=width=device-width,initial-scale=1>
+  <link href=lib/bootstrap-3.3.6/css/bootstrap.min.css rel=stylesheet type=text/css>
+  <link href=css/screen.css rel=stylesheet type=text/css>
+  <style type='text/css'>
+    html.loading,
+    html.loading > body {height:100%; min-height:100%; background: #fff url('image/loading.gif') no-repeat center center}
+    html.loading #container {transition: opacity 1s ease-out;opacity:0}
+    html.ready #container {width:100%;height:100%;background:white;opacity:1}
+  </style>
 </head>
 <body>
-  <div id='menu'></div>
   <div id='container'></div>
-  <script src='lib/require.js/require-2.1.22.js' data-main='js/index.js'></script>
+  <script src="cordova.js" onError="window.isCordova=false" onLoad="window.isCordova=true"></script>
+  <script src="ready.js"></script>
 </body>
 </html>

@@ -1,0 +1,42 @@
+/* PostCSS */
+
+@define-mixin reset {
+	padding: 0;
+	margin: 0;
+}
+
+nav {
+  @mixin reset;
+
+  ul {
+    @mixin reset;
+  }
+
+  li {
+    @mixin reset;
+    display:inline-block;
+    width:25%;
+    text-align:center;
+    background: #999;
+  }
+
+  a {
+    color: white;
+    display:block;
+    padding: 0.5em 0px;
+    text-decoration:none;
+    text-shadow: 1px 1px 1px #777;
+
+		&:active,
+    &:hover {
+      color:white;
+      text-decoration:none;
+    }
+  }
+
+	li.active {
+		background:#666;
+    box-shadow: inset 3px 0px 3px #333;
+    color:white;
+	}
+}
