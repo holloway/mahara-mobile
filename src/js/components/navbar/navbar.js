@@ -1,15 +1,15 @@
 /*jshint esnext: true */
 import React                 from 'react';
-import {MENU_ITEMS}          from '../../constants.js';
+import {PAGES}               from '../../constants.js';
 import {MaharaBaseComponent} from '../base.js';
 
 class NavBar extends MaharaBaseComponent {
   static defaultProps = {
     menuItems: [
-      {menuType: MENU_ITEMS.User,    stringId:'menu_user'},
-      {menuType: MENU_ITEMS.Add,     stringId:'menu_add'},
-      {menuType: MENU_ITEMS.Pending, stringId:'menu_pending'},
-      {menuType: MENU_ITEMS.Sync,    stringId:'menu_sync'},
+      {menuType: PAGES.USER,    stringId:'menu_user'},
+      {menuType: PAGES.ADD,     stringId:'menu_add'},
+      {menuType: PAGES.PENDING, stringId:'menu_pending'},
+      {menuType: PAGES.SYNC,    stringId:'menu_sync'},
     ]
   }
   render() {

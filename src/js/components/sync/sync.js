@@ -1,8 +1,8 @@
 /*jshint esnext: true */
 import React from 'react';
-import {i18nReactMixin} from '../../i18n.js';
+import {MaharaBaseComponent} from '../base.js';
 
-class Sync extends React.Component {
+class Sync extends MaharaBaseComponent {
   render() {
     return <section>Sync</section>;
   }

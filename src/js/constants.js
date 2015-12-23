@@ -1,11 +1,13 @@
 /*jshint esnext: true */
 
-const MENU_ITEMS = {
-  User:    "User",
-  Add:     "Add",
-  Pending: "Pending",
-  Sync:    "Sync"
+export const PAGES = {
+  SERVER:  "Server",
+  USER:    "User",
+  ADD:     "Add",
+  PENDING: "Pending",
+  SYNC:    "Sync"
 };
 
-
-export {MENU_ITEMS};
+export const STORAGE = {
+  SERVER_URL: "Server_Url"
+};

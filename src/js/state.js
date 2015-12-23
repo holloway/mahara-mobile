@@ -1,26 +1,31 @@
 /*jshint esnext: true */
+import {PAGES}          from './constants.js';
 
 function MaharaState(state, action) {
   if (state === undefined) { //initial state
     return {
       lang: ['en'],
-      menu: 'User'
+      page: PAGES.SERVER
     };
   }
+  console.log(action.type);
   state = JSON.parse(JSON.stringify(state)); // clone so that we don't accidentally overwrite existing object
 
   switch (action.type) {
-    case 'MENU_USER':
-      state.menu = 'User';
+    case 'PAGE_USER':
+      state.page = PAGES.USER;
       break;
-    case 'MENU_ADD':
-      state.menu = 'Add';
+    case 'PAGE_ADD':
+      state.page = PAGES.ADD;
       break;
-    case 'MENU_PENDING':
-      state.menu = 'Pending';
+    case 'PAGE_PENDING':
+      state.page = PAGES.PENDING;
       break;
-    case 'MENU_SYNC':
-      state.menu = 'Sync';
+    case 'PAGE_SYNC':
+      state.page = PAGES.SYNC;
+      break;
+    case 'PAGE_NONE':
+      state.page = PAGES.NONE;
       break;
   }
   return state;

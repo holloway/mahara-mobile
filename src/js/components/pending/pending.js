@@ -1,8 +1,8 @@
 /*jshint esnext: true */
 import React from 'react';
-import {i18nReactMixin} from '../../i18n.js';
+import {MaharaBaseComponent} from '../base.js';
 
-class Pending extends React.Component {
+class Pending extends MaharaBaseComponent {
   render() {
     return <section>Pending</section>;
   }
