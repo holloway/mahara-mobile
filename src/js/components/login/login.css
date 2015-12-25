@@ -1,26 +1,23 @@
 /* PostCSS */
 
-html.Page_Server {
+html.Page_Login {
 	overflow:hidden;
-	background: white;
+	background: #5c883c;
 	transition: background-color 0.5s;
 
-	section,
-	h1 {
+	section {
 		max-width:800px;
 		padding: 0px 15px 100px 15px;
 		margin: 0px auto;
-	}
-
-	section {
 		text-align:center;
+		color:white;
 	}
 
 	img {
 		width:100%;
 	}
 
-	input[type=url] {
+	input {
 		font-size:xx-large;
 		padding: 5px 7px;
 		border:solid 1px #999;
@@ -29,16 +26,35 @@ html.Page_Server {
 		width:100%;
 	}
 
-	button {
+	h3 {
+		text-align:left;
+		font-size:x-large;
+		margin: 0.5em 0px 0px 0px;
+		padding: 0;
+	}
+
+	button.next {
 		background: #5c883c;
 		color: #fff;
 		font-weight:bold;
 		position:fixed;
-		bottom: 5px;
-		right:5px;
+		bottom: 15px;
+		right:15px;
 		font-size:xx-large;
 		padding: 0.5em 1em 0.5em 1em;
-		border: solid 10px white;
+		border: none;
+	}
+
+	button.back {
+		background: #5c883c;
+		color: #fff;
+		font-weight:bold;
+		position:fixed;
+		bottom: 15px;
+		left:15px;
+		font-size:xx-large;
+		padding: 0.5em 1em 0.5em 1em;
+		border: none;
 	}
 
 }

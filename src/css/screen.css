@@ -1,5 +1,36 @@
 /* PostCSS */
 
+@define-mixin reset {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+  user-select: none;
+  @mixin reset;
+  font-family: sans-serif;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 100;
+}
+
+
+input,
+textarea {
+  user-select: text;
+}
+
+
+@import "../js/components/server/server.css";
+@import "../js/components/login/login.css";
+@import "../js/components/logobar/logobar.css";
 @import "../js/components/navbar/navbar.css";
 @import "../js/components/user/user.css";
 @import "../js/components/add/add.css";

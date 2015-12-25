@@ -4,7 +4,6 @@
 "use strict"; /* jshint -W097 */
 
 let gulp    = require('gulp'),
-    //babel   = require('gulp-babel'),
     concat = require('gulp-concat'),
     browserify = require('browserify'),
     postcss = require('gulp-postcss'),
@@ -40,6 +39,7 @@ gulp.task('js', function (){
 
 gulp.task('css', function(){
     var processors = [
+      require('postcss-import'),
   		require('postcss-mixins'),
   		require('postcss-simple-vars'),
   		require('postcss-nested'),
@@ -68,7 +68,6 @@ gulp.task('html', function(){
 
 gulp.task('ready', function(){
     gulp.src(paths.ready)
-      //.pipe(replace(/<!--\#(.*?)\#-->/, ''))
       .pipe(gulp.dest("./dist"));
 });
 
@@ -81,7 +80,6 @@ gulp.task('locale', function (){
               strings = {};
 
           allStrings[lang] = strings;
-
           fs.readFile(path, 'utf-8', function(err, data){
             var lines = data.split("\n");
             for(var i = 0; i < lines.length; i++){
@@ -103,7 +101,6 @@ gulp.task('locale', function (){
     for(var i = 0; i < files.length; i++){
       readLang(files[i]);
     }
-
   });
 });
 

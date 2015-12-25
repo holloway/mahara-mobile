@@ -1,28 +1,29 @@
 /*jshint esnext: true */
 import React                 from 'react';
-import {PAGES}               from '../../constants.js';
+import {PAGE, PAGE_URL}      from '../../constants.js';
 import {MaharaBaseComponent} from '../base.js';
 
+var menuItems = [
+  {menuType: PAGE.USER,    stringId:'menu_user',    uri:"User"},
+  {menuType: PAGE.ADD,     stringId:'menu_add',     uri:"Add"},
+  {menuType: PAGE.PENDING, stringId:'menu_pending', uri:"Pending"},
+  {menuType: PAGE.SYNC,    stringId:'menu_sync',    uri:"Sync"},
+];
+
 class NavBar extends MaharaBaseComponent {
-  static defaultProps = {
-    menuItems: [
-      {menuType: PAGES.USER,    stringId:'menu_user'},
-      {menuType: PAGES.ADD,     stringId:'menu_add'},
-      {menuType: PAGES.PENDING, stringId:'menu_pending'},
-      {menuType: PAGES.SYNC,    stringId:'menu_sync'},
-    ]
-  }
   render() {
+    console.log("props", this.props);
     var that = this;
     return <nav>
         <ul>
-          {this.props.menuItems.map(function(item, index){
+          {menuItems.map(function(item, index){
             return <li key={item.menuType} className={item.menuType === that.props.menu ? "active": ""}>
-              <a href={"#" + item.menuType}>
+              <a href={"#" + PAGE_URL[item.menuType]}>
                 {that.gettext(item.stringId)}
-                <span className="sr-only">({that.gettext('menu_active')})</span>
+                {item.menuType === that.props.menu ? <span className="sr-only">({that.gettext('menu_active')})</span>: ""}
+
               </a>
-            </li>
+            </li>;
           })}
         </ul>
     </nav>;

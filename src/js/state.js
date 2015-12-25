@@ -1,34 +1,36 @@
 /*jshint esnext: true */
-import {PAGES}          from './constants.js';
+import {createStore }  from 'redux';
+import {Provider}      from 'react-redux';
+import {PAGE, STORAGE} from './constants.js';
+import Storage         from './storage.js';
 
 function MaharaState(state, action) {
   if (state === undefined) { //initial state
-    return {
-      lang: ['en'],
-      page: PAGES.SERVER
-    };
+    state = {lang: ['en'], serverUrl: Storage.serverUrl.get()};
+    action.type = PAGE.SERVER;
   }
-  console.log(action.type);
+  if(action.serverUrl){
+    state.serverUrl = action.serverUrl;
+  }
+
   state = JSON.parse(JSON.stringify(state)); // clone so that we don't accidentally overwrite existing object
 
   switch (action.type) {
-    case 'PAGE_USER':
-      state.page = PAGES.USER;
+    case PAGE.SERVER:
+    case PAGE.LOGIN:
+    case PAGE.USER:
+    case PAGE.ADD:
+    case PAGE.PENDING:
+    case PAGE.SYNC:
+      state.page = action.type;
       break;
-    case 'PAGE_ADD':
-      state.page = PAGES.ADD;
-      break;
-    case 'PAGE_PENDING':
-      state.page = PAGES.PENDING;
-      break;
-    case 'PAGE_SYNC':
-      state.page = PAGES.SYNC;
-      break;
-    case 'PAGE_NONE':
-      state.page = PAGES.NONE;
+    case STORAGE.SET_SERVER_URL:
+      Storage.serverUrl.set(action.serverUrl);
       break;
   }
   return state;
 }
 
-export default MaharaState;
+const StateStore = createStore(MaharaState);
+
+export default StateStore;

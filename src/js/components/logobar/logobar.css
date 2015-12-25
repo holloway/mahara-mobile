@@ -1,0 +1,22 @@
+/* PostCSS */
+
+div.LogoBar {
+  padding: 0;
+  margin: 0;
+  background: white;
+
+	h1 {
+		padding: 10px 15px 10px 15px;
+		margin: 0px auto;
+	}
+}
+
+html.Page_Server div.LogoBar h1 {
+  max-width:800px;
+  transition: max-width 1s ease-in-out;
+}
+
+html.Page_Login div.LogoBar h1 {
+  max-width:200px;
+  transition: max-width 1s ease-in-out;
+}

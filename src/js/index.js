@@ -1,93 +1,96 @@
 /*jshint esnext: true */
-
-import { createStore }    from 'redux';
-import { Provider}        from 'react-redux';
 import React              from 'react';
 import ReactDOM           from 'react-dom';
-import Grapnel            from 'grapnel';
 import $                  from 'jquery';
 import MaharaState        from './state.js';
 import NavBar             from './components/navbar/navbar.js';
+import LogoBar            from './components/logobar/logobar.js';
+import ServerPage         from './components/server/server.js';
+import LoginPage          from './components/login/login.js';
 import UserPage           from './components/user/user.js';
-import Server             from './components/server/server.js';
 import AddPage            from './components/add/add.js';
 import PendingPage        from './components/pending/pending.js';
 import SyncPage           from './components/sync/sync.js';
-import {PAGES,STORAGE}    from './constants.js';
 import {getLangStrings}   from './i18n.js';
+import StateStore         from './state.js';
+import Storage            from './storage.js';
+import Router             from './router.js';
+import {PAGE, STORAGE, PAGE_CLASSNAME} from './constants.js';
 
 var container = document.getElementById('container');
 
-const store = createStore(MaharaState);
-
 const render = () => {
-  var state = store.getState(),
+  var state = StateStore.getState(),
       strings = getLangStrings(state.lang),
-      page;
+      page,
+      bar,
+      i;
 
-  console.log("sdfsdf", state);
+  document.documentElement.className = document.documentElement.className.replace(/\w+/g, function(match){
+    if(match.match(/^Page_/)) return "";
+    return match;
+  }) + " " + PAGE_CLASSNAME[state.page];
 
-  if(state.page === PAGES.USER){
-    page = <UserPage/>;
-  } else if(state.page === PAGES.ADD){
-    page = <AddPage/>;
-  } else if(state.page === PAGES.PENDING){
-    page = <PendingPage/>;
-  } else if(state.page === PAGES.SYNC){
-    page = <SyncPage/>;
+  //console.log(document.documentElement.classList);
+  //document.documentElement.classList = ;
+
+  switch(state.page){
+    case PAGE.SERVER:
+      page = <ServerPage lang={strings}/>;
+      break;
+    case PAGE.LOGIN:
+      page = <LoginPage lang={strings}/>;
+      break;
+    case PAGE.USER:
+      page = <UserPage lang={strings}/>;
+      break;
+    case PAGE.ADD:
+      page = <AddPage lang={strings}/>;
+      break;
+    case PAGE.PENDING:
+      page = <PendingPage lang={strings}/>;
+      break;
+    case PAGE.SYNC:
+      page = <SyncPage lang={strings}/>;
+      break;
   }
 
-  if(page){
-    ReactDOM.render(
-      <div className={"Page" + state.page}>
-        <NavBar menu={state.page} lang={strings}/>
-        {page}
-      </div>,
-      container
-    );
-  } else {
-    ReactDOM.render(
-      <div className={"Page" + state.page}>
-        <Server lang={strings}/>
-      </div>,
-      container
-    );
+  switch(state.page){
+    case PAGE.USER:
+    case PAGE.ADD:
+    case PAGE.PENDING:
+    case PAGE.SYNC:
+      bar = <NavBar menu={state.page} lang={strings}/>;
+      break;
+    case PAGE.SERVER:
+    case PAGE.LOGIN:
+      bar = <LogoBar lang={strings}/>;
+      break;
   }
+
+  ReactDOM.render(
+    <div>
+      {bar}
+      {page}
+    </div>,
+    container
+  );
+
 };
 
-var router = new Grapnel({pushState:false});
-
-var server = localStorage.getItem(STORAGE.SERVER_URL);
-
-router.get(PAGES.USER, function(req){
-  store.dispatch({type:"PAGE_" + PAGES.USER.toUpperCase(), server:server});
-});
-
-router.get(PAGES.ADD, function(req){
-  store.dispatch({type:"PAGE_" + PAGES.ADD.toUpperCase(), server:server});
-});
-
-router.get(PAGES.PENDING, function(req){
-  store.dispatch({type:"PAGE_" + PAGES.PENDING.toUpperCase(), server:server});
-});
-
-router.get(PAGES.SYNC, function(req){
-  store.dispatch({type:"PAGE_" + PAGES.SYNC.toUpperCase(), server:server});
-});
-
-router.get('', function(req){
-  console.log("matching empty")
-  store.dispatch({type:"PAGE_" + PAGES.SERVER.toUpperCase(), server:server});
-});
-
+var serverUrl = localStorage.getItem(STORAGE.SERVER_URL);
+if(serverUrl){
+  StateStore.dispatch({type:STORAGE.SET_SERVER_URL, serverUrl:serverUrl});
+}
 
 setTimeout(function(){
   document.documentElement.classList.add("ready");
   setTimeout(function(){
-    document.documentElement.className = "";
+    document.documentElement.classList.remove("ready");
+    document.documentElement.classList.remove("loading");
   }, 1000);
-},250);
+},1000);
 
 render();
 
-store.subscribe(render);
+StateStore.subscribe(render);
