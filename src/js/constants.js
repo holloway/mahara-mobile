@@ -12,12 +12,11 @@ export const PAGE = {
 };
 
 export var PAGE_CLASSNAME = {};
-PAGE_CLASSNAME[PAGE.SERVER]  = "Page_Server";
-PAGE_CLASSNAME[PAGE.LOGIN]   = "Page_Login";
-PAGE_CLASSNAME[PAGE.USER]    = "Page_User";
-PAGE_CLASSNAME[PAGE.ADD]     = "Page_Add";
-PAGE_CLASSNAME[PAGE.PENDING] = "Page_Pending";
-PAGE_CLASSNAME[PAGE.SYNC]    = "Page_Sync";
+for(var PAGE_ID in PAGE){
+  if(PAGE.hasOwnProperty(PAGE_ID)){
+    PAGE_CLASSNAME[PAGE_ID] = "PAGE_" + PAGE_ID;
+  }
+}
 
 export var PAGE_URL = {};
 PAGE_URL[PAGE.SERVER]            = "";

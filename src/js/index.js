@@ -3,7 +3,6 @@ import React               from 'react';
 import ReactDOM            from 'react-dom';
 import $                   from 'jquery';
 import MaharaState         from './state.js';
-import {getLangStrings}    from './i18n.js';
 import StateStore          from './state.js';
 import Storage             from './storage.js';
 import Router              from './router.js';
@@ -23,13 +22,12 @@ var container = document.getElementById('container');
 
 const render = () => {
   var state = StateStore.getState(),
-      strings = getLangStrings(state.lang),
       page,
       bar,
       i;
 
   document.documentElement.className = document.documentElement.className.replace(/\w+/g, function(match){
-    if(match.match(/^Page_/)) return "";
+    if(match.match(/^PAGE_/)) return "";
     return match;
   }) + " " + PAGE_CLASSNAME[state.page];
 
@@ -38,28 +36,28 @@ const render = () => {
 
   switch(state.page){
     case PAGE.SERVER:
-      page = <ServerPage lang={strings}/>;
+      page = <ServerPage langOrder={state.lang}/>;
       break;
     case PAGE.LOGIN:
-      page = <LoginPage lang={strings}/>;
+      page = <LoginPage langOrder={state.lang}/>;
       break;
     case PAGE.USER:
-      page = <UserPage lang={strings}/>;
+      page = <UserPage langOrder={state.lang}/>;
       break;
     case PAGE.ADD:
-      page = <AddPage lang={strings}/>;
+      page = <AddPage langOrder={state.lang}/>;
       break;
     case PAGE.ADD_JOURNAL_ENTRY:
-      page = <AddJournalEntryPage lang={strings}/>;
+      page = <AddJournalEntryPage langOrder={state.lang}/>;
       break;
     case PAGE.ADD_LIBRARY:
-      page = <AddLibraryPage lang={strings}/>;
+      page = <AddLibraryPage langOrder={state.lang}/>;
       break;
     case PAGE.PENDING:
-      page = <PendingPage lang={strings}/>;
+      page = <PendingPage langOrder={state.lang}/>;
       break;
     case PAGE.SYNC:
-      page = <SyncPage lang={strings}/>;
+      page = <SyncPage langOrder={state.lang}/>;
       break;
   }
 
@@ -70,11 +68,11 @@ const render = () => {
     case PAGE.ADD_LIBRARY:
     case PAGE.PENDING:
     case PAGE.SYNC:
-      bar = <NavBar menu={state.page} lang={strings}/>;
+      bar = <NavBar menu={state.page} langOrder={state.lang}/>;
       break;
     case PAGE.SERVER:
     case PAGE.LOGIN:
-      bar = <LogoBar lang={strings}/>;
+      bar = <LogoBar langOrder={state.lang}/>;
       break;
   }
 
