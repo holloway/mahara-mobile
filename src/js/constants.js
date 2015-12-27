@@ -6,7 +6,9 @@ export const PAGE = {
   USER:    "USER",
   ADD:     "ADD",
   PENDING: "PENDING",
-  SYNC:    "SYNC"
+  SYNC:    "SYNC",
+  ADD_LIBRARY: "ADD_LIBRARY",
+  ADD_JOURNAL_ENTRY: "ADD_JOURNAL_ENTRY"
 };
 
 export var PAGE_CLASSNAME = {};
@@ -15,16 +17,17 @@ PAGE_CLASSNAME[PAGE.LOGIN]   = "Page_Login";
 PAGE_CLASSNAME[PAGE.USER]    = "Page_User";
 PAGE_CLASSNAME[PAGE.ADD]     = "Page_Add";
 PAGE_CLASSNAME[PAGE.PENDING] = "Page_Pending";
-PAGE_CLASSNAME[PAGE.SYNC]    =  "Page_Sync";
+PAGE_CLASSNAME[PAGE.SYNC]    = "Page_Sync";
 
 export var PAGE_URL = {};
-PAGE_URL[PAGE.SERVER]  = "";
-PAGE_URL[PAGE.LOGIN]   = "/Login";
-PAGE_URL[PAGE.USER]    = "/User";
-PAGE_URL[PAGE.ADD]     = "/Add";
-PAGE_URL[PAGE.PENDING] = "/Pending";
-PAGE_URL[PAGE.SYNC]    = "/Sync";
-
+PAGE_URL[PAGE.SERVER]            = "";
+PAGE_URL[PAGE.LOGIN]             = "/Login";
+PAGE_URL[PAGE.USER]              = "/User";
+PAGE_URL[PAGE.ADD]               = "/Add";
+PAGE_URL[PAGE.PENDING]           = "/Pending";
+PAGE_URL[PAGE.SYNC]              = "/Sync";
+PAGE_URL[PAGE.ADD_LIBRARY]       = "/Add/Library";
+PAGE_URL[PAGE.ADD_JOURNAL_ENTRY] = "/Add/JournalEntry";
 
 export const STORAGE = {
   SERVER_URL:     "Server_Url",

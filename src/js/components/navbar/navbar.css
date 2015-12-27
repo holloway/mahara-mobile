@@ -40,4 +40,11 @@ nav {
     box-shadow: inset 0px 3px 3px #666;
     color:white;
 	}
+
+	span.sr-only {
+		display: inline-block;
+		width:0px;
+		height:0px;
+		overflow:hidden;
+	}
 }

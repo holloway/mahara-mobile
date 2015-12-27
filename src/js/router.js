@@ -1,32 +1,22 @@
 /*jshint esnext: true */
-import StateStore                from './state.js';
-import Grapnel                   from 'grapnel';
-import {PAGE, STORAGE, PAGE_URL} from './constants.js';
+import Grapnel          from 'grapnel';
+import StateStore       from './state.js';
+import {PAGE, PAGE_URL} from './constants.js';
 
 var router = new Grapnel({pushState:false});
 
-router.get(PAGE_URL.USER, function(req){
-  StateStore.dispatch({type:PAGE.USER});
-});
+(function(){
+  function generateDispatcher(PAGE_ID){
+    return function(){
+      StateStore.dispatch({type:PAGE[PAGE_ID]});
+    };
+  }
 
-router.get(PAGE_URL.ADD, function(req){
-  StateStore.dispatch({type:PAGE.ADD});
-});
-
-router.get(PAGE_URL.PENDING, function(req){
-  StateStore.dispatch({type:PAGE.PENDING});
-});
-
-router.get(PAGE_URL.SYNC, function(req){
-  StateStore.dispatch({type:PAGE.SYNC});
-});
-
-router.get(PAGE_URL.SERVER, function(req){
-  StateStore.dispatch({type:PAGE.SERVER});
-});
-
-router.get(PAGE_URL.LOGIN, function(req){
-  StateStore.dispatch({type:PAGE.LOGIN});
-});
+  for(var PAGE_ID in PAGE_URL){
+    if(PAGE_URL.hasOwnProperty(PAGE_ID)){
+      router.get(PAGE_URL[PAGE_ID], generateDispatcher(PAGE_ID));
+    }
+  }
+}());
 
 export default router;

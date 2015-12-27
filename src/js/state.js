@@ -20,6 +20,8 @@ function MaharaState(state, action) {
     case PAGE.LOGIN:
     case PAGE.USER:
     case PAGE.ADD:
+    case PAGE.ADD_LIBRARY:
+    case PAGE.ADD_JOURNAL_ENTRY:
     case PAGE.PENDING:
     case PAGE.SYNC:
       state.page = action.type;

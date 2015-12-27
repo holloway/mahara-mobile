@@ -5,6 +5,10 @@
 	margin: 0;
 }
 
+html {
+	transition: background-color 0.5s;
+}
+
 body {
   user-select: none;
   @mixin reset;

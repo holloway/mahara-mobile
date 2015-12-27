@@ -1,20 +1,22 @@
 /*jshint esnext: true */
-import React              from 'react';
-import ReactDOM           from 'react-dom';
-import $                  from 'jquery';
-import MaharaState        from './state.js';
-import NavBar             from './components/navbar/navbar.js';
-import LogoBar            from './components/logobar/logobar.js';
-import ServerPage         from './components/server/server.js';
-import LoginPage          from './components/login/login.js';
-import UserPage           from './components/user/user.js';
-import AddPage            from './components/add/add.js';
-import PendingPage        from './components/pending/pending.js';
-import SyncPage           from './components/sync/sync.js';
-import {getLangStrings}   from './i18n.js';
-import StateStore         from './state.js';
-import Storage            from './storage.js';
-import Router             from './router.js';
+import React               from 'react';
+import ReactDOM            from 'react-dom';
+import $                   from 'jquery';
+import MaharaState         from './state.js';
+import {getLangStrings}    from './i18n.js';
+import StateStore          from './state.js';
+import Storage             from './storage.js';
+import Router              from './router.js';
+import NavBar              from './components/navbar/navbar.js';
+import LogoBar             from './components/logobar/logobar.js';
+import ServerPage          from './components/server/server.js';
+import LoginPage           from './components/login/login.js';
+import UserPage            from './components/user/user.js';
+import PendingPage         from './components/pending/pending.js';
+import SyncPage            from './components/sync/sync.js';
+import AddPage             from './components/add/add.js';
+import AddLibraryPage      from './components/add-library/add-library.js';
+import AddJournalEntryPage from './components/add-journal-entry/add-journal-entry.js';
 import {PAGE, STORAGE, PAGE_CLASSNAME} from './constants.js';
 
 var container = document.getElementById('container');
@@ -47,6 +49,12 @@ const render = () => {
     case PAGE.ADD:
       page = <AddPage lang={strings}/>;
       break;
+    case PAGE.ADD_JOURNAL_ENTRY:
+      page = <AddJournalEntryPage lang={strings}/>;
+      break;
+    case PAGE.ADD_LIBRARY:
+      page = <AddLibraryPage lang={strings}/>;
+      break;
     case PAGE.PENDING:
       page = <PendingPage lang={strings}/>;
       break;
@@ -58,6 +66,8 @@ const render = () => {
   switch(state.page){
     case PAGE.USER:
     case PAGE.ADD:
+    case PAGE.ADD_JOURNAL_ENTRY:
+    case PAGE.ADD_LIBRARY:
     case PAGE.PENDING:
     case PAGE.SYNC:
       bar = <NavBar menu={state.page} lang={strings}/>;

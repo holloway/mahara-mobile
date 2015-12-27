@@ -3,7 +3,6 @@
 html.Page_Login {
 	overflow:hidden;
 	background: #5c883c;
-	transition: background-color 0.5s;
 
 	section {
 		max-width:800px;
@@ -36,25 +35,25 @@ html.Page_Login {
 	button.next {
 		background: #5c883c;
 		color: #fff;
-		font-weight:bold;
+		font-weight:100;
 		position:fixed;
-		bottom: 15px;
-		right:15px;
+		bottom: 0px;
+		right:0px;
 		font-size:xx-large;
 		padding: 0.5em 1em 0.5em 1em;
-		border: none;
+		border: solid 15px #5c883c;
 	}
 
 	button.back {
 		background: #5c883c;
 		color: #fff;
-		font-weight:bold;
+		font-weight:100;
 		position:fixed;
-		bottom: 15px;
-		left:15px;
+		bottom: 0px;
+		left:0px;
 		font-size:xx-large;
 		padding: 0.5em 1em 0.5em 1em;
-		border: none;
+		border: solid 15px #5c883c;
 	}
 
 }

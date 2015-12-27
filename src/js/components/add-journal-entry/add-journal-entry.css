@@ -5,7 +5,8 @@
 	margin: 0;
 }
 
-html.Page_User {
+
+html.Page_Add_Journal_Page {
 	section {
 		max-width:800px;
 		padding: 10px 15px;
@@ -13,9 +14,15 @@ html.Page_User {
 	}
 
 	button {
+		cursor: pointer;
 		width:100%;
 		padding: 0.5em 0px;
 		margin: 0px 0px 0.7em 0px;
 		font-size:xx-large;
+		font-weight:100;
+		border: solid 1px #bbb;
+		border-radius: 3px;
+		background: #ccc;
+		color: #333;
 	}
 }

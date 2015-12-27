@@ -6,7 +6,7 @@ div.LogoBar {
   background: white;
 
 	h1 {
-		padding: 10px 15px 10px 15px;
+		padding: 10px 15px 0px 15px;
 		margin: 0px auto;
 	}
 }
