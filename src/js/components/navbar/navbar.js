@@ -1,7 +1,7 @@
 /*jshint esnext: true */
-import React                 from 'react';
-import {PAGE, PAGE_URL}      from '../../constants.js';
-import {MaharaBaseComponent} from '../base.js';
+import React               from 'react';
+import {PAGE, PAGE_URL}    from '../../constants.js';
+import MaharaBaseComponent from '../base.js';
 
 var menuItems = [
   {menuType: PAGE.USER,    stringId:'menu_user'},
@@ -13,7 +13,7 @@ var menuItems = [
 class NavBar extends MaharaBaseComponent {
   render() {
     var that = this;
-    var propsMenuBase = this.props.menu;
+    var propsMenuBase = this.props.page;
     if(propsMenuBase.indexOf("_") >= 0){ // Because top level menu item of ADD should also match
                                          // submenu of ADD_LIBRARY or ADD_JOURNAL_ENTRY etc
       propsMenuBase = propsMenuBase.substr(0, propsMenuBase.indexOf("_"));
@@ -25,11 +25,21 @@ class NavBar extends MaharaBaseComponent {
               <a href={"#" + PAGE_URL[item.menuType]}>
                 {that.gettext(item.stringId)}
                 {item.menuType === that.props.menu ? <span className="sr-only"> ({that.gettext('menu_active')})</span>: ""}
+                {that.renderBadge(item.menuType)}
               </a>
             </li>;
           })}
         </ul>
     </nav>;
+  }
+  renderBadge = (PAGE_ID) => {
+    switch(PAGE_ID){
+      case PAGE.PENDING:
+        if(this.props.pendingUploads && this.props.pendingUploads.length){
+          return <span className="badge">{this.props.pendingUploads.length}</span>;
+        }
+    }
+    return "";
   }
 }
 

@@ -1,8 +1,8 @@
 /*jshint esnext: true */
 import React from 'react';
-import {MaharaBaseComponent} from '../base.js';
-import {PAGE_URL}            from '../../constants.js';
-import Router                from '../../router.js';
+import MaharaBaseComponent from '../base.js';
+import {PAGE_URL}           from '../../constants.js';
+import Router               from '../../router.js';
 
 class Add extends MaharaBaseComponent {
   render() {

@@ -3,7 +3,7 @@
 
 	var colour = "#5c883c";
 	var opacity = 0.3;
-	var ripple_within_elements = ['input', 'button', 'a'];
+	var ripple_within_elements = ['input', 'button', 'textarea', 'a'];
 	var ripple_without_diameter = 50;
 
 	var overlays = {

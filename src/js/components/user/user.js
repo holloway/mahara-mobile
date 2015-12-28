@@ -1,8 +1,8 @@
 /*jshint esnext: true */
-import React                 from 'react';
-import {MaharaBaseComponent} from '../base.js';
-import {PAGE_URL}            from '../../constants.js';
-import Router                from '../../router.js';
+import React               from 'react';
+import MaharaBaseComponent from '../base.js';
+import {PAGE_URL}          from '../../constants.js';
+import Router              from '../../router.js';
 
 class User extends MaharaBaseComponent {
   render() {

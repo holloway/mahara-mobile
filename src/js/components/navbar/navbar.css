@@ -7,6 +7,7 @@
 
 nav {
   @mixin reset;
+	margin-right:100px;
 
   ul {
     @mixin reset;
@@ -15,17 +16,29 @@ nav {
   li {
     @mixin reset;
     display:inline-block;
-    width:25%;
+    width:33.33%;
     text-align:center;
     background: #999;
+		box-sizing: border-box;
+		border-right: 1px solid white;
   }
+
+	li:last-child {
+		position:absolute;
+		right:0px;
+		top: 0px;
+		width: 100%;
+		max-width:100px;
+	}
 
   a {
     color: white;
     display:block;
     padding: 1em 0px;
     text-decoration:none;
-    text-shadow: 1px 1px 1px #777;
+    text-shadow: 1px 1px 2px #555;
+		font-size:large;
+		text-transform:uppercase;
 
 		&:active,
 		&:focus,
@@ -41,10 +54,23 @@ nav {
     color:white;
 	}
 
-	span.sr-only {
+	span.sr-only { /* ScreenReader only -- class name from Twitter Bootstrap */
 		display: inline-block;
 		width:0px;
 		height:0px;
 		overflow:hidden;
+	}
+
+	span.badge {
+		position:relative;
+		font-size:small;
+		top: -10px;
+		left: 2px;
+		background: red;
+		color: #fdd;
+		padding: 3px 7px 3px 7px;
+		border-radius: 100%;
+		font-weight:bold;
+		text-shadow:none;
 	}
 }

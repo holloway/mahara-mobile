@@ -1,9 +1,9 @@
 /*jshint esnext: true */
-import React                 from 'react';
-import {MaharaBaseComponent} from '../base.js';
-import StateStore            from '../../state.js';
-import {PAGE, PAGE_URL}      from '../../constants.js';
-import Router                from '../../router.js';
+import React               from 'react';
+import MaharaBaseComponent from '../base.js';
+import StateStore          from '../../state.js';
+import {PAGE, PAGE_URL}    from '../../constants.js';
+import Router              from '../../router.js';
 
 class LoginPage extends MaharaBaseComponent {
   render() {

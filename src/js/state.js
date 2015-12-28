@@ -5,12 +5,12 @@ import {PAGE, STORAGE} from './constants.js';
 import Storage         from './storage.js';
 
 function MaharaState(state, action) {
-  if (state === undefined) { //initial state
-    state = {lang: ['en'], serverUrl: Storage.serverUrl.get()};
-    action.type = PAGE.SERVER;
-  }
-  if(action.serverUrl){
-    state.serverUrl = action.serverUrl;
+  if (state === undefined) { //Initial state upon page load
+    state = Storage.state.get();
+    if(!state){ // if there was no saved state
+      state = {lang:['en']};
+      action.type = PAGE.SERVER;
+    }
   }
 
   state = JSON.parse(JSON.stringify(state)); // clone so that we don't accidentally overwrite existing object
@@ -29,7 +29,18 @@ function MaharaState(state, action) {
     case STORAGE.SET_SERVER_URL:
       Storage.serverUrl.set(action.serverUrl);
       break;
+    case STORAGE.ADD_JOURNAL_ENTRY_ACTION:
+      state.pendingUploads = state.pendingUploads || [];
+      state.pendingUploads.push(action.journalEntry);
+      break;
+    case STORAGE.ADD_LIBRARY_ACTION:
+      state.pendingUploads = state.pendingUploads || [];
+      state.pendingUploads.push(action.libraryItem);
+      break;
   }
+
+  Storage.state.set(state);
+
   return state;
 }
 

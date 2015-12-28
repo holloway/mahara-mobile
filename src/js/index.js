@@ -36,28 +36,28 @@ const render = () => {
 
   switch(state.page){
     case PAGE.SERVER:
-      page = <ServerPage langOrder={state.lang}/>;
+      page = <ServerPage {...state}/>;
       break;
     case PAGE.LOGIN:
-      page = <LoginPage langOrder={state.lang}/>;
+      page = <LoginPage {...state}/>;
       break;
     case PAGE.USER:
-      page = <UserPage langOrder={state.lang}/>;
+      page = <UserPage {...state}/>;
       break;
     case PAGE.ADD:
-      page = <AddPage langOrder={state.lang}/>;
+      page = <AddPage {...state}/>;
       break;
     case PAGE.ADD_JOURNAL_ENTRY:
-      page = <AddJournalEntryPage langOrder={state.lang}/>;
+      page = <AddJournalEntryPage {...state}/>;
       break;
     case PAGE.ADD_LIBRARY:
-      page = <AddLibraryPage langOrder={state.lang}/>;
+      page = <AddLibraryPage {...state}/>;
       break;
     case PAGE.PENDING:
-      page = <PendingPage langOrder={state.lang}/>;
+      page = <PendingPage {...state}/>;
       break;
     case PAGE.SYNC:
-      page = <SyncPage langOrder={state.lang}/>;
+      page = <SyncPage {...state}/>;
       break;
   }
 
@@ -68,11 +68,11 @@ const render = () => {
     case PAGE.ADD_LIBRARY:
     case PAGE.PENDING:
     case PAGE.SYNC:
-      bar = <NavBar menu={state.page} langOrder={state.lang}/>;
+      bar = <NavBar {...state}/>;
       break;
     case PAGE.SERVER:
     case PAGE.LOGIN:
-      bar = <LogoBar langOrder={state.lang}/>;
+      bar = <LogoBar {...state}/>;
       break;
   }
 

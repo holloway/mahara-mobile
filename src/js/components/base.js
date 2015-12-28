@@ -1,13 +1,13 @@
 /*jshint esnext: true */
-import React            from 'react';
-import {getLangString}  from '../i18n.js';
+import React           from 'react';
+import {getLangString} from '../i18n.js';
 
-export class MaharaBaseComponent extends React.Component {
-  gettext(stringId){
-    var string = getLangString(this.props.langOrder, stringId);
-    if(string !== undefined){
-      return string;
+export default class MaharaBaseComponent extends React.Component {
+  gettext(langStringId){
+    var langString = getLangString(this.props.lang, langStringId);
+    if(langString !== undefined){
+      return langString;
     }
-    return "{i18n:" + stringId + "}";
+    return "{i18n:" + langStringId + "}";
   }
 }

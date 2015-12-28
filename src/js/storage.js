@@ -2,19 +2,25 @@
 import {STORAGE} from './constants.js';
 
 var items = {
-  serverUrl: STORAGE.SERVER_URL
+  state: {
+    key: STORAGE.STATE_STORAGE_KEY,
+    isJSON: true
+  }
 };
 
 var Storage = {};
 (function(){
-  function get(key){
+  function get(item){
     return function(){
-      return localStorage.getItem(key);
+      var value = localStorage.getItem(item.key);
+      if(item.isJSON) return JSON.parse(value);
+      return value;
     };
   }
-  function set(key){
+  function set(item){
     return function(value){
-      return localStorage.setItem(key, value);
+      if(item.isJSON) value = JSON.stringify(value);
+      return localStorage.setItem(item.key, value);
     };
   }
 
