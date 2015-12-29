@@ -1,8 +1,8 @@
 /*jshint esnext: true */
-import {createStore }  from 'redux';
-import {Provider}      from 'react-redux';
-import {PAGE, STORAGE} from './constants.js';
-import Storage         from './storage.js';
+import {createStore }           from 'redux';
+import {Provider}               from 'react-redux';
+import {PAGE, STORAGE, JOURNAL} from './constants.js';
+import Storage                  from './storage.js';
 
 function MaharaState(state, action) {
   if (state === undefined) { //Initial state upon page load
@@ -29,13 +29,26 @@ function MaharaState(state, action) {
     case STORAGE.SET_SERVER_URL:
       Storage.serverUrl.set(action.serverUrl);
       break;
-    case STORAGE.ADD_JOURNAL_ENTRY_ACTION:
+    case JOURNAL.ADD_ENTRY:
       state.pendingUploads = state.pendingUploads || [];
       state.pendingUploads.push(action.journalEntry);
       break;
     case STORAGE.ADD_LIBRARY_ACTION:
       state.pendingUploads = state.pendingUploads || [];
       state.pendingUploads.push(action.libraryItem);
+      break;
+    case JOURNAL.DELETE_ALL:
+      state.pendingUploads = undefined;
+      break;
+    case JOURNAL.DELETE:
+      var pendingUpload;
+      if(!action.guid) console.log("Expected a guid with ", JOURNAL.DELETE);
+      for(var i = 0; i < state.pendingUploads.length; i++){
+        pendingUpload = state.pendingUploads[i];
+        if(pendingUpload.guid !== undefined && pendingUpload.guid === action.guid){
+          state.pendingUploads.splice(i, 1);
+        }
+      }
       break;
   }
 

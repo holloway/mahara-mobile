@@ -12,4 +12,38 @@ html.PAGE_PENDING {
 		padding: 10px 15px;
 		margin: 0 auto;
 	}
+
+	div.item {
+		clear:both;
+		border-bottom: solid 1px #aaa;
+
+		button.delete {
+			float:right;
+			border: solid 1px #eee;
+			background: transparent;
+			font-size:xx-large;
+			padding: 0.5em 1em;
+			height: 100%;
+			margin-left: 1.5em;
+			margin-bottom: 1.5em;
+		}
+
+		&.lastItem {
+			border: none;
+		}
+	}
+
+	div.deleteAllButtonTray {
+		clear:both;
+		border-top: dotted 1px #666;
+		padding-top: 1em;
+		margin-top: 1.5em;
+	}
+
+	button.deleteAll {
+		background: #fff;
+		border: solid 1px #ccc;
+		color: #666;
+		padding: 1em;
+	}
 }

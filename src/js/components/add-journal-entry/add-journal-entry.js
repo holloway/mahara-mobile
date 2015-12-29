@@ -3,7 +3,7 @@ import React               from 'react';
 import MaharaBaseComponent from '../base.js';
 import Router              from '../../router.js';
 import StateStore          from '../../state.js';
-import {STORAGE, PAGE_URL} from '../../constants.js';
+import {JOURNAL, PAGE_URL} from '../../constants.js';
 
 class AddJournalEntry extends MaharaBaseComponent {
   render() {
@@ -40,7 +40,7 @@ class AddJournalEntry extends MaharaBaseComponent {
       at:    Date.now()
     };
 
-    StateStore.dispatch({type:STORAGE.ADD_JOURNAL_ENTRY_ACTION, journalEntry: journalEntry});
+    StateStore.dispatch({type:JOURNAL.ADD_ENTRY, journalEntry:journalEntry});
 
     Router.navigate(PAGE_URL.PENDING);
   }
