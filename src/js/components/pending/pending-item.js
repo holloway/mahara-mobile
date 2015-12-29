@@ -2,7 +2,7 @@
 import React from 'react';
 import MaharaBaseComponent from '../base.js';
 import StateStore          from '../../state.js';
-import {JOURNAL}           from '../../constants.js';
+import {PENDING}           from '../../constants.js';
 
 class PendingItem extends MaharaBaseComponent {
   render() {
@@ -17,7 +17,7 @@ class PendingItem extends MaharaBaseComponent {
   delete = () => {
     var that = this;
     var reallyDelete = function(){
-      StateStore.dispatch({type:JOURNAL.DELETE, guid:that.props.guid});
+      StateStore.dispatch({type:PENDING.DELETE, guid:that.props.guid});
     }
     reallyDelete(); //TODO: Use confirm dialog
   }

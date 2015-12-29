@@ -4,7 +4,10 @@ import MaharaBaseComponent from '../base.js';
 
 class Sync extends MaharaBaseComponent {
   render() {
-    return <section>Sync</section>;
+    return <section>
+      <h1>Sync</h1>
+      <p>...</p>
+    </section>;
   }
 }
 

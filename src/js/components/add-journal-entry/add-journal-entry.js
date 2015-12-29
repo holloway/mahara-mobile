@@ -34,6 +34,7 @@ class AddJournalEntry extends MaharaBaseComponent {
         journalEntry;
 
     journalEntry = {
+      type:  JOURNAL.TYPE,
       guid:  Math.random(), //FIXME: Replace with something more unique/GUIDy
       title: titlebox.value,
       body:  textarea.value,
