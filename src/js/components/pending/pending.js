@@ -1,6 +1,7 @@
 /*jshint esnext: true */
 import React from 'react';
 import MaharaBaseComponent from '../base.js';
+import ExpandCollapse      from '../expand-collapse/expand-collapse.js';
 import StateStore          from '../../state.js';
 import {PENDING}           from '../../constants.js';
 import PendingItem         from './pending-item.js';
@@ -32,7 +33,9 @@ class Pending extends MaharaBaseComponent {
     var that = this;
     if(this.noPendingUploads()) return <i>No pending uploads.</i>;
     return this.props.pendingUploads.map(function(item, i){
-      return <PendingItem key={item.guid} {...item} lastItem={i === that.props.pendingUploads.length - 1}/>
+      return <ExpandCollapse key={item.guid} title={item.title}>
+        <PendingItem {...item} lastItem={i === that.props.pendingUploads.length - 1}/>
+      </ExpandCollapse>
     })
   }
 }

@@ -5,7 +5,8 @@
 	margin: 0;
 }
 
-html.PAGE_ADD_LIBRARY {
+html.PAGE_ADD_LIBRARY,
+html.PAGE_EDIT_LIBRARY {
 		section {
 			max-width:800px;
 			padding: 10px 15px;

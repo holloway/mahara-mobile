@@ -1,0 +1,55 @@
+.expandCollapse {
+  position:relative;
+  display:flex;
+  flex-direction: row;
+  border: solid 1px #eee;
+  padding: 0.5em;
+  clear:both;
+  margin-bottom: 0.8em;
+
+  > button {
+    display: inline-block;
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 100%;
+    border: none;
+    background: #eee;
+    outline:none;
+    font-weight:bold;
+    color: #666;
+    flex:none;
+
+    &:active {
+      outline:none;
+    }
+  }
+
+  a.summary {
+    display:block;
+    width:100%;
+    white-space: nowrap;
+    overflow:hidden;
+    margin-left:0.6em;
+    margin-top: 0.3em;
+
+    &::after {
+      content: "";
+      width:1em;
+      height:2em;
+      margin-left: -1em;
+      position:absolute;
+      right:0px;
+      background: linear-gradient(90deg, rgba(0,0,0,0), white);
+    }
+  }
+
+  &.hidden {
+
+  }
+
+  &::after {
+    content: "";
+    display:block;
+    clear:both;
+  }
+}

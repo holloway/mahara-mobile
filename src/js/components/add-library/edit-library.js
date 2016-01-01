@@ -6,12 +6,12 @@ import Router              from '../../router.js';
 import Library             from './library.js';
 import {LIBRARY, PAGE_URL} from '../../constants.js';
 
-class AddLibraryPage extends MaharaBaseComponent {
+class EditLibraryPage extends MaharaBaseComponent {
   render() {
     var height = window.innerHeight;
     return <section>
       <h1>Add Library Entry</h1>
-      <Library ref="library"/>
+      <Library ref="library" edit={true}/>
       <button ref="saveButton" onClick={this.saveButton}>Save</button>
     </section>;
   }
@@ -27,8 +27,8 @@ class AddLibraryPage extends MaharaBaseComponent {
     textarea.style.height = newTextAreaHeight + "px";
   }
   saveButton = () => {
-    var titlebox = this.refs.library.refs.title,
-        textarea = this.refs.library.refs.textarea,
+    var titlebox = this.refs.title,
+        textarea = this.refs.textarea,
         libraryItem;
 
     libraryItem = {
@@ -45,4 +45,4 @@ class AddLibraryPage extends MaharaBaseComponent {
   }
 }
 
-export default AddLibraryPage;
+export default EditLibraryPage;

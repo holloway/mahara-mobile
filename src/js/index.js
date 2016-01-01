@@ -1,21 +1,24 @@
 /*jshint esnext: true */
-import React               from 'react';
-import ReactDOM            from 'react-dom';
-import $                   from 'jquery';
-import MaharaState         from './state.js';
-import StateStore          from './state.js';
-import Storage             from './storage.js';
-import Router              from './router.js';
-import NavBar              from './components/navbar/navbar.js';
-import LogoBar             from './components/logobar/logobar.js';
-import ServerPage          from './components/server/server.js';
-import LoginPage           from './components/login/login.js';
-import UserPage            from './components/user/user.js';
-import PendingPage         from './components/pending/pending.js';
-import SyncPage            from './components/sync/sync.js';
-import AddPage             from './components/add/add.js';
-import AddLibraryPage      from './components/add-library/add-library.js';
-import AddJournalEntryPage from './components/add-journal-entry/add-journal-entry.js';
+import React                from 'react';
+import ReactDOM             from 'react-dom';
+import $                    from 'jquery';
+import MaharaState          from './state.js';
+import StateStore           from './state.js';
+import Storage              from './storage.js';
+import Router               from './router.js';
+import NavBar               from './components/navbar/navbar.js';
+import LogoBar              from './components/logobar/logobar.js';
+import ServerPage           from './components/server/server.js';
+import LoginPage            from './components/login/login.js';
+import UserPage             from './components/user/user.js';
+import PendingPage          from './components/pending/pending.js';
+import SyncPage             from './components/sync/sync.js';
+import AddPage              from './components/add/add.js';
+import AddLibraryPage       from './components/add-library/add-library.js';
+import AddJournalEntryPage  from './components/add-journal-entry/add-journal-entry.js';
+import EditLibraryPage      from './components/add-library/edit-library.js';
+import EditJournalEntryPage from './components/add-journal-entry/edit-journal-entry.js';
+
 import {PAGE, STORAGE, PAGE_CLASSNAME} from './constants.js';
 
 var container = document.getElementById('container');
@@ -59,6 +62,12 @@ const render = () => {
     case PAGE.SYNC:
       page = <SyncPage {...state}/>;
       break;
+    case PAGE.EDIT_LIBRARY:
+      page = <EditLibraryPage {...state}/>;
+      break;
+    case PAGE.EDIT_JOURNAL_ENTRY:
+      page = <EditJournalEntryPage {...state}/>;
+      break;
   }
 
   switch(state.page){
@@ -66,6 +75,8 @@ const render = () => {
     case PAGE.ADD:
     case PAGE.ADD_JOURNAL_ENTRY:
     case PAGE.ADD_LIBRARY:
+    case PAGE.EDIT_JOURNAL_ENTRY:
+    case PAGE.EDIT_LIBRARY:
     case PAGE.PENDING:
     case PAGE.SYNC:
       bar = <NavBar {...state}/>;
@@ -74,6 +85,10 @@ const render = () => {
     case PAGE.LOGIN:
       bar = <LogoBar {...state}/>;
       break;
+  }
+
+  if(!bar || !page) {
+    console.log("Unknown page state of " + state.page, bar, page);
   }
 
   ReactDOM.render(

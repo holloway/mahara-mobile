@@ -14,23 +14,22 @@ html.PAGE_PENDING {
 	}
 
 	div.item {
+		display:block;
 		clear:both;
-		border-bottom: solid 1px #aaa;
+		width:100%;
 
 		button.delete {
 			float:right;
+			margin-top: -1.3em;
 			border: solid 1px #eee;
 			background: transparent;
-			font-size:xx-large;
+			font-size:small;
 			padding: 0.5em 1em;
 			height: 100%;
 			margin-left: 1.5em;
 			margin-bottom: 1.5em;
 		}
 
-		&.lastItem {
-			border: none;
-		}
 	}
 
 	div.deleteAllButtonTray {

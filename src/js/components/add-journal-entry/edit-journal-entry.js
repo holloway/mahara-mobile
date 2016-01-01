@@ -6,11 +6,11 @@ import StateStore          from '../../state.js';
 import JournalEntry        from './journal-entry.js';
 import {JOURNAL, PAGE_URL} from '../../constants.js';
 
-class AddJournalEntry extends MaharaBaseComponent {
+class EditJournalEntry extends MaharaBaseComponent {
   render() {
     return <section>
       <h1>Add Journal Entry</h1>
-      <JournalEntry parent={this} ref="journalEntry"/>
+      <JournalEntry parent={this} edit={true} ref="journalEntry"/>
       <button ref="saveButton" onClick={this.saveButton}>Save</button>
     </section>;
   }
@@ -33,4 +33,4 @@ class AddJournalEntry extends MaharaBaseComponent {
   }
 }
 
-export default AddJournalEntry;
+export default EditJournalEntry;
