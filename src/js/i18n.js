@@ -6,6 +6,8 @@ export function getLangString(langIds, stringId){
       langStrings,
       langId;
 
+  if(!langIds) return console.log("getLangString called with empty langIds. stringId=", stringId);
+
   for(var i = 0; i < langIds.length; i++){
     langId = langIds[i];
     if(!allStrings.hasOwnProperty(langId)){

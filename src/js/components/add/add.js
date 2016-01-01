@@ -14,7 +14,16 @@ class Add extends MaharaBaseComponent {
     </section>;
   }
   takePhoto = (e) => {
-    alert("Use phonegap phone plugin")
+    navigator.camera.getPicture(
+      this.cameraSuccess,
+      this.cameraError,
+      {destinationType: navigator.camera.DestinationType.FILE_URI});
+  }
+  cameraSuccess = (imageData) => {
+
+  }
+  cameraError = (message) => {
+    alertify.okBtn(this.gettext("camera_error") + " " + message)
   }
   addLibrary = (e) => {
     Router.navigate(PAGE_URL.ADD_LIBRARY);

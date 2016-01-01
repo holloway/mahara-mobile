@@ -1,6 +1,7 @@
 /*jshint esnext: true */
 import React               from 'react';
 import MaharaBaseComponent from '../base.js';
+import TagsInput           from 'react-tagsinput';
 
 class JournalEntry extends MaharaBaseComponent {
   render() {
@@ -9,7 +10,11 @@ class JournalEntry extends MaharaBaseComponent {
       <input ref="title" type="text" className="subject"/>
       <h2>Detail</h2>
       <textarea ref="textarea" className="body"></textarea>
+      <TagsInput value={['what']} onChange={::this.change} />
     </div>;
+  }
+  change = (e) => {
+    console.log(e);
   }
   componentDidMount(){
     var textarea = this.refs.textarea,

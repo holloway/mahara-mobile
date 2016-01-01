@@ -18,7 +18,9 @@ class Pending extends MaharaBaseComponent {
     var reallyDeleteAll = function(){
       StateStore.dispatch({type:PENDING.DELETE_ALL});
     }
-    reallyDeleteAll(); //TODO: Use confirm dialog
+    alertify.okBtn(this.gettext("confirm_delete_all_ok_button"))
+            .cancelBtn(this.gettext("button_cancel"))
+            .confirm(this.gettext("confirm_delete_all"), reallyDeleteAll);
   }
   renderDeleteAll = () => {
     if(this.noPendingUploads()) return "";
@@ -33,8 +35,8 @@ class Pending extends MaharaBaseComponent {
     var that = this;
     if(this.noPendingUploads()) return <i>No pending uploads.</i>;
     return this.props.pendingUploads.map(function(item, i){
-      return <ExpandCollapse key={item.guid} title={item.title}>
-        <PendingItem {...item} lastItem={i === that.props.pendingUploads.length - 1}/>
+      return <ExpandCollapse key={item.guid} title={item.title || item.body}>
+        <PendingItem {...item} lang={that.props.lang} lastItem={i === that.props.pendingUploads.length - 1}/>
       </ExpandCollapse>
     })
   }

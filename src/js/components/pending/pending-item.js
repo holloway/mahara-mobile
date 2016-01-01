@@ -21,7 +21,9 @@ class PendingItem extends MaharaBaseComponent {
     var reallyDelete = function(){
       StateStore.dispatch({type:PENDING.DELETE, guid:that.props.guid});
     }
-    reallyDelete(); //TODO: Use confirm dialog
+    alertify.okBtn(this.gettext("confirm_delete_ok_button"))
+            .cancelBtn(this.gettext("button_cancel"))
+            .confirm(this.gettext("confirm_delete"), reallyDelete);
   }
   edit = (e) => {
     e.stopPropagation();

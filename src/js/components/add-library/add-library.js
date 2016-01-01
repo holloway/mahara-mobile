@@ -11,7 +11,7 @@ class AddLibraryPage extends MaharaBaseComponent {
     var height = window.innerHeight;
     return <section>
       <h1>Add Library Entry</h1>
-      <Library ref="library"/>
+      <Library ref="library" {...this.props}/>
       <button ref="saveButton" onClick={this.saveButton}>Save</button>
     </section>;
   }
