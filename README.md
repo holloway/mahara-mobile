@@ -15,3 +15,9 @@ Download this repository and then run,
     npm install
 
 Next build the application using `gulp` and use the `./dist/` output directory as a Phonegap project (e.g. zip it and upload it to Phonegap Build).
+
+## Troubleshooting
+
+#### Running `cordova run android` doesn't start the app on Android 4.x
+
+It might be caused by http://stackoverflow.com/a/30240520

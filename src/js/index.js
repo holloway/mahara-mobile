@@ -29,10 +29,10 @@ const render = () => {
       bar,
       i;
 
-  document.documentElement.className = document.documentElement.className.replace(/\w+/g, function(match){
+  document.documentElement.className = (document.documentElement.className.replace(/\w+/g, function(match){
     if(match.match(/^PAGE_/)) return "";
     return match;
-  }) + " " + PAGE_CLASSNAME[state.page];
+  }) + " " + PAGE_CLASSNAME[state.page]).trim();
 
   //console.log(document.documentElement.classList);
   //document.documentElement.classList = ;

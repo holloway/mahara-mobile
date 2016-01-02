@@ -8,9 +8,9 @@ class Add extends MaharaBaseComponent {
   render() {
     return <section>
       <h1>Add New</h1>
-      <button onClick={this.takePhoto}>Photo</button>
-      <button onClick={this.addLibrary}>Library</button>
-      <button onClick={this.addJournalEntry}>Journal Entry</button>
+      <button onClick={this.takePhoto} className="big">Photo</button>
+      <button onClick={this.addLibrary} className="big">Library</button>
+      <button onClick={this.addJournalEntry} className="big">Journal Entry</button>
     </section>;
   }
   takePhoto = (e) => {

@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-pushd ./dist;
+pushd ./www;
 python -m SimpleHTTPServer
 popd

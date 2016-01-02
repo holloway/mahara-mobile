@@ -7,7 +7,8 @@
 
 nav {
   @mixin reset;
-	margin-right:100px;
+	margin-right:50px;
+	text-align:center;
 
   ul {
     @mixin reset;
@@ -18,17 +19,17 @@ nav {
     display:inline-block;
     width:33.33%;
     text-align:center;
-    background: #999;
+    background: #333;
 		box-sizing: border-box;
-		border-right: 1px solid white;
+		border-right: 1px solid #aaa;
   }
 
 	li:last-child {
 		position:absolute;
 		right:0px;
-		top: 0px;
 		width: 100%;
-		max-width:100px;
+		max-width:50px;
+		border:none;
 	}
 
   a {
@@ -46,11 +47,17 @@ nav {
       color:white;
       text-decoration:none;
     }
+
+		img {
+			vertical-align: top;
+			height:1.1em;
+			margin-left:5px;
+		}
   }
 
 	li.active {
-		background:#666;
-    box-shadow: inset 0px 3px 3px #666;
+		background: #333;
+    box-shadow: inset -30px 0 30px -30px #000, inset 30px 0 30px -30px #000;
     color:white;
 	}
 
@@ -72,5 +79,14 @@ nav {
 		border-radius: 100%;
 		font-weight:bold;
 		text-shadow:none;
+	}
+
+	i.navbarActiveHighlight {
+		display:block;
+		transition: all 0.5s ease-in-out;
+		position:relative;
+		border-bottom: solid 3px #9f9;
+		height: 2px;
+		width:30%;
 	}
 }

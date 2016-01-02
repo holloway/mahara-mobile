@@ -18,7 +18,7 @@ let paths = {
   jsentry: './src/js/index.js',
   lib:     './src/lib/**',
   image:   './src/image/**',
-	html:     './src/*.html',
+  html:     './src/*.html',
   ready:    './src/ready.js'
 };
 
@@ -34,7 +34,7 @@ gulp.task('js', function (){
     .transform(babelify, {presets:["es2015", "react", "stage-0"]})
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('./www'));
 });
 
 gulp.task('css', function(){
@@ -47,28 +47,28 @@ gulp.task('css', function(){
   	];
     gulp.src(paths.css)
       .pipe(postcss(processors))
-      .pipe(gulp.dest("./dist"));
+      .pipe(gulp.dest("./www"));
 });
 
 gulp.task('lib', function(){
     gulp.src(paths.lib)
-      .pipe(gulp.dest("./dist/lib"));
+      .pipe(gulp.dest("./www/lib"));
 });
 
 gulp.task('image', function(){
     gulp.src(paths.image)
-      .pipe(gulp.dest("./dist/image"));
+      .pipe(gulp.dest("./www/image"));
 });
 
 gulp.task('html', function(){
     gulp.src(paths.html)
       //.pipe(replace(/<!--\#(.*?)\#-->/, ''))
-      .pipe(gulp.dest("./dist"));
+      .pipe(gulp.dest("./www"));
 });
 
 gulp.task('ready', function(){
     gulp.src(paths.ready)
-      .pipe(gulp.dest("./dist"));
+      .pipe(gulp.dest("./www"));
 });
 
 gulp.task('locale', function (){
@@ -93,9 +93,9 @@ gulp.task('locale', function (){
         end = function(){
           filesRemaining--;
           if(filesRemaining > 0) return;
-          fs.mkdir('./dist/i18n', function(e){
+          fs.mkdir('./www/i18n', function(e){
             if(e && e.code !== 'EEXIST') console.log(e);
-            fs.writeFile('./dist/i18n/strings.json', JSON.stringify(allStrings), 'utf-8');
+            fs.writeFile('./www/i18n/strings.json', JSON.stringify(allStrings), 'utf-8');
           });
         };
     for(var i = 0; i < files.length; i++){

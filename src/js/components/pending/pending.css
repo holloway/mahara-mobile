@@ -13,36 +13,47 @@ html.PAGE_PENDING {
 		margin: 0 auto;
 	}
 
+	i.noPendingUploads {
+		display:block;
+		text-align:center;
+		font-size:large;
+		margin-top: 2em;
+	}
+
 	div.item {
 		display:block;
 		clear:both;
-		width:100%;
+		width:93%;
+		position:relative;
+		top: -0.8em;
+		left: 0.6em;
 
 		button.delete {
 			float:right;
-			margin-top: -1.3em;
+			margin-top: -0.5em;
 			border: solid 1px #eee;
 			background: transparent;
 			font-size:small;
 			padding: 0.5em 1em;
 			height: 100%;
+			color: #fff;
 			margin-left: 1.5em;
 			margin-bottom: 1.5em;
+			margin-right: 0px;
 		}
 
 	}
 
 	div.deleteAllButtonTray {
 		clear:both;
-		border-top: dotted 1px #666;
 		padding-top: 1em;
 		margin-top: 1.5em;
 	}
 
 	button.deleteAll {
-		background: #fff;
+		background: none;
 		border: solid 1px #ccc;
-		color: #666;
+		color: #ddd;
 		padding: 1em;
 	}
 }

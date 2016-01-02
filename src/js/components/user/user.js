@@ -8,8 +8,7 @@ class User extends MaharaBaseComponent {
   render() {
     return <section>
       <h1>User</h1>
-
-      <button onClick={this.loginButton}>Login</button>
+      <button onClick={this.loginButton} className="big">Login</button>
     </section>;
   }
   loginButton = (e) => {

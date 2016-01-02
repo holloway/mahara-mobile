@@ -9,7 +9,6 @@ import PendingItem         from './pending-item.js';
 class Pending extends MaharaBaseComponent {
   render() {
     return <section>
-      <h1>Pending</h1>
       {this.renderPendingUploads()}
       {this.renderDeleteAll()}
     </section>;
@@ -33,12 +32,15 @@ class Pending extends MaharaBaseComponent {
   }
   renderPendingUploads = () => {
     var that = this;
-    if(this.noPendingUploads()) return <i>No pending uploads.</i>;
-    return this.props.pendingUploads.map(function(item, i){
-      return <ExpandCollapse key={item.guid} title={item.title || item.body}>
-        <PendingItem {...item} lang={that.props.lang} lastItem={i === that.props.pendingUploads.length - 1}/>
-      </ExpandCollapse>
-    })
+    if(this.noPendingUploads()) return <i className="noPendingUploads">No pending uploads.</i>;
+    return <div>
+      <h1>{this.gettext('pending_heading')}</h1>
+      {this.props.pendingUploads.map(function(item, i){
+        return <ExpandCollapse key={item.guid} title={item.title || item.body}>
+          <PendingItem {...item} lang={that.props.lang} lastItem={i === that.props.pendingUploads.length - 1}/>
+        </ExpandCollapse>
+      })}
+    </div>
   }
 }
 

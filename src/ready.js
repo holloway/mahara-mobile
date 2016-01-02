@@ -1,8 +1,8 @@
 (function(){
   window.mahara = {i18n:{}};
   var deps = {
-    json: ['/i18n/strings.json'],
-    scripts: ['/bundle.js', '/lib/ripple.js/ripple.js', '/lib/alertify.js/alertify.js']
+    json: ['i18n/strings.json'],
+    scripts: ['bundle.js', 'lib/ripple.js/ripple.js', 'lib/alertify.js/alertify.js']
   };
 
   function ready(){
@@ -38,7 +38,7 @@
 
     for(i = 0; i < resources.length; i++){
       resource = resources[i].replace(/^\s+/, '').replace(/\\/g, "\/");
-      if(resource.substr(0, 1) !== "/" || resource.indexOf(0, 2) === "\/\/") { //also matches //domain for protocol-relative links
+      if(resource.match(/:\//) || resource.indexOf(0, 2) === "\/\/") { //also matches //domain for protocol-relative links
         console.log("ERROR: Refusing to add resource that doesn't begin with /path. Was: " + resource);
         continue;
       }
