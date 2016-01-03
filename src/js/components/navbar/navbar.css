@@ -46,6 +46,7 @@ nav {
     &:hover {
       color:white;
       text-decoration:none;
+			outline:none;
     }
 
 		img {
@@ -88,5 +89,18 @@ nav {
 		border-bottom: solid 3px #9f9;
 		height: 2px;
 		width:30%;
+	}
+}
+
+@media (max-width: 400px) {
+	nav {
+		a {
+			font-size:small;
+		}
+
+		span.badge {
+			font-size:xx-small;
+			padding: 2px 5px 2px 5px;
+		}
 	}
 }

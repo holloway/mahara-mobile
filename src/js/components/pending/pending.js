@@ -24,7 +24,7 @@ class Pending extends MaharaBaseComponent {
   renderDeleteAll = () => {
     if(this.noPendingUploads()) return "";
     return <div className="deleteAllButtonTray">
-      <button onClick={this.deleteAll} className="deleteAll">Delete All</button>
+      <button onClick={this.deleteAll} className="deleteAll small">{this.gettext("delete_all_button")}</button>
     </div>
   }
   noPendingUploads = () => {
@@ -32,7 +32,7 @@ class Pending extends MaharaBaseComponent {
   }
   renderPendingUploads = () => {
     var that = this;
-    if(this.noPendingUploads()) return <i className="noPendingUploads">No pending uploads.</i>;
+    if(this.noPendingUploads()) return <i className="noPendingUploads">{this.gettext("no_pending_uploads")}</i>;
     return <div>
       <h1>{this.gettext('pending_heading')}</h1>
       {this.props.pendingUploads.map(function(item, i){

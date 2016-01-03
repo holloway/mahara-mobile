@@ -2,9 +2,8 @@ textarea {
   resize: none;
 }
 
-
-
 input,
 textarea {
   user-select: text;
+  box-sizing: border-box;
 }

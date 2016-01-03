@@ -40,10 +40,15 @@ class NavBar extends MaharaBaseComponent {
         <i className={"navbarActiveHighlight navbarActiveHighlight" + propsMenuBase} ref="navbarActiveHighlight"/>
     </nav>;
   }
-  componentDidUpdate = () => {
-    this.moveNavbarActiveHighlight();
-  }
   componentDidMount = () => {
+    this.moveNavbarActiveHighlight();
+    window.addEventListener('resize', this.moveNavbarActiveHighlight);
+  }
+  componentWillUnmount = () => {
+    this.moveNavbarActiveHighlight();
+    window.removeEventListener('resize', this.moveNavbarActiveHighlight);
+  }
+  componentDidUpdate = () => {
     this.moveNavbarActiveHighlight();
   }
   moveNavbarActiveHighlight = () => {

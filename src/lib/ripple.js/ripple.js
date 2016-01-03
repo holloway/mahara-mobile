@@ -79,10 +79,18 @@
 	var click = function(event){
 		var $element,
 			touch = event.touches ? event.touches[0] : event,
+			target = touch.target,
+			parentTarget = target.parentNode,
+			validTarget,
 			x,
 			y;
 
-		if(ripple_within_elements.indexOf(touch.target.nodeName.toLowerCase()) > -1) {
+		if(ripple_within_elements.indexOf(target.nodeName.toLowerCase()) > -1) {
+			validTarget = target;
+		} else if(ripple_within_elements.indexOf(parentTarget.nodeName.toLowerCase()) > -1){
+			validTarget = parentTarget;
+		}
+		if(validTarget){
 			$element = overlays.get();
 
 	 		$element.style[transition] = "none";
@@ -91,7 +99,7 @@
 			x = touch.offsetX;
 			y = touch.offsetY;
 
-			var dimensions = touch.target.getBoundingClientRect();
+			var dimensions = validTarget.getBoundingClientRect();
 			if(!x || !y){
 				x = (touch.clientX || touch.x) - dimensions.left;
 				y = (touch.clientY || touch.y) - dimensions.top;
@@ -101,7 +109,7 @@
 			$element.style.height = dimensions.height + "px";
 			$element.style.left = (dimensions.left) + "px";
 			$element.style.top = (dimensions.top + document.body.scrollTop + document.documentElement.scrollTop) + "px";
-			var computed_style = window.getComputedStyle(event.target);
+			var computed_style = window.getComputedStyle(validTarget);
 			for (var key in computed_style) {
 				if (key.toString().indexOf("adius") > -1) {
 					if(computed_style[key]) {

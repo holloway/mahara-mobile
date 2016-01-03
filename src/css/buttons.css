@@ -1,19 +1,41 @@
-button.big {
+button,
+a {
+  outline: 0;
+
+  &:focus,
+  &:active {
+    outline: 0;
+  }
+}
+
+button.big,
+button.small {
   cursor: pointer;
-  width:100%;
-  padding: 0.5em 0px;
-  margin: 0px 0px 0.7em 0px;
-  font-size:xx-large;
-  font-weight:100;
-  border: solid 1px #444;
-  border-radius: 3px;
   background: #696969;
+  border: solid 1px #444;
   color: #fff;
   box-shadow: 1px 1px 2px #333, inset 1px 1px 4px #888;
 
-  &::active {
+  &:active {
     box-shadow: -1px -1px 2px #333, inset -1px -1px 4px #888;
     background: #595959;
     border: solid 1px #444;
   }
+}
+
+button.big {
+  width:100%;
+  padding: 0.5em;
+  margin: 0px 0px 0.7em 0px;
+  border-radius: 3px;
+  font-size:xx-large;
+  font-weight:100;
+}
+
+button.small {
+  padding: 0.5em 0.8em;
+  margin: 0px 0px 0.7em 0px;
+  border-radius: 2px;
+  font-size:small;
+  font-weight:100;
 }

@@ -9,7 +9,7 @@ class PendingItem extends MaharaBaseComponent {
   render() {
     return <div key={this.props.guid} className={"item" + (this.props.lastItem ? " lastItem" : "")} onClick={this.edit}>
       <h2>
-        <button onClick={this.delete} className="delete">&times; Delete</button>
+        <button onClick={this.delete} className="delete small">&times; Delete</button>
         {this.props.title}
       </h2>
       <p>{this.props.body}</p>

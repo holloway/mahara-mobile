@@ -10,7 +10,7 @@ html.PAGE_ADD_JOURNAL_ENTRY,
 html.PAGE_EDIT_JOURNAL_ENTRY {
 	section {
 		max-width:800px;
-		padding: 10px 15px;
+		padding: 10px 15px 100px 15px;
 		margin: 0 auto;
 	}
 

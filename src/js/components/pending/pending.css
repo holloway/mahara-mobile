@@ -15,6 +15,7 @@ html.PAGE_PENDING {
 
 	i.noPendingUploads {
 		display:block;
+		padding-top:40%;
 		text-align:center;
 		font-size:large;
 		margin-top: 2em;
@@ -31,12 +32,6 @@ html.PAGE_PENDING {
 		button.delete {
 			float:right;
 			margin-top: -0.5em;
-			border: solid 1px #eee;
-			background: transparent;
-			font-size:small;
-			padding: 0.5em 1em;
-			height: 100%;
-			color: #fff;
 			margin-left: 1.5em;
 			margin-bottom: 1.5em;
 			margin-right: 0px;
@@ -51,9 +46,6 @@ html.PAGE_PENDING {
 	}
 
 	button.deleteAll {
-		background: none;
-		border: solid 1px #ccc;
-		color: #ddd;
-		padding: 1em;
+		padding: 0.8em 1em;
 	}
 }

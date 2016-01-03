@@ -40,8 +40,8 @@ html.PAGE_LOGIN {
 		bottom: 0px;
 		right:0px;
 		font-size:xx-large;
-		padding: 0.5em 1em 0.5em 1em;
-		border: solid 15px #5c883c;
+		padding: 0.5em 0.5em 0.5em 1em;
+		border: none;
 	}
 
 	button.back {
@@ -52,8 +52,8 @@ html.PAGE_LOGIN {
 		bottom: 0px;
 		left:0px;
 		font-size:xx-large;
-		padding: 0.5em 1em 0.5em 1em;
-		border: solid 15px #5c883c;
+		padding: 0.5em 1em 0.5em 0.5em;
+		border: none;
 	}
 
 }

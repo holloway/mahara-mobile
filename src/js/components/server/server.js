@@ -8,7 +8,7 @@ import Router              from '../../router.js';
 export default class ServerPage extends MaharaBaseComponent {
   render() {
     return <section>
-      <h2>{this.gettext('server_step_1')}</h2>
+      <h2>{this.gettext('server_question')}</h2>
       <input type="url" ref="serverUrl" placeholder={this.gettext('serverUrlExample')}/>
       <button onClick={this.nextButton}>{this.gettext('nextButton')}</button>
     </section>;

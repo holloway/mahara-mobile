@@ -4,17 +4,23 @@ import MaharaBaseComponent from '../base.js';
 import TagsInput           from 'react-tagsinput';
 
 class JournalEntry extends MaharaBaseComponent {
+  constructor(props) {
+    super(props);
+    this.state = {tags:[]};
+  }
   render() {
     return <div>
       <h2>Title</h2>
       <input ref="title" type="text" className="subject"/>
       <h2>Detail</h2>
       <textarea ref="textarea" className="body"></textarea>
-      <TagsInput value={['what']} onChange={::this.change} />
+      <TagsInput value={this.state.tags} onChange={this.changeTags} />
     </div>;
   }
-  change = (e) => {
-    console.log(e);
+  changeTags = (tags) => {
+    this.setState({
+      tags: tags
+    });
   }
   componentDidMount(){
     var textarea = this.refs.textarea,

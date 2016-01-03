@@ -6,7 +6,7 @@ class LogoBar extends MaharaBaseComponent {
   render() {
     return <div className="LogoBar">
       <h1>
-        <img src="image/logo-big.svg" alt={this.gettext('server_step_1')}/>
+        <img src="image/logo-big.svg" alt={this.gettext('app_name')}/>
       </h1>
     </div>;
   }

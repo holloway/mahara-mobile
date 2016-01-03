@@ -9,6 +9,7 @@ html.PAGE_SERVER {
 		max-width:800px;
 		padding: 0px 15px 100px 15px;
 		margin: 0px auto;
+		color: black;
 	}
 
 	section {
@@ -25,6 +26,8 @@ html.PAGE_SERVER {
 		border:solid 1px #999;
 		border-radius: 3px;
 		text-align:left;
+		display:block;
+		box-sizing: border-box;
 		width:100%;
 	}
 
@@ -37,7 +40,17 @@ html.PAGE_SERVER {
 		right:0px;
 		font-size:xx-large;
 		padding: 0.5em 1em 0.5em 1em;
-		border: solid 15px white;
+		border: solid 0px white;
 	}
 
+}
+
+
+
+@media (max-width: 400px) {
+	html.PAGE_SERVER {
+		input[type=url] {
+			font-size:x-large;
+		}
+	}
 }
