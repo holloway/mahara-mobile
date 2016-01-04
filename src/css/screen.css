@@ -34,3 +34,4 @@ body {
 @import "../js/components/sync/sync.css";
 @import "../js/components/expand-collapse/expand-collapse.css";
 @import "../js/components/react-tagsinput/react-tagsinput.css";
+@import "../lib/alertify.js/alertify.css";

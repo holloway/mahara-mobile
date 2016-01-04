@@ -1,4 +1,13 @@
 app_name=Mahara Mobile
+server_url_empty_validation=Please provide a server URL.
+username_empty_validation=Please provide a username.
+password_empty_validation=Please provide a password.
+server_says_wrong_username_password=Wrong username or password
+cant_login_no_server_configured=Can't login yet as there's no server configured.
+alert_ok_button=Ok
+logged_in_as=Logged in as: 
+no_server_found=No server found.
+unknown_server_error=Unknown server error
 menu_user=User
 menu_add=Add
 menu_pending=Pending

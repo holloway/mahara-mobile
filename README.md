@@ -14,7 +14,13 @@ Download this repository and then run,
 
     npm install
 
-Next build the application using `gulp` and use the `./dist/` output directory as a Phonegap project (e.g. zip it and upload it to Phonegap Build).
+Next build the application using `node_modules/.bin/gulp` and then use the `./www/` output directory as a Phonegap project.
+
+cordova plugin add cordova-plugin-camera
+
+cordova plugin add cordova-plugin-camera
+
+ (e.g. zip it and upload it to Phonegap Build).
 
 ## Troubleshooting
 

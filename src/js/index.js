@@ -18,7 +18,6 @@ import AddLibraryPage       from './components/add-library/add-library.js';
 import AddJournalEntryPage  from './components/add-journal-entry/add-journal-entry.js';
 import EditLibraryPage      from './components/add-library/edit-library.js';
 import EditJournalEntryPage from './components/add-journal-entry/edit-journal-entry.js';
-
 import {PAGE, STORAGE, PAGE_CLASSNAME} from './constants.js';
 
 var container = document.getElementById('container');

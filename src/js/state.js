@@ -2,6 +2,7 @@
 import {createStore }                    from 'redux';
 import {Provider}                        from 'react-redux';
 import Storage                           from './storage.js';
+import maharaServer                      from './mahara-lib/mahara-server.js';
 import {PAGE, STORAGE, JOURNAL, PENDING, LIBRARY} from './constants.js';
 
 function MaharaState(state, action) {
@@ -10,6 +11,8 @@ function MaharaState(state, action) {
     if(!state){ // if there was no saved state
       state = {lang:['en']};
       action.type = PAGE.SERVER;
+    } else if(state.server) {
+      maharaServer.restore(state.server);
     }
   }
 
@@ -29,7 +32,16 @@ function MaharaState(state, action) {
       state.page = action.type;
       break;
     case STORAGE.SET_SERVER_URL:
-      state.serverUrl = action.serverUrl;
+      state.server = state.server || {};
+      state.server.url = action.serverUrl;
+      break;
+    case STORAGE.SET_SERVER_LOGIN_TYPE:
+      state.server = state.server || {};
+      state.server.loginType = action.loginType;
+    case STORAGE.SET_SERVER_SESSION:
+      state.server = state.server || {};
+      state.server.token = action.token;
+      state.server.user  = action.user;
       break;
     case JOURNAL.ADD_ENTRY:
       state.pendingUploads = state.pendingUploads || [];
