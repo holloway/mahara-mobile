@@ -1,28 +1,32 @@
 /*jshint esnext:true*/
-/*globals require:true, console*/
-
+/*globals require:true, console, process*/
 "use strict"; /* jshint -W097 */
 
-let gulp    = require('gulp'),
-    concat = require('gulp-concat'),
-    browserify = require('browserify'),
-    postcss = require('gulp-postcss'),
-    replace = require('gulp-replace'),
-    source = require("vinyl-source-stream"),
-    babelify = require('babelify'),
-    glob = require("glob"),
-    fs = require("fs");
+var minimumNodeVersion = 4;
+if(parseFloat(process.version.toString().replace(/[^\.0-9]/, '')) < minimumNodeVersion){
+  console.error("FATAL ERROR: You need to have at least Node.js version " + minimumNodeVersion + " but you have " + process.version);
+  process.exit(1);
+}
 
-let paths = {
+var gulp       = require('gulp'),
+    concat     = require('gulp-concat'),
+    browserify = require('browserify'),
+    postcss    = require('gulp-postcss'),
+    replace    = require('gulp-replace'),
+    source     = require("vinyl-source-stream"),
+    babelify   = require('babelify'),
+    glob       = require("glob"),
+    fs         = require("fs");
+
+var paths = {
   css:     './src/**/*.css',
   jsentry: './src/js/index.js',
   lib:     './src/lib/**',
   image:   './src/image/**',
-  html:     './src/*.html',
-  ready:    './src/ready.js'
+  html:    './src/*.html',
+  ready:   './src/ready.js',
+  dest:    './www',
 };
-
-var js = ["./src/**/*.js", "!./src/lib/**"];
 
 gulp.task('js', function (){
     // Process JS files into ES5
@@ -34,7 +38,7 @@ gulp.task('js', function (){
     .transform(babelify, {presets:["es2015", "react", "stage-0"]})
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./www'));
+    .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('css', function(){
@@ -47,28 +51,28 @@ gulp.task('css', function(){
   	];
     gulp.src(paths.css)
       .pipe(postcss(processors))
-      .pipe(gulp.dest("./www"));
+      .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('lib', function(){
     gulp.src(paths.lib)
-      .pipe(gulp.dest("./www/lib"));
+      .pipe(gulp.dest(paths.dest + "/lib"));
 });
 
 gulp.task('image', function(){
     gulp.src(paths.image)
-      .pipe(gulp.dest("./www/image"));
+      .pipe(gulp.dest(paths.dest + "/image"));
 });
 
 gulp.task('html', function(){
     gulp.src(paths.html)
       //.pipe(replace(/<!--\#(.*?)\#-->/, ''))
-      .pipe(gulp.dest("./www"));
+      .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('ready', function(){
     gulp.src(paths.ready)
-      .pipe(gulp.dest("./www"));
+      .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('locale', function (){
@@ -93,11 +97,12 @@ gulp.task('locale', function (){
         end = function(){
           filesRemaining--;
           if(filesRemaining > 0) return;
-          fs.mkdir('./www/i18n', function(e){
+          fs.mkdir(paths.dest + '/i18n', function(e){
             if(e && e.code !== 'EEXIST') console.log(e);
-            fs.writeFile('./www/i18n/strings.json', JSON.stringify(allStrings), 'utf-8');
+            fs.writeFile(paths.dest + '/i18n/strings.json', JSON.stringify(allStrings), 'utf-8');
           });
         };
+
     for(var i = 0; i < files.length; i++){
       readLang(files[i]);
     }
