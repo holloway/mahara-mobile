@@ -2,14 +2,18 @@
 
 html.PAGE_SERVER {
 	overflow:hidden;
-	background: white;
+	background: #5c883c;
 
-	section,
-	h1 {
+	section {
 		max-width:800px;
-		padding: 0px 15px 100px 15px;
+		padding: 20px 15px 100px 15px;
 		margin: 0px auto;
 		color: black;
+	}
+
+	label {
+		display:block;
+		font-size:x-large;
 	}
 
 	section {

@@ -1,5 +1,6 @@
 button,
 a {
+  cursor: pointer;
   outline: 0;
 
   &:focus,

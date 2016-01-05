@@ -38,6 +38,7 @@ function MaharaState(state, action) {
     case STORAGE.SET_SERVER_LOGIN_TYPE:
       state.server = state.server || {};
       state.server.loginType = action.loginType;
+      break;
     case STORAGE.SET_SERVER_SESSION:
       state.server = state.server || {};
       state.server.token = action.token;

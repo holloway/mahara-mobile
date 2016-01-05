@@ -11,14 +11,14 @@ export default class ServerPage extends MaharaBaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      serverUrl: props.server && props.server.url ? (props.server.url.protocol + "://" + props.server.url.domain) : ""
+      serverUrl: props.server && props.server.url && props.server.url.protocol && props.server.url.domain ? (props.server.url.protocol + "://" + props.server.url.domain) : ""
     };
   }
   render() {
     return <section>
-      <h2>{this.gettext('server_question')}</h2>
-      <input type="url" ref="serverUrl" value={this.state.serverUrl} onChange={this.onChange} placeholder={this.gettext('serverUrlExample')}/>
-      <button onClick={this.nextButton}>{this.gettext('nextButton')}</button>
+      <label htmlFor="serverUrl">{this.gettext('server_question')}</label>
+      <input type="url" ref="serverUrl" value={this.state.serverUrl} onChange={this.onChange} placeholder={this.gettext('server_url_example')} id="serverUrl"/>
+      <button onClick={this.nextButton}>{this.gettext('wizard_next_button')}</button>
     </section>;
   }
   onChange = (e) => {

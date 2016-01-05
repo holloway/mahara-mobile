@@ -25,7 +25,8 @@ html.PAGE_LOGIN {
 		width:100%;
 	}
 
-	h3 {
+	label {
+		display:block;
 		text-align:left;
 		font-size:x-large;
 		margin: 0.5em 0px 0px 0px;
@@ -54,6 +55,16 @@ html.PAGE_LOGIN {
 		font-size:xx-large;
 		padding: 0.5em 1em 0.5em 0.5em;
 		border: none;
+	}
+
+	button.forgotPassword {
+		margin-top: 0.5em;
+		font-size:medium;
+		float:right;
+		color: white;
+		text-decoration:underline;
+		border: none;
+		background: none;
 	}
 
 }

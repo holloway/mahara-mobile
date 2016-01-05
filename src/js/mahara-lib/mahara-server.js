@@ -15,22 +15,28 @@ class MaharaServer {
   setUrl = (url, callback) => {
     var originalDomain = this.domain;
     this.domain = url.replace(/^.*?\:\/\//, '').replace(/\/.*?$/, ''); //remove any protocol and any path but leave any port numbers
-    this.autoDetectProtocolAndLoginMethod(callback);
+    if(originalDomain !== undefined && originalDomain !== this.domain){
+      this.autoDetectProtocolAndLoginMethod(callback);
+    } else {
+      console.log("No change in domain of mahara-server.js. Reusing existing settings");
+      if(callback) callback();
+    }
   }
   getServerUrl = () => {
     if(!this.protocol) return console.log("Error no protocol chosen yet. Run autoDetectProtocolAndLoginMethod(callback) first.");
     if(!this.domain) return console.log("Error no domain chosen yet. Run autoDetectProtocolAndLoginMethod(callback) first.");
+    console.log(this);
     return this.protocol + "://" + this.domain;
   }
   loginPath = "/api/mobile/login.php"
   autoDetectProtocolAndLoginMethod = (callback) => {
     var that = this,
-        loginUsername = "login_username", // a form field that we test for in the response
         protocols = {"https": undefined, "http": undefined},
         successFrom = function(protocol){
           return function(response){
-            console.log(response);
-            if(response.target && response.target.response && response.target.response.match(loginUsername)){
+            var loginUsername = "login_username", // a form field that we test for in the response
+                tokenId = '"token"';
+            if(response.target && response.target.response && (response.target.response.match(loginUsername) || response.target.response.match(tokenId))){
               protocols[protocol] = LOGIN_TYPE.USERNAME_PASSWORD; //TODO: scrape evidence of SSO-based login
             } else {
               protocols[protocol] = false;
@@ -40,7 +46,6 @@ class MaharaServer {
         },
         failureFrom = function(protocol){
           return function(response){
-            console.log(response);
             protocols[protocol] = false;
             next();
           }
