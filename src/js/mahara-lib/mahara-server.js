@@ -15,29 +15,40 @@ class MaharaServer {
   setUrl = (url, callback) => {
     var originalDomain = this.domain;
     this.domain = url.replace(/^.*?\:\/\//, '').replace(/\/.*?$/, ''); //remove any protocol and any path but leave any port numbers
-    if(originalDomain !== undefined && originalDomain !== this.domain){
+    console.log("LOGIN_TYPE", LOGIN_TYPE);
+    if(originalDomain !== this.domain){
       this.autoDetectProtocolAndLoginMethod(callback);
     } else {
-      console.log("No change in domain of mahara-server.js. Reusing existing settings");
+      console.log("No change in domain of mahara-server.js. Reusing existing settings", url, originalDomain, this.domain);
       if(callback) callback();
     }
   }
   getServerUrl = () => {
     if(!this.protocol) return console.log("Error no protocol chosen yet. Run autoDetectProtocolAndLoginMethod(callback) first.");
-    if(!this.domain) return console.log("Error no domain chosen yet. Run autoDetectProtocolAndLoginMethod(callback) first.");
+    if(!this.domain)   return console.log("Error no domain chosen yet. Run autoDetectProtocolAndLoginMethod(callback) first.");
     console.log(this);
     return this.protocol + "://" + this.domain;
   }
-  loginPath = "/api/mobile/login.php"
+  loginPath = "/"
   autoDetectProtocolAndLoginMethod = (callback) => {
     var that = this,
         protocols = {"https": undefined, "http": undefined},
         successFrom = function(protocol){
           return function(response){
             var loginUsername = "login_username", // a form field that we test for in the response
+                sso = ">SSO<",
                 tokenId = '"token"';
-            if(response.target && response.target.response && (response.target.response.match(loginUsername) || response.target.response.match(tokenId))){
-              protocols[protocol] = LOGIN_TYPE.USERNAME_PASSWORD; //TODO: scrape evidence of SSO-based login
+
+            if(!response || !response.target || !response.target.response){
+              // nothing to scrape
+              next();
+              return;
+            }
+
+
+            console.log("response.target.response", response.target.response);
+            if(response.target.response.match(loginUsername) || response.target.response.match(tokenId)){
+              protocols[protocol] = LOGIN_TYPE.USERNAME_PASSWORD;
             } else {
               protocols[protocol] = false;
             }

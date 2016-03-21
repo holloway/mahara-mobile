@@ -23,7 +23,7 @@ class Add extends MaharaBaseComponent {
 
   }
   cameraError = (message) => {
-    alertify.okBtn(this.gettext("camera_error") + " " + message)
+    alertify.okBtn(this.gettext("alert_ok_button")).alert(this.gettext("camera_error") + " " + message);
   }
   addLibrary = (e) => {
     Router.navigate(PAGE_URL.ADD_LIBRARY);

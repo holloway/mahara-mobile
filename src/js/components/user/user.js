@@ -6,12 +6,16 @@ import Router              from '../../router.js';
 
 class User extends MaharaBaseComponent {
   render() {
+    console.log(this.props)
     return <section>
-      <h1>User</h1>
-      <button onClick={this.loginButton} className="big">Login</button>
+      <h2>{this.props.server.user}</h2>
+
+      <hr/>
+      <button onClick={this.loginButton} className="big">{this.gettext("logout_button")}</button>
     </section>;
   }
   loginButton = (e) => {
+    alerify()
     Router.navigate(PAGE_URL.LOGIN);
   }
 }

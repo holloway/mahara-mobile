@@ -13,6 +13,7 @@ menu_add=Add
 menu_pending=Pending
 menu_sync=
 menu_active=Active
+logout_button=Logout
 server_question=What is the address of your Mahara?
 server_url_example= https://yoursite.edu/
 wizard_next_button=Next
