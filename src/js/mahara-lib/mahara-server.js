@@ -8,85 +8,112 @@ class MaharaServer {
       this.protocol = state.url.protocol;
       this.domain = state.url.domain;
     }
-    this.loginType = state.loginType;
+    this.ssoUrl = state.ssoUrl;
+    this.loginTypes = state.loginTypes;
     this.token = state.token;
     this.user = state.user;
   }
   setUrl = (url, callback) => {
-    var originalDomain = this.domain;
+    var previousDomain = this.domain;
     this.domain = url.replace(/^.*?\:\/\//, '').replace(/\/.*?$/, ''); //remove any protocol and any path but leave any port numbers
-    console.log("LOGIN_TYPE", LOGIN_TYPE);
-    if(originalDomain !== this.domain){
-      this.autoDetectProtocolAndLoginMethod(callback);
-    } else {
-      console.log("No change in domain of mahara-server.js. Reusing existing settings", url, originalDomain, this.domain);
-      if(callback) callback();
-    }
+    this.autoDetectProtocolAndLoginMethod(callback, previousDomain);
   }
-  getServerUrl = () => {
+  getServerProtocolAndDomain = () => {
     if(!this.protocol) return console.log("Error no protocol chosen yet. Run autoDetectProtocolAndLoginMethod(callback) first.");
     if(!this.domain)   return console.log("Error no domain chosen yet. Run autoDetectProtocolAndLoginMethod(callback) first.");
-    console.log(this);
     return this.protocol + "://" + this.domain;
   }
-  loginPath = "/"
-  autoDetectProtocolAndLoginMethod = (callback) => {
+  loginPath = "/";
+  logoutPath = "/?logout";
+  autoDetectProtocolAndLoginMethod = (callback, previousDomain) => {
     var that = this,
-        protocols = {"https": undefined, "http": undefined},
+        checkedProtocols = {"https": undefined, "http": undefined},
         successFrom = function(protocol){
           return function(response){
-            var loginUsername = "login_username", // a form field that we test for in the response
-                sso = ">SSO<",
-                tokenId = '"token"';
+            var LOCALs = ["login_username", '"token"'], // scrape html for these fragments to indicate support for features. Not happy with this but necessary until we get API support (see README.md SERVER-TODO)
+                SSOs   = ['>SSO<', 'saml'],
+                LOGGEDIN = [/\?logout/],
+                ssoUrl,
+                matches;
 
             if(!response || !response.target || !response.target.response){
-              // nothing to scrape
+              // nothing to scrape... presume at least a U/P login
+              checkedProtocols[protocol] = [LOGIN_TYPE.LOCAL];
+              console.log("Odd...nothing to scrape from " + that.domain, response.target.response);
               next();
               return;
             }
 
+            if(response.target.response.match(LOGGEDIN[0])){
+              if(that.domain === previousDomain && that.protocol && that.loginTypes){
+                console.log("They're already logged in so we can't scrape for login details, assume previous details were ok", that);
+                checkedProtocols[that.protocol] = that.loginTypes;
+                next();
+                return;
+              }
+            }
 
-            console.log("response.target.response", response.target.response);
-            if(response.target.response.match(loginUsername) || response.target.response.match(tokenId)){
-              protocols[protocol] = LOGIN_TYPE.USERNAME_PASSWORD;
+            if(response.target.response.match(LOCALs[0]) || response.target.response.match(LOCALs[1])){
+              if(!checkedProtocols[protocol]) checkedProtocols[protocol] = [];
+              checkedProtocols[protocol].push(LOGIN_TYPE.LOCAL);
             } else {
-              protocols[protocol] = false;
+              checkedProtocols[protocol] = false;
+            }
+
+            if(response.target.response.match(SSOs[0]) || response.target.response.match(SSOs[1])){
+              matches = response.target.response.match(/http[^'"]*?saml[^'"]+/gi);
+              if(matches.length > 0){
+                ssoUrl = matches[0].replace(/\\$/, ''); // because sometimes there's a trailing \
+                while(ssoUrl.match(/^https?\:\\\//)){ // sometimes Url is JavaScript string escaped so a URL might start with "http:\/" so if it does then we need to decode it
+                  try {
+                    ssoUrl = JSON.parse("[\"" + ssoUrl + "\"]")[0];
+                  } catch(e){
+                    console.log("Problem decoding ssoUrl. ssoUrl=", ssoUrl, e);
+                  }
+                }
+                if(!checkedProtocols[protocol]) checkedProtocols[protocol] = [];
+                checkedProtocols[protocol].push(LOGIN_TYPE.SINGLE_SIGN_ON);
+                that.ssoUrl = ssoUrl;
+              }
             }
             next();
           }
         },
         failureFrom = function(protocol){
           return function(response){
-            protocols[protocol] = false;
+            checkedProtocols[protocol] = false;
             next();
           }
         },
         next = function(){
           var allResponsesReceived = true;
-          for(var protocol in protocols){
-            if(protocols[protocol] === undefined) allResponsesReceived = false;
+          for(var protocol in checkedProtocols){
+            if(checkedProtocols[protocol] === undefined) allResponsesReceived = false;
           }
           if(allResponsesReceived){
-            if(protocols.http !== false && protocols.http !== undefined) {
+            if(checkedProtocols.http !== false && checkedProtocols.http !== undefined) {
               that.protocol = "http";
-              that.loginType = protocols.http;
+              that.loginTypes = checkedProtocols.http;
             }
-            if(protocols.https !== false && protocols.https !== undefined) { // https is preferred
+            if(checkedProtocols.https !== false && checkedProtocols.https !== undefined) { // https is preferred
               that.protocol = "https";
-              that.loginType = protocols.https;
+              that.loginTypes = checkedProtocols.https;
             }
             if(callback) callback();
           }
         };
 
-    this.protocol = undefined;
-    for(var protocol in protocols){
+    for(var protocol in checkedProtocols){
       httpLib.get(protocol + "://" + this.domain + this.loginPath, undefined, successFrom(protocol), failureFrom(protocol));
     }
   }
   usernamePasswordLogin = (username, password, successCallback, errorCallback) => {
-    var that = this;
-    httpLib.post(this.getServerUrl() + this.loginPath, undefined, {
+    var that = this,
+        protocolAndDomain = this.getServerProtocolAndDomain();
+
+    if(!protocolAndDomain) return errorCallback();
+
+    httpLib.post(protocolAndDomain + this.loginPath, undefined, {
       login_username:username,
       login_password:password,
       submit:"Login",
@@ -119,6 +146,66 @@ class MaharaServer {
         fn.apply(this, args);
       }
     }
+  };
+  checkIfLoggedIn = (callback) => {
+    var protocolAndDomain = this.getServerProtocolAndDomain();
+    if(!protocolAndDomain){
+      callback(undefined);
+      return;
+    }
+
+    var successFrom = function(callback){
+      return function(response){
+        var LOGGEDIN = [/\?logout/];
+
+        if(!response || !response.target || !response.target.response){
+          callback(undefined);
+          return;
+        }
+
+        callback(!!response.target.response.match(LOGGEDIN[0]));
+      }
+    };
+
+    var failureFrom = function(callback){
+      return function(response){
+        callback(undefined);
+      }
+    };
+
+    httpLib.get(protocolAndDomain, undefined, successFrom(callback), failureFrom(callback));
+  }
+  logout = (callback) => {
+    var protocolAndDomain = this.getServerProtocolAndDomain();
+    if(!protocolAndDomain){
+      callback(undefined);
+      return;
+    }
+
+    var successFrom = function(callback){
+      return function(response){
+        var LOGGEDIN = [/\?logout/];
+
+        if(!response || !response.target || !response.target.response){
+          callback(undefined);
+          return;
+        }
+
+        callback(!!response.target.response.match(LOGGEDIN[0]));
+      }
+    };
+
+    var failureFrom = function(callback){
+      return function(response){
+        callback(undefined);
+      }
+    };
+
+    httpLib.get(protocolAndDomain + this.logoutPath, undefined, successFrom(callback), failureFrom(callback));
+  }
+  uploadFilePath = "/api/mobile/upload.php";
+  uploadFile = (path) => {
+    
   }
 }
 

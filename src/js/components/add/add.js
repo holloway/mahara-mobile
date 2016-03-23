@@ -14,6 +14,11 @@ class Add extends MaharaBaseComponent {
     </section>;
   }
   takePhoto = (e) => {
+    if(!navigator.camera || !navigator.camera.getPicture){
+      alertify.okBtn(this.gettext('alert_ok_button'));
+      alertify.alert(this.gettext('camera_unavailable'));
+      return;
+    }
     navigator.camera.getPicture(
       this.cameraSuccess,
       this.cameraError,

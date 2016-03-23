@@ -26,24 +26,19 @@ export default class ServerPage extends MaharaBaseComponent {
   }
   nextButton = (e) => {
     var serverUrl = this.refs.serverUrl.value,
-        that = this;
+        that      = this;
 
     if(serverUrl.trim().length === 0) {
       alertify.alert(this.gettext("server_url_empty_validation"));
       return;
     };
+
     maharaServer.setUrl(serverUrl, next);
+
     function next(){
-      if(maharaServer.loginType === LOGIN_TYPE.USERNAME_PASSWORD){
-        StateStore.dispatch({type:STORAGE.SET_SERVER_URL, serverUrl: {domain: maharaServer.domain, protocol:maharaServer.protocol}});
-        StateStore.dispatch({type:STORAGE.SET_SERVER_LOGIN_TYPE, loginType: maharaServer.loginType});
-        Router.navigate(PAGE_URL.LOGIN);
-      } else if(maharaServer.protocol === undefined) {
-        alertify.alert(that.gettext("no_server_found"));
-      } else {
-        console.log(maharaServer);
-        alertify.alert(that.gettext("unknown_server_error"));
-      }
+      StateStore.dispatch({type:STORAGE.SET_SERVER_URL, serverUrl: {domain: maharaServer.domain, protocol:maharaServer.protocol}});
+      StateStore.dispatch({type:STORAGE.SET_SERVER_LOGIN_TYPES, loginTypes: maharaServer.loginTypes, ssoUrl: maharaServer.ssoUrl});
+      Router.navigate(PAGE_URL.LOGIN_TYPE);
     }
   }
 }

@@ -12,10 +12,6 @@ html.PAGE_LOGIN {
 		color:white;
 	}
 
-	img {
-		width:100%;
-	}
-
 	input {
 		font-size:xx-large;
 		padding: 5px 7px;
@@ -45,16 +41,19 @@ html.PAGE_LOGIN {
 		border: none;
 	}
 
-	button.back {
-		background: #5c883c;
+	button.changeServer {
+		background: transparent;
 		color: #fff;
-		font-weight:100;
-		position:fixed;
-		bottom: 0px;
-		left:0px;
-		font-size:xx-large;
-		padding: 0.5em 1em 0.5em 0.5em;
+		font-size: inherit;
 		border: none;
+		text-decoration: underline;
+		padding: 0px;
+	}
+
+	p.textLinks {
+		text-align:right;
+		padding: 0px;
+		text-indent: 0px;
 	}
 
 	button.forgotPassword {

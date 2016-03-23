@@ -9,13 +9,13 @@ import {PAGE, PAGE_URL, STORAGE} from '../../constants.js';
 class LoginPage extends MaharaBaseComponent {
   render() {
     return <section>
+      <p className="textLinks">({maharaServer.domain} - <button onClick={this.backButton} className="changeServer">{this.gettext('wizard_change_server')}</button>)</p>
       <label htmlFor="username">{this.gettext('username')}</label>
       <input type="text" ref="username" id="username"/>
       <label htmlFor="password">{this.gettext('password')}</label>
       <input type="password" ref="password" id="password"/>
       <button onClick={this.forgotPassword} className="forgotPassword">{this.gettext('forgot_password')}</button>
-      <button onClick={this.backButton} className="back">{this.gettext('wizard_back_button')}</button>
-      <button onClick={this.nextButton} className="next">{this.gettext('wizard_next_button')}</button>
+      <button onClick={this.nextButton} className="next">{this.gettext('wizard_login_button')}</button>
     </section>;
   }
   componentWillMount(){

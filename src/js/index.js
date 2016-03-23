@@ -9,7 +9,9 @@ import Router               from './router.js';
 import NavBar               from './components/navbar/navbar.js';
 import LogoBar              from './components/logobar/logobar.js';
 import ServerPage           from './components/server/server.js';
+import LoginTypePage        from './components/login-type/login-type.js';
 import LoginPage            from './components/login/login.js';
+import SSOPage              from './components/sso/sso.js';
 import UserPage             from './components/user/user.js';
 import PendingPage          from './components/pending/pending.js';
 import SyncPage             from './components/sync/sync.js';
@@ -40,8 +42,14 @@ const render = () => {
     case PAGE.SERVER:
       page = <ServerPage {...state}/>;
       break;
+    case PAGE.LOGIN_TYPE:
+      page = <LoginTypePage {...state}/>;
+      break;
     case PAGE.LOGIN:
       page = <LoginPage {...state}/>;
+      break;
+    case PAGE.SSO:
+      page = <SSOPage {...state}/>;
       break;
     case PAGE.USER:
       page = <UserPage {...state}/>;
@@ -81,7 +89,9 @@ const render = () => {
       bar = <NavBar {...state}/>;
       break;
     case PAGE.SERVER:
+    case PAGE.LOGIN_TYPE:
     case PAGE.LOGIN:
+    case PAGE.SSO:
       bar = <LogoBar {...state}/>;
       break;
   }

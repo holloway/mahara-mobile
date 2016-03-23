@@ -27,3 +27,15 @@ cordova plugin add cordova-plugin-camera
 #### Running `cordova run android` doesn't start the app on Android 4.x
 
 It might be caused by http://stackoverflow.com/a/30240520
+
+
+# TODO
+
+## Server
+
+Mahara Server needs Mobile APIs for,
+
+* Login
+* Login types available (local user, SSO)
+* SSO URL
+* Current login state

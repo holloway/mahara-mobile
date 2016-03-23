@@ -1,0 +1,27 @@
+/* PostCSS */
+
+html.PAGE_LOGIN_TYPE {
+	background: #5c883c;
+
+	section {
+		max-width:800px;
+		padding: 0.7em 15px 100px 15px;
+		margin: 0px auto;
+		text-align:center;
+		color:white;
+	}
+
+	button {
+		display:inline-block;
+		box-sizing: border-box;
+		font-size:xx-large;
+		padding: 0.5em 7px;
+		border: none;
+		border-radius: 3px;
+		text-align:center;
+    background: white;
+    margin: 0.5em 0px;
+		width:100%;
+	}
+
+}

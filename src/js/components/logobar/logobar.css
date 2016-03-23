@@ -8,15 +8,25 @@ div.LogoBar {
 	h1 {
 		padding: 10px 15px 0px 15px;
 		margin: 0px auto;
+
+    img {
+      width:100%;
+    }
 	}
 }
 
-html.PAGE_SERVER div.LogoBar h1 {
+html.PAGE_SERVER div.LogoBar h1,
+html.PAGE_LOGIN_TYPE div.LogoBar h1 {
   max-width:800px;
   transition: max-width 1s ease-in-out;
 }
 
 html.PAGE_LOGIN div.LogoBar h1 {
   max-width:200px;
+  transition: max-width 1s ease-in-out;
+}
+
+html.PAGE_SSO div.LogoBar h1 {
+  max-width:100px;
   transition: max-width 1s ease-in-out;
 }

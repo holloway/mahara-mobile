@@ -20,7 +20,9 @@ function MaharaState(state, action) {
 
   switch (action.type) {
     case PAGE.SERVER:
+    case PAGE.LOGIN_TYPE:
     case PAGE.LOGIN:
+    case PAGE.SSO:
     case PAGE.USER:
     case PAGE.ADD:
     case PAGE.ADD_LIBRARY:
@@ -35,8 +37,14 @@ function MaharaState(state, action) {
       state.server = state.server || {};
       state.server.url = action.serverUrl;
       break;
-    case STORAGE.SET_SERVER_LOGIN_TYPE:
+    case STORAGE.SET_SERVER_LOGIN_TYPES:
       state.server = state.server || {};
+      state.server.loginTypes = action.loginTypes;
+      state.server.ssoUrl = action.ssoUrl;
+      break;
+    case STORAGE.SET_SERVER_CHOSEN_LOGIN_TYPE:
+      state.server = state.server || {};
+      console.log("setting chosen login type to", action.loginType, action);
       state.server.loginType = action.loginType;
       break;
     case STORAGE.SET_SERVER_SESSION:

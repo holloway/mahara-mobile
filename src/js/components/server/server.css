@@ -9,6 +9,7 @@ html.PAGE_SERVER {
 		padding: 20px 15px 100px 15px;
 		margin: 0px auto;
 		color: black;
+		text-align:center;
 	}
 
 	label {
@@ -16,14 +17,6 @@ html.PAGE_SERVER {
 		font-size:x-large;
 		color: white;
 		margin-bottom: 0.5em;
-	}
-
-	section {
-		text-align:center;
-	}
-
-	img {
-		width:100%;
 	}
 
 	input[type=url] {
