@@ -44,8 +44,12 @@ function MaharaState(state, action) {
       break;
     case STORAGE.SET_SERVER_CHOSEN_LOGIN_TYPE:
       state.server = state.server || {};
-      console.log("setting chosen login type to", action.loginType, action);
+      //console.log("setting chosen login type to", action.loginType, action);
       state.server.loginType = action.loginType;
+      break;
+    case STORAGE.SET_UPLOAD_TOKEN:
+      state.server = state.server || {};
+      state.server.uploadToken = action.uploadToken;
       break;
     case STORAGE.SET_SERVER_SESSION:
       state.server = state.server || {};

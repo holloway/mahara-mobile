@@ -39,3 +39,6 @@ Mahara Server needs Mobile APIs for,
 * Login types available (local user, SSO)
 * SSO URL
 * Current login state
+* Mobile token error should have machine-readable error code
+* Set mobile token
+* Session duration/timeout

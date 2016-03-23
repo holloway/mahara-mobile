@@ -12,6 +12,7 @@ class MaharaServer {
     this.loginTypes = state.loginTypes;
     this.token = state.token;
     this.user = state.user;
+    this.uploadToken = state.uploadToken;
   }
   setUrl = (url, callback) => {
     var previousDomain = this.domain;
@@ -148,7 +149,11 @@ class MaharaServer {
     }
   };
   checkIfLoggedIn = (callback) => {
-    var protocolAndDomain = this.getServerProtocolAndDomain();
+    var that = this,
+        protocolAndDomain = this.getServerProtocolAndDomain();
+
+    // TODO: Cache logged in status for a minute or something
+
     if(!protocolAndDomain){
       callback(undefined);
       return;
@@ -156,14 +161,17 @@ class MaharaServer {
 
     var successFrom = function(callback){
       return function(response){
-        var LOGGEDIN = [/\?logout/];
+        var LOGGEDIN = [/\?logout/],
+            isLoggedIn;
 
         if(!response || !response.target || !response.target.response){
           callback(undefined);
           return;
         }
 
-        callback(!!response.target.response.match(LOGGEDIN[0]));
+        isLoggedIn = !!response.target.response.match(LOGGEDIN[0]);
+
+        callback(isLoggedIn);
       }
     };
 
@@ -203,9 +211,163 @@ class MaharaServer {
 
     httpLib.get(protocolAndDomain + this.logoutPath, undefined, successFrom(callback), failureFrom(callback));
   }
-  uploadFilePath = "/api/mobile/upload.php";
+  setMobileUploadToken = (token, callback) => {
+    var tokenPath = "/account/index.php",
+        fieldName = "accountprefs_mobileuploadtoken[0]",
+        successFrom,
+        failureFrom,
+        that = this,
+        METHOD_GET = "GET",
+        METHOD_POST = "POST",
+        postData = {},
+        sesskey; //named after Mahara Server key
+
+    postData[fieldName] = token;
+
+    var protocolAndDomain = this.getServerProtocolAndDomain();
+    if(!protocolAndDomain){
+      callback(undefined);
+      return;
+    }
+
+    successFrom = function(callback, method){
+      return function(response){
+        var tags,
+            i,
+            wasUpdated;
+
+        if(!response || !response.target || !response.target.response){
+          callback(undefined);
+          return;
+        }
+
+        if(method === METHOD_GET){
+          tags = response.target.response.match(/<[^>]+>/g);
+          for(i = 0; i < tags.length; i++){
+            if(tags[i].match(/name=["']sesskey["']/)){
+              var matches = tags[i].match(/value=["']([^"']+)["']/);
+              if(matches.length > 1){
+                sesskey = matches[1];
+              }
+            }
+          }
+          if(!sesskey){
+            callback({error:true, sesskeyError:true});
+            return;
+          } else {
+            postData.sesskey = sesskey;
+            postData.pieform_accountprefs = ""; // form must have these to be accepted by Mahara Server
+            postData.pieform_jssubmission = "1";
+            httpLib.post(protocolAndDomain + tokenPath, undefined, postData, successFrom(callback, METHOD_POST), failureFrom(callback, METHOD_POST));
+          }
+        } else {
+          wasUpdated = !!response.target.response.match(sesskey);
+          if(wasUpdated){
+            that.uploadToken = token;
+          }
+          callback(wasUpdated);
+        }
+      }
+    }
+
+    var failureFrom = function(callback, method){
+      return function(response){
+        console.log("setMobileUploadToken: failure response", response);
+        callback(undefined);
+      }
+    };
+
+    this.checkIfLoggedIn(function(isLoggedIn){
+      if(!isLoggedIn) return callback({error:true, isLoggedIn:isLoggedIn});
+      // first, we need to scrape the session key
+      httpLib.get(protocolAndDomain + tokenPath, undefined, successFrom(callback, METHOD_GET), failureFrom(callback, METHOD_GET));
+    })
+  };
+  syncPath = "/api/mobile/sync.php";
+
+  uploadPath = "/api/mobile/upload.php";
   uploadFile = (path) => {
-    
+
+  }
+  uploadJournal = (title, body, tags, callback) => {
+    var that = this,
+        protocolAndDomain = this.getServerProtocolAndDomain(),
+        successFrom,
+        failureFrom;
+
+    if(!protocolAndDomain){
+      callback(undefined);
+      return;
+    }
+
+    successFrom = function(callback){
+      return function(response){
+        var responseJSON;
+        console.log("success response", response);
+
+        if(!response || !response.target || !response.target.response){
+          callback(undefined);
+          return;
+        }
+
+        try {
+          responseJSON = JSON.parse(response.target.response)
+        } catch(e){
+          console.log("Response wasn't JSON. Was: ", response.target.response, e, response);
+          callback(undefined);
+          return;
+        }
+
+        console.log(responseJSON, responseJSON);
+
+        if(!responseJSON){
+          console.log("Response wasn't JSON. Was: ", response.target.response, e, response);
+          callback(undefined);
+          return;
+        }
+
+        if(responseJSON.fail){
+          callback({error:true, message: responseJSON.fail, obj:responseJSON})
+          return;
+        }
+
+        callback();
+      }
+    };
+
+    failureFrom = function(callback){
+      return function(response){
+        console.log("failure", response);
+
+        callback(undefined);
+      }
+    };
+
+
+    this.checkIfLoggedIn(function(isLoggedIn){
+      if(!isLoggedIn) return callback({error:true, isLoggedIn:isLoggedIn});
+      httpLib.post(protocolAndDomain + that.uploadPath, undefined,
+        {
+        title:title,
+        description:body,
+        token:that.uploadToken
+        },
+        successFrom(callback), failureFrom(callback));
+    })
+
+
+
+  };
+  generateUploadToken = function(){
+    var token = "",
+        makeToken = function(){
+          return (Math.random() + 1).toString(36).substring(2, 12);
+        };
+
+    while(token.length !== 10){
+      token = makeToken();
+    }
+    return token;
   }
 }
 

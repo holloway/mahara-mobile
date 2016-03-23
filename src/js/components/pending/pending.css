@@ -15,7 +15,7 @@ html.PAGE_PENDING {
 
 	i.noPendingUploads {
 		display:block;
-		padding-top:40%;
+		padding-top:20%;
 		text-align:center;
 		font-size:large;
 		margin-top: 2em;
