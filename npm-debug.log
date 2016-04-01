@@ -1,24 +1,44 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'run', 'build' ]
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'run', 'devwebserver' ]
 2 info using npm@3.6.0
 3 info using node@v5.7.1
-4 verbose stack Error: missing script: build
-4 verbose stack     at run (/usr/lib/node_modules/npm/lib/run-script.js:147:19)
-4 verbose stack     at /usr/lib/node_modules/npm/lib/run-script.js:57:5
-4 verbose stack     at /usr/lib/node_modules/npm/node_modules/read-package-json/read-json.js:345:5
-4 verbose stack     at checkBinReferences_ (/usr/lib/node_modules/npm/node_modules/read-package-json/read-json.js:309:45)
-4 verbose stack     at final (/usr/lib/node_modules/npm/node_modules/read-package-json/read-json.js:343:3)
-4 verbose stack     at then (/usr/lib/node_modules/npm/node_modules/read-package-json/read-json.js:113:5)
-4 verbose stack     at /usr/lib/node_modules/npm/node_modules/read-package-json/read-json.js:232:12
-4 verbose stack     at /usr/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:76:16
-4 verbose stack     at tryToString (fs.js:414:3)
-4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:401:12)
-5 verbose cwd /home/matth/mahara-mobile
-6 error Linux 4.2.0-25-generic
-7 error argv "/usr/bin/nodejs" "/usr/bin/npm" "run" "build"
-8 error node v5.7.1
-9 error npm  v3.6.0
-10 error missing script: build
-11 error If you need help, you may report this error at:
-11 error     <https://github.com/npm/npm/issues>
-12 verbose exit [ 1, true ]
+4 verbose run-script [ 'predevwebserver', 'devwebserver', 'postdevwebserver' ]
+5 info lifecycle mahara-mobile@1.0.0~predevwebserver: mahara-mobile@1.0.0
+6 silly lifecycle mahara-mobile@1.0.0~predevwebserver: no script for predevwebserver, continuing
+7 info lifecycle mahara-mobile@1.0.0~devwebserver: mahara-mobile@1.0.0
+8 verbose lifecycle mahara-mobile@1.0.0~devwebserver: unsafe-perm in lifecycle true
+9 verbose lifecycle mahara-mobile@1.0.0~devwebserver: PATH: /usr/lib/node_modules/npm/bin/node-gyp-bin:/home/matth/mahara-mobile/node_modules/.bin:/home/matth/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+10 verbose lifecycle mahara-mobile@1.0.0~devwebserver: CWD: /home/matth/mahara-mobile
+11 silly lifecycle mahara-mobile@1.0.0~devwebserver: Args: [ '-c', 'pushd ./www && python -m SimpleHTTPServer && popd' ]
+12 info lifecycle mahara-mobile@1.0.0~devwebserver: Failed to exec devwebserver script
+13 verbose stack Error: mahara-mobile@1.0.0 devwebserver: `pushd ./www && python -m SimpleHTTPServer && popd`
+13 verbose stack spawn ENOENT
+13 verbose stack     at ChildProcess.<anonymous> (/usr/lib/node_modules/npm/lib/utils/spawn.js:17:16)
+13 verbose stack     at emitTwo (events.js:100:13)
+13 verbose stack     at ChildProcess.emit (events.js:185:7)
+13 verbose stack     at maybeClose (internal/child_process.js:827:16)
+13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
+14 verbose pkgid mahara-mobile@1.0.0
+15 verbose cwd /home/matth/mahara-mobile
+16 error Linux 4.2.0-25-generic
+17 error argv "/usr/bin/nodejs" "/usr/bin/npm" "run" "devwebserver"
+18 error node v5.7.1
+19 error npm  v3.6.0
+20 error file sh
+21 error code ELIFECYCLE
+22 error errno ENOENT
+23 error syscall spawn
+24 error mahara-mobile@1.0.0 devwebserver: `pushd ./www && python -m SimpleHTTPServer && popd`
+24 error spawn ENOENT
+25 error Failed at the mahara-mobile@1.0.0 devwebserver script 'pushd ./www && python -m SimpleHTTPServer && popd'.
+25 error Make sure you have the latest version of node.js and npm installed.
+25 error If you do, this is most likely a problem with the mahara-mobile package,
+25 error not with npm itself.
+25 error Tell the author that this fails on your system:
+25 error     pushd ./www && python -m SimpleHTTPServer && popd
+25 error You can get information on how to open an issue for this project with:
+25 error     npm bugs mahara-mobile
+25 error Or if that isn't available, you can get their info via:
+25 error     npm owner ls mahara-mobile
+25 error There is likely additional logging output above.
+26 verbose exit [ 1, true ]

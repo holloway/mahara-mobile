@@ -42,3 +42,4 @@ Mahara Server needs Mobile APIs for,
 * Mobile token error should have machine-readable error code
 * Set mobile token
 * Session duration/timeout
+* Get current username from session

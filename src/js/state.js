@@ -50,6 +50,7 @@ function MaharaState(state, action) {
     case STORAGE.SET_UPLOAD_TOKEN:
       state.server = state.server || {};
       state.server.uploadToken = action.uploadToken;
+      maharaServer.uploadToken = uploadToken; // side effect
       break;
     case STORAGE.SET_SERVER_SESSION:
       state.server = state.server || {};

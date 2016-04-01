@@ -29,11 +29,16 @@ class AddLibraryPage extends MaharaBaseComponent {
   saveButton = () => {
     var titlebox = this.refs.library.refs.title,
         textarea = this.refs.library.refs.textarea,
-        libraryItem;
+        libraryItem,
+        makeGuid = function(length){
+          var guid = (Math.random() + 1).toString(36).substring(2, length + 2);
+          if(guid.length !== length) return makeGuid(length);
+          return guid;
+        };
 
     libraryItem = {
       type:  LIBRARY.TYPE,
-      guid:  Math.random(), //FIXME: Replace with something more unique/GUIDy
+      guid:  makeGuid(10) + makeGuid(10),
       title: titlebox.value,
       body:  textarea.value,
       at:    Date.now()

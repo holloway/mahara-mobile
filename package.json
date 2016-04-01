@@ -4,7 +4,8 @@
   "description": "Mahara Mobile",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "./node_modules/.bin/gulp",
+    "devwebserver": "cd www && python -m SimpleHTTPServer && cd .."
   },
   "repository": {
     "type": "git",

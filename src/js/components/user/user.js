@@ -8,8 +8,7 @@ import maharaServer        from '../../mahara-lib/mahara-server.js';
 class User extends MaharaBaseComponent {
   render() {
     return <section>
-      <h2>{this.props.server.user}</h2>
-
+      <h2>{this.props.server && this.props.server.user ? this.props.server.user : ""}</h2>
       <hr/>
       <button onClick={this.logoutButton} className="big">{this.gettext("logout_button")}</button>
     </section>;
