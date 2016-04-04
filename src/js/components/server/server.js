@@ -1,11 +1,10 @@
 /*jshint esnext: true */
 import React               from 'react';
 import MaharaBaseComponent from '../base.js';
-import StateStore          from '../../state.js';
+import StateStore,
+       {maharaServer}      from '../../state.js';
 import {STORAGE, PAGE_URL} from '../../constants.js';
 import Router              from '../../router.js';
-import maharaServer        from '../../mahara-lib/mahara-server.js';
-import {LOGIN_TYPE}        from '../../mahara-lib/constants.js';
 
 export default class ServerPage extends MaharaBaseComponent {
   constructor(props) {

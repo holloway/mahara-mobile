@@ -4,6 +4,7 @@ export default {
   raw: function(method, headers, path, getParams, postData, successCallback, errorCallback){
     var request = new XMLHttpRequest(),
         key;
+
     if(getParams){
       if(path.indexOf("?") === -1){
         path += "?";

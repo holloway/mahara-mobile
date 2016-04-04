@@ -1,9 +1,16 @@
 /*jshint esnext: true */
-import {createStore }                    from 'redux';
-import {Provider}                        from 'react-redux';
-import Storage                           from './storage.js';
-import maharaServer                      from './mahara-lib/mahara-server.js';
-import {PAGE, STORAGE, JOURNAL, PENDING, LIBRARY} from './constants.js';
+import {createStore }  from 'redux';
+import {Provider}      from 'react-redux';
+import Storage         from './storage.js';
+import MaharaServer    from './mahara-lib/mahara-server.js';
+import {arrayRemoveIf} from './util.js';
+import {PAGE,
+       STORAGE,
+       JOURNAL,
+       PENDING,
+       LIBRARY}        from './constants.js';
+
+const maharaServerInstance = new MaharaServer();
 
 function MaharaState(state, action) {
   if (state === undefined) { //Initial state upon page load
@@ -12,7 +19,7 @@ function MaharaState(state, action) {
       state = {lang:['en']};
       action.type = PAGE.SERVER;
     } else if(state.server) {
-      maharaServer.restore(state.server);
+      maharaServerInstance.loadState(state.server);
     }
   }
 
@@ -48,9 +55,8 @@ function MaharaState(state, action) {
       state.server.loginType = action.loginType;
       break;
     case STORAGE.SET_UPLOAD_TOKEN:
-      state.server = state.server || {};
-      state.server.uploadToken = action.uploadToken;
-      maharaServer.uploadToken = uploadToken; // side effect
+      if(console.trace) console.trace();
+      console.log("Should not set upload token in state. Check previous trace to remove offending code.");
       break;
     case STORAGE.SET_SERVER_SESSION:
       state.server = state.server || {};
@@ -60,6 +66,18 @@ function MaharaState(state, action) {
     case JOURNAL.ADD_ENTRY:
       state.pendingUploads = state.pendingUploads || [];
       state.pendingUploads.push(action.journalEntry);
+      break;
+    case JOURNAL.REMOVE_ENTRY:
+      state.pendingUploads = state.pendingUploads || [];
+      var pendingUploadsBefore = state.pendingUploads.length;
+      arrayRemoveIf.bind(state.pendingUploads)(function(item, index){
+        return (item.type === JOURNAL.TYPE && item.guid && item.guid === action.journalGuid);
+      });
+      if(pendingUploadsBefore === state.pendingUploads.length){
+        console.log("Warning not able to remove journal ", action.journalGuid);
+      } else {
+        console.log("Successfully removed journal item", action.journalGuid);
+      }
       break;
     case LIBRARY.ADD_ENTRY:
       state.pendingUploads = state.pendingUploads || [];
@@ -88,3 +106,5 @@ function MaharaState(state, action) {
 const StateStore = createStore(MaharaState);
 
 export default StateStore;
+
+export const maharaServer = maharaServerInstance;

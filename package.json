@@ -1,8 +1,7 @@
 {
   "name": "mahara-mobile",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "Mahara Mobile",
-  "main": "gulpfile.js",
   "scripts": {
     "build": "./node_modules/.bin/gulp",
     "devwebserver": "cd www && python -m SimpleHTTPServer && cd .."
@@ -11,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/holloway/mahara-mobile.git"
   },
-  "author": "",
+  "author": "Matthew Hollowy <matthew@holloway.co.nz>",
   "license": "SEE LICENSE IN 'LICENSE'",
   "bugs": {
     "url": "https://github.com/holloway/mahara-mobile/issues"

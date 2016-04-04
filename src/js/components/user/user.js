@@ -3,9 +3,13 @@ import React               from 'react';
 import MaharaBaseComponent from '../base.js';
 import {PAGE_URL}          from '../../constants.js';
 import Router              from '../../router.js';
-import maharaServer        from '../../mahara-lib/mahara-server.js';
+import {maharaServer}      from '../../state.js';
 
 class User extends MaharaBaseComponent {
+  constructor() {
+    super();
+    this.logoutButton = this.logoutButton.bind(this);
+  }
   render() {
     return <section>
       <h2>{this.props.server && this.props.server.user ? this.props.server.user : ""}</h2>
@@ -13,7 +17,7 @@ class User extends MaharaBaseComponent {
       <button onClick={this.logoutButton} className="big">{this.gettext("logout_button")}</button>
     </section>;
   }
-  logoutButton = (e) => {
+  logoutButton() {
     alertify.okBtn(this.gettext("alert_ok_button"));
     alertify.cancelBtn(this.gettext("button_cancel"));
     alertify.confirm(this.gettext("logout_confirmation"), function (e, str) {

@@ -1,53 +1,40 @@
 /*jshint esnext: true */
 import httpLib from './http-lib.js';
 
-export default function getSyncData(callback){
+export default function getSyncData(successCallback, errorCallback){
   var protocolAndDomain = this.getServerProtocolAndDomain(),
       syncPath = "/api/mobile/sync.php",
-      that = this,
-      successFrom,
-      failureFrom;
+      that = this;
 
-  if(!protocolAndDomain){
-    callback(undefined);
-    return;
-  }
+  if(!protocolAndDomain) return errorCallback({error:true});
 
-  successFrom = function(callback){
+  this.setMobileUploadToken(that.generateUploadToken(), function(uploadToken, userData){
+    httpLib.get(protocolAndDomain + syncPath, {token:uploadToken, username:userData.username}, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
+  }, failureFrom(errorCallback));
+
+  function successFrom(successCallback, errorCallback){
     return function(response){
       var jsonResponse;
-      if(!response || !response.target || !response.target.response){
-        callback(undefined);
-        return;
-      }
+
+      if(!response || !response.target || !response.target.response) return errorCallback({error:true, syncDataError:true});
 
       try {
         jsonResponse = JSON.parse(response.target.response);
       } catch(e){
-        console.log("Problem parsing JSON response", e, response.target.response);
       }
 
-      if(!jsonResponse || jsonResponse.fail){
-        callback({error:true, noPermission:true, message:jsonResponse.fail});
-        return;
-      }
+      if(!jsonResponse || jsonResponse.fail) return errorCallback({error:true, noPermission:true, message:jsonResponse.fail, data:jsonResponse});
 
-      console.log("getsyncdata", response.target.response);
-      callback(jsonResponse);
+      console.log("succes????!?", jsonResponse);
+
+      successCallback(jsonResponse);
     };
-  };
+  }
 
-  failureFrom = function(callback){
+  function failureFrom(callback){
     return function(response){
-      callback(undefined);
+      callback(response);
     };
-  };
-
-  console.log("zzz",that);
-
-  this.checkIfLoggedIn(function(isLoggedIn, settings){
-    console.log("is logged in", isLoggedIn, settings);
-    httpLib.get(protocolAndDomain + syncPath, {token:that.uploadToken, username:settings.username}, successFrom(callback), failureFrom(callback));
-  });
+  }
 
 }

@@ -3,57 +3,53 @@ import React from 'react';
 
 import MaharaBaseComponent from '../base.js';
 import Router              from '../../router.js';
-import StateStore          from '../../state.js';
-import {STORAGE, PAGE_URL} from '../../constants.js';
-import maharaServer        from '../../mahara-lib/mahara-server.js';
+import StateStore,
+       {maharaServer}      from '../../state.js';
+import {STORAGE,
+        PAGE_URL,
+        JOURNAL}           from '../../constants.js';
 
 class Sync extends MaharaBaseComponent {
+  constructor(){
+    super();
+    this.uploadNextJournal = this.uploadNextJournal.bind(this);
+  }
   render() {
     console.log("pendingUploads", this.props.pendingUploads);
 
     return <section>
       <h1>Sync</h1>
       <p>...</p>
-      <button onClick={this.sync}>upload journal</button>
+      <button onClick={this.uploadNextJournal}>upload journal</button>
     </section>;
   }
-  sync = () => {
-    var uploadToken,
-        that = this;
+  uploadNextJournal(){
+    var journalEntry,
+        that = this,
+        dontReattemptUploadWithinMilliseconds = 1000 * 60 * 10;
 
-    uploadToken = maharaServer.generateUploadToken();
-    maharaServer.setMobileUploadToken(uploadToken, function(wasUpdated){
-      if(wasUpdated){
-        StateStore.dispatch({type:STORAGE.SET_UPLOAD_TOKEN, uploadToken:uploadToken});
-        that.uploadJournal();
-      } else {
-        alertify.okBtn(that.gettext("alert_ok_button"));
-        alertify.alert(that.gettext("cant_set_upload_token_error"));
-      }
-    });
+    if(!this.props.pendingUploads || this.props.pendingUploads.length === 0) return;
 
-  }
-  uploadJournal = () => {
-    var that = this,
-        journal,
-        i;
+    journalEntry = this.props.pendingUploads[0];
 
-    alertify.okBtn(that.gettext("alert_ok_button"));
-    if(!this.props.pendingUploads || !this.props.pendingUploads.length) {
-      // TODO: alert nothing to upload
+    if(journalEntry.uploadBeganAt && journalEntry.uploadBeganAt > Date.now() - dontReattemptUploadWithinMilliseconds){
+      console.log("Upload was too recent to attempt again");
       return;
     }
 
-    //this.uploadAJournal(journal);
+    journalEntry.uploadBeganAt = Date.now();
 
-    for(i = 0; i < this.props.pendingUploads.length; i++){
-      journal = this.props.pendingUploads[i];
-      console.log(journal);
-    };
-  }
+    maharaServer.uploadJournal(journalEntry, function(response){
+      var journalEntry = response.journalEntry;
 
-  uploadAJournal = (title, body, tags) => {
-    maharaServer.uploadJournal("my title", "my body", undefined, function(response){
+      journalEntry.uploadBeganAt = undefined;
+      StateStore.dispatch({type:JOURNAL.REMOVE_ENTRY, journalGuid:journalEntry.guid});
+    }, function(response){
+      console.log("error response", response);
+
+      var journalEntry = response.journalEntry;
+
+      journalEntry.uploadBeganAt = undefined;
       if(response && response.error){
         if(response.hasOwnProperty("isLoggedIn")){
           alertify.alert(that.gettext("cant_sync_session_expired"), function (e, str) {
@@ -66,7 +62,7 @@ class Sync extends MaharaBaseComponent {
         }
         return;
       }
-      console.log("callback afterwards");
+      console.log("callback afterwards", arguments);
     });
   }
 }

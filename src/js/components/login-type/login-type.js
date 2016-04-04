@@ -1,9 +1,9 @@
 /*jshint esnext: true */
 import React                  from 'react';
 import MaharaBaseComponent    from '../base.js';
-import StateStore             from '../../state.js';
+import StateStore,
+       {maharaServer}         from '../../state.js';
 import Router                 from '../../router.js';
-import maharaServer           from '../../mahara-lib/mahara-server.js';
 import {PAGE_URL, LOGIN_TYPE,
         STORAGE}              from '../../constants.js';
 

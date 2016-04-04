@@ -54,13 +54,13 @@ export default function autoDetectServerUrl(callback, previousDomain){
             }
           }
           next();
-        }
+        };
       },
       failureFrom = function(protocol){
         return function(response){
           checkedProtocols[protocol] = false;
           next();
-        }
+        };
       },
       next = function(){
         var allResponsesReceived = true;

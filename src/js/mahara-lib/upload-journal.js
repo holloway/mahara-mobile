@@ -1,73 +1,63 @@
 /*jshint esnext: true */
 import httpLib      from './http-lib.js';
 
-export default function uploadJournal(title, body, tags, callback){
+export default function uploadJournal(journalEntry, successCallback, errorCallback){
   var protocolAndDomain = this.getServerProtocolAndDomain(),
       uploadPath = "/api/mobile/upload.php",
-      that = this,
-      successFrom,
-      failureFrom;
+      that = this;
 
-  if(!protocolAndDomain){
-    callback(undefined);
-    return;
+  if(!protocolAndDomain) return errorCallback({error:true, noProtocolAndDomain:true, message: "No protocol or domain", journalEntry:journalEntry});
+
+  this.checkIfLoggedIn(loggedInResponse, failureFrom(errorCallback));
+
+  function loggedInResponse(userData){
+    that.setMobileUploadToken(that.generateUploadToken(), function(uploadToken){
+      var postData = {
+        title:       journalEntry.title,
+        description: journalEntry.body,
+        token:       uploadToken,
+        username:    userData.username,
+        foldername:  ''
+      };
+      that.getSyncData(function(syncData){
+        if(!syncData || !syncData.sync || !syncData.sync.blogs || syncData.sync.blogs.length === 0) return errorCallback({error:true, noBlogIndex:true, message:"No blog index found in syncData.", data:syncData, journalEntry:journalEntry});
+        postData.blog = parseInt(syncData.sync.blogs[0].id, 10);
+        httpLib.post(protocolAndDomain + uploadPath, undefined, postData, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
+      }, function(response){
+        if(!response) response = {error:true};
+        response.journalEntry = journalEntry;
+        errorCallback(response);
+      });
+    }, function(err){
+      errorCallback({error:true, message:err, journalEntry:journalEntry});
+    });
   }
 
-  successFrom = function(callback){
+  function successFrom(successCallback, errorCallback){
     return function(response){
       var responseJSON;
-      console.log("success response", response);
 
-      if(!response || !response.target || !response.target.response){
-        callback(undefined);
-        return;
-      }
+      if(!response || !response.target || !response.target.response) return errorCallback({error:true, errorResponse:response, journalEntry:journalEntry});
 
       try {
         responseJSON = JSON.parse(response.target.response);
       } catch(e){
-        console.log("Response wasn't JSON. Was: ", response.target.response, e, response);
-        callback(undefined);
-        return;
       }
 
-      if(!responseJSON){
-        console.log("Response wasn't JSON. Was: ", response.target.response, e, response);
-        callback(undefined);
-        return;
-      }
+      if(!responseJSON) return errorCallback({error:true, message: "Invalid JSON: " + response.target.response, journalEntry:journalEntry});
+      if(responseJSON.fail) return errorCallback({error:true, message: responseJSON.fail, obj:responseJSON, journalEntry:journalEntry});
+      if(responseJSON.error) return errorCallback({error:true, message: responseJSON.message, obj:responseJSON, journalEntry:journalEntry});
 
-      if(responseJSON.fail){
-        callback({error:true, message: responseJSON.fail, obj:responseJSON});
-        return;
-      }
-      callback();
+      successCallback({journalEntry:journalEntry});
     };
-  };
+  }
 
-  failureFrom = function(callback){
+  function failureFrom(callback){
     return function(response){
-      console.log("failure", response);
-      callback(undefined);
+      if(!response) response = {error:true};
+      response.journalEntry = journalEntry;
+      callback(response);
     };
-  };
+  }
 
-  this.checkIfLoggedIn(function(isLoggedIn, settings){
-    console.log("!settings", settings);
-    if(!isLoggedIn) return callback({error:true, isLoggedIn:isLoggedIn});
-    var postData = {
-      title: title,
-      description: body,
-      token:       that.uploadToken,
-      username:    settings.username, //settings ? settings.userid : undefined
-      foldername:  ''
-    };
-    console.log("!postdata", postData);
-    that.getSyncData(function(syncData){
-      console.log("syncData", syncData);
-      postData.blog = (postData && postData.blog && postData.blog.length > 0) ? postData.blog[0].id : undefined;
-      httpLib.post(protocolAndDomain + uploadPath, undefined, postData, successFrom(callback), failureFrom(callback));
-    });
-
-  });
 }

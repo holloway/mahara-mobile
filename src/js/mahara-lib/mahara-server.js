@@ -12,8 +12,21 @@ import generateUploadToken  from './generate-upload-token.js';
 import getSyncData          from './get-sync-data.js';
 // /api/mobile/sync.php?token=f9637a657736d08cbc317d0267ac9078&username=matth
 
-class MaharaServer {
-  restore = (state) => {
+export default class MaharaServer {
+  constructor(){
+    this.autoDetectProtocolAndLoginMethod = autoDetectServerUrl.bind(this);
+    this.getServerProtocolAndDomain = getServerProtocolAndDomain.bind(this);
+    this.setMobileUploadToken = setMobileUploadToken.bind(this);
+    this.generateUploadToken = generateUploadToken.bind(this);
+    this.usernamePasswordLogin = localLogin.bind(this);
+    this.uploadJournal = uploadJournal.bind(this);
+    this.checkIfLoggedIn = ifLoggedIn.bind(this);
+    this.getSyncData = getSyncData.bind(this);
+    this.setUrl = setUrl.bind(this);
+    this.logout = logOut.bind(this);
+    this.loadState = this.loadState.bind(this);
+  }
+  loadState(state){
     if(state.url){
       this.protocol = state.url.protocol;
       this.domain = state.url.domain;
@@ -23,18 +36,4 @@ class MaharaServer {
     this.user = state.user;
     this.uploadToken = state.uploadToken;
   }
-  autoDetectProtocolAndLoginMethod = autoDetectServerUrl;
-  getServerProtocolAndDomain = getServerProtocolAndDomain;
-  setMobileUploadToken = setMobileUploadToken;
-  generateUploadToken = generateUploadToken;
-  usernamePasswordLogin = localLogin;
-  uploadJournal = uploadJournal;
-  checkIfLoggedIn = ifLoggedIn;
-  getSyncData = getSyncData;
-  setUrl = setUrl;
-  logout = logOut;
 }
-
-const maharaServer = new MaharaServer();
-
-export default maharaServer

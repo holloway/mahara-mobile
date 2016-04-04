@@ -16,6 +16,8 @@ html.PAGE_EDIT_JOURNAL_ENTRY {
 
 	h1 {
 		font-size:medium;
+		border-bottom: solid 1px white;
+		text-align:center;
 	}
 
 	h2 {

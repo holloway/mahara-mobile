@@ -20,16 +20,19 @@ class AddJournalEntry extends MaharaBaseComponent {
         journalEntry;
 
     journalEntry = {
-      type:  JOURNAL.TYPE,
-      guid:  Math.random(), //FIXME: Replace with something more unique/GUIDy
-      title: titlebox.value,
-      body:  textarea.value,
-      at:    Date.now()
+      type:      JOURNAL.TYPE,
+      guid:      this.guidGenerator(),
+      title:     titlebox.value,
+      body:      textarea.value,
+      createdOn: Date.now()
     };
 
     StateStore.dispatch({type:JOURNAL.ADD_ENTRY, journalEntry:journalEntry});
 
     Router.navigate(PAGE_URL.PENDING);
+  }
+  guidGenerator(){
+    return (Math.random() + 1).toString(36).substring(2, 12) + (Math.random() + 1).toString(36).substring(2, 12);
   }
 }
 

@@ -9,13 +9,13 @@ export default function localLogin(username, password, successCallback, errorCal
   if(!protocolAndDomain) return errorCallback();
 
   httpLib.post(protocolAndDomain + this.loginPath, undefined, {
-    login_username:username,
-    login_password:password,
-    submit:"Login",
-    login_submitted: 1,
-    sesskey: "",
-    pieform_login: "",
-  }, scrapeFromResponse(successCallback), errorCallback);
+      login_username:username,
+      login_password:password,
+      submit:"Login",
+      login_submitted: 1,
+      sesskey: "",
+      pieform_login: "",
+    }, scrapeFromResponse(successCallback), errorCallback);
 
   function scrapeFromResponse(fn){
     return function(response){
