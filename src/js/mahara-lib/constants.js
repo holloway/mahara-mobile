@@ -1,6 +1,6 @@
 /*jshint esnext: true */
 
 export const LOGIN_TYPE = {
-  LOCAL          : "LOCAL",
-  SINGLE_SIGN_ON : "SINGLE_SIGN_ON"
+  LOCAL          : "LOGIN_LOCAL", //NOTE: When this library is used in MaharaMobile the value must be identical values to constants of ../constants.js too
+  SINGLE_SIGN_ON : "LOGIN_SINGLE_SIGN_ON" //NOTE: When this library is used in MaharaMobile the value must be identical values to constants of ../constants.js too
 };

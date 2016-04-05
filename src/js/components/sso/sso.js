@@ -14,7 +14,7 @@ class SSOPage extends MaharaBaseComponent {
       return <section>
         <p>
           {this.gettext('no_sso_url_found')}
-          <a onClick={this.goBackToServer}>{this.gettext('try_again_question')}</a>
+          <a onClick={this.goBackToServer} className="noSSOFound">{this.gettext('try_again_question')}</a>
         </p>
       </section>
     }
@@ -25,16 +25,21 @@ class SSOPage extends MaharaBaseComponent {
   };
   checkIfLoggedInEveryMilliseconds = 1000;
   checkIfLoggedIn = () => {
-    maharaServer.checkIfLoggedIn(this.checkIfLoggedInResult);
+    maharaServer.checkIfLoggedIn(this.checkIfLoggedInResult, this.checkIfLoggedInFailure);
   }
-  checkIfLoggedInResult = (isLoggedIn) => {
+  checkIfLoggedInResult = (userSettings) => {
     if(this.loginChecker) clearTimeout(this.loginChecker);
-    //console.log("isLoggedIn", isLoggedIn);
-    if(isLoggedIn === true){
+    console.log("isLoggedIn", userSettings);
+    if(userSettings.loggedin){
       Router.navigate(PAGE_URL.ADD);
     } else {
       this.loginChecker = setTimeout(this.checkIfLoggedIn, this.checkIfLoggedInEveryMilliseconds);
     }
+  }
+  checkIfLoggedInFailure = (e) => {
+    console.log("sso failure", arguments);
+    if(this.loginChecker) clearTimeout(this.loginChecker);
+    this.loginChecker = setTimeout(this.checkIfLoggedIn, this.checkIfLoggedInEveryMilliseconds);
   }
   componentWillUnmount = () => {
     if(this.loginChecker) clearTimeout(this.loginChecker);

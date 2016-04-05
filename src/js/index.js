@@ -20,7 +20,10 @@ import AddLibraryPage       from './components/add-library/add-library.js';
 import AddJournalEntryPage  from './components/add-journal-entry/add-journal-entry.js';
 import EditLibraryPage      from './components/add-library/edit-library.js';
 import EditJournalEntryPage from './components/add-journal-entry/edit-journal-entry.js';
-import {PAGE, STORAGE, PAGE_CLASSNAME} from './constants.js';
+import uploadNextItem       from './upload.js';
+import {PAGE,
+        STORAGE,
+        PAGE_CLASSNAME}     from './constants.js';
 
 var container = document.getElementById('container');
 
@@ -34,9 +37,6 @@ const render = () => {
     if(match.match(/^PAGE_/)) return "";
     return match;
   }) + " " + PAGE_CLASSNAME[state.page]).trim();
-
-  //console.log(document.documentElement.classList);
-  //document.documentElement.classList = ;
 
   switch(state.page){
     case PAGE.SERVER:
@@ -107,6 +107,10 @@ const render = () => {
     </div>,
     container
   );
+
+  if(state.uploadGuid){
+    uploadNextItem(state);
+  }
 
 };
 

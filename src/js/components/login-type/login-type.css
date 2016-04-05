@@ -24,4 +24,12 @@ html.PAGE_LOGIN_TYPE {
 		width:100%;
 	}
 
+	a.noServerConfigured {
+		margin: 0 0 0 1em;
+		display: inline-block;
+		padding: 0.5em 1em;
+		color: #dcf8dc;
+		background: #3c681c;
+	}
+
 }

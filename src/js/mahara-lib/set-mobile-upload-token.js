@@ -22,6 +22,7 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
       var uploadTokenNextIndex = 0,
           existingTokens,
           postData = {},
+          foundExistingTokens = false,
           tags,
           i;
 
@@ -42,6 +43,10 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
 
         existingTokens = response.target.response.replace(/accountprefs_mobileuploadtoken\[(\d+)\]([^>]*?)>/g, function(match, index, remainder){
           var uploadTokenParts = remainder.match(/value=['"](.*?)['"]/);
+          if(foundExistingTokens === false){
+            foundExistingTokens = true;
+            that.uploadTokenIndexes = {};
+          }
           index = parseFloat(index);
           if(uploadTokenParts.length > 1 && uploadTokenParts[1].length > 0){
             that.uploadTokenIndexes[index] = uploadTokenParts[1];

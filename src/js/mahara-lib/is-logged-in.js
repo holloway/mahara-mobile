@@ -8,7 +8,10 @@ export default function ifLoggedIn(successCallback, errorCallback){
 
   // TODO: Cache logged in status for a minute or something
 
-  if(!protocolAndDomain) return errorCallback(undefined);
+  if(!protocolAndDomain) {
+    console.log("no protocol/domain");
+    return errorCallback();
+  }
 
   function successFrom(successCallback, errorCallback){
     return function(response){

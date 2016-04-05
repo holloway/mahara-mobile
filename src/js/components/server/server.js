@@ -32,12 +32,8 @@ export default class ServerPage extends MaharaBaseComponent {
       return;
     };
 
-    maharaServer.setUrl(serverUrl, next);
+    StateStore.dispatch({type:STORAGE.SET_SERVER_URL, serverUrl:serverUrl});
 
-    function next(){
-      StateStore.dispatch({type:STORAGE.SET_SERVER_URL, serverUrl: {domain: maharaServer.domain, protocol:maharaServer.protocol}});
-      StateStore.dispatch({type:STORAGE.SET_SERVER_LOGIN_TYPES, loginTypes: maharaServer.loginTypes, ssoUrl: maharaServer.ssoUrl});
-      Router.navigate(PAGE_URL.LOGIN_TYPE);
-    }
+    Router.navigate(PAGE_URL.LOGIN_TYPE);
   }
 }

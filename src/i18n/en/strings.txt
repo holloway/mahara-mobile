@@ -49,3 +49,4 @@ try_again_question=Try again?
 server_response_prefix=Response from Mahara Server says:
 sesskey_scrape_error=Unable to retrive session from Mahara.
 cant_set_upload_token_error=Unable to set upload token. Sorry, uploads will not work until this is resolved.
+login_type_error_choose_server=No server found. Please configure one.

@@ -42,16 +42,16 @@ function MaharaState(state, action) {
       break;
     case STORAGE.SET_SERVER_URL:
       state.server = state.server || {};
-      state.server.url = action.serverUrl;
+      state.server.domain = maharaServer.setUrl(action.serverUrl, afterUpdateProtocolAndLoginMethods); // Side effects... ugh
       break;
     case STORAGE.SET_SERVER_LOGIN_TYPES:
       state.server = state.server || {};
       state.server.loginTypes = action.loginTypes;
-      state.server.ssoUrl = action.ssoUrl;
+      state.server.ssoUrl     = action.ssoUrl;
+      state.server.protocol   = action.protocol;
       break;
     case STORAGE.SET_SERVER_CHOSEN_LOGIN_TYPE:
       state.server = state.server || {};
-      //console.log("setting chosen login type to", action.loginType, action);
       state.server.loginType = action.loginType;
       break;
     case STORAGE.SET_UPLOAD_TOKEN:
@@ -67,16 +67,29 @@ function MaharaState(state, action) {
       state.pendingUploads = state.pendingUploads || [];
       state.pendingUploads.push(action.journalEntry);
       break;
-    case JOURNAL.REMOVE_ENTRY:
+    case PENDING.DELETE:
       state.pendingUploads = state.pendingUploads || [];
       var pendingUploadsBefore = state.pendingUploads.length;
       arrayRemoveIf.bind(state.pendingUploads)(function(item, index){
-        return (item.type === JOURNAL.TYPE && item.guid && item.guid === action.journalGuid);
+        return (item.guid && item.guid === action.guid);
       });
       if(pendingUploadsBefore === state.pendingUploads.length){
-        console.log("Warning not able to remove journal ", action.journalGuid);
-      } else {
-        console.log("Successfully removed journal item", action.journalGuid);
+        console.log("Warning not able to remove item ", action.guid);
+      }
+      break;
+    case PENDING.UPLOAD_NEXT:
+      if(state.pendingUploads && state.pendingUploads.length){
+        state.uploadGuid = state.pendingUploads[0].guid;
+      } else { // else there's nothing to process
+        state.uploadGuid = undefined;
+      }
+      break;
+    case PENDING.STOP_UPLOADS:
+      state.uploadGuid = undefined;
+      if(state.pendingUploads && state.pendingUploads.length){
+        for(i = 0; i < state.pendingUploads.length; i++){
+          state.startedUploadAt = undefined;
+        }
       }
       break;
     case LIBRARY.ADD_ENTRY:
@@ -101,6 +114,16 @@ function MaharaState(state, action) {
   Storage.state.set(state);
 
   return state;
+}
+
+function afterUpdateProtocolAndLoginMethods(){
+  console.log("maharaServerInstance.protocol:", maharaServerInstance);
+  StateStore.dispatch({
+    type:       STORAGE.SET_SERVER_LOGIN_TYPES,
+    protocol:   maharaServerInstance.protocol,
+    loginTypes: maharaServerInstance.loginTypes,
+    ssoUrl:     maharaServerInstance.ssoUrl
+  });
 }
 
 const StateStore = createStore(MaharaState);

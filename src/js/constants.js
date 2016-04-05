@@ -40,29 +40,33 @@ export const STORAGE = {
   STATE_STORAGE_KEY:            "MaharaState",
   SET_SERVER_URL:               "SET_SERVER_URL_ACTION",
   SET_SERVER_CHOSEN_LOGIN_TYPE: "SET_SERVER_CHOSEN_LOGIN_TYPE",
-  SET_UPLOAD_TOKEN:              "SET_UPLOAD_TOKEN",
+  SET_UPLOAD_TOKEN:             "SET_UPLOAD_TOKEN",
   SET_SERVER_LOGIN_TYPES:       "SET_SERVER_LOGIN_TYPES",
   ADD_LIBRARY_ACTION:           "ADD_LIBRARY_ACTION",
   SET_SERVER_SESSION:           "SET_SERVER_SESSION"
 };
 
 export const JOURNAL = {
-  TYPE: "JOURNAL_TYPE",
-  ADD_ENTRY:  "ADD_JOURNAL_ENTRY_ACTION",
-  REMOVE_ENTRY: "REMOVE_JOURNAL_ENTRY"
+  TYPE:         "JOURNAL_TYPE",
+  ADD_ENTRY:    "JOURNAL_ADD_ENTRY",
 };
 
 export const PENDING = {
-  DELETE_ALL: "DELETE_ALL_ACTION",
-  DELETE:     "DELETE_BY_GUID"
+  DELETE_ALL:        "PENDING_DELETE_ALL",
+  DELETE:            "PENDING_DELETE_BY_GUID",
+  UPLOAD_NEXT:       "PENDING_UPLOAD_NEXT",
+  STARTED_UPLOAD_AT: "PENDING_STARTED_UPLOAD_AT",
+  STOP_UPLOADS:      "PENDING_STOP_UPLOADS"
 };
 
 export const LIBRARY = {
-  TYPE: "LIBRARY_TYPE",
-  ADD_ENTRY:  "ADD_LIBRARY_ENTRY_ACTION"
+  TYPE:       "LIBRARY_TYPE",
+  ADD_ENTRY:  "LIBRARY_ADD_ENTRY"
 };
 
 export const LOGIN_TYPE = {
-  LOCAL: "LOCAL",
-  SINGLE_SIGN_ON: "SINGLE_SIGN_ON"
+  LOCAL:          "LOGIN_LOCAL", //NOTE: the value must be identical values to constants of maraha-lib/constants.js too
+  SINGLE_SIGN_ON: "LOGIN_SINGLE_SIGN_ON" //NOTE: the value must be identical values to constants of maraha-lib/constants.js too
 };
+
+export const REATTEMPT_UPLOADS_AFTER_MILLISECONDS = 5 * 60 * 1000;

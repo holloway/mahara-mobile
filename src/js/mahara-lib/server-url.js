@@ -5,6 +5,7 @@ import {LOGIN_TYPE} from './constants.js';
 export default function autoDetectServerUrl(callback, previousDomain){
   var that = this,
       checkedProtocols = {"https": undefined, "http": undefined},
+      logoutPath = "/?logout",
       successFrom = function(protocol){
         return function(response){
           var LOCALs = ["login_username", '"token"'], // scrape html for these fragments to indicate support for features. Not happy with this but necessary until we get API support (see README.md SERVER-TODO)
@@ -81,7 +82,7 @@ export default function autoDetectServerUrl(callback, previousDomain){
       };
 
   for(var protocol in checkedProtocols){
-    httpLib.get(protocol + "://" + this.domain, undefined, successFrom(protocol), failureFrom(protocol));
+    httpLib.get(protocol + "://" + this.domain + logoutPath, undefined, successFrom(protocol), failureFrom(protocol));
   }
 }
 
@@ -95,4 +96,6 @@ export function setUrl(url, callback){
   var previousDomain = this.domain;
   this.domain = url.replace(/^.*?\:\/\//, '').replace(/\/.*?$/, ''); //remove any protocol and any path but leave any port numbers
   this.autoDetectProtocolAndLoginMethod(callback, previousDomain);
+  return this.domain;
 }
+
