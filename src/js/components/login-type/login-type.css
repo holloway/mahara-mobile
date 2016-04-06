@@ -11,7 +11,8 @@ html.PAGE_LOGIN_TYPE {
 		color:white;
 	}
 
-	button {
+	button.loginType,
+	button.changeServer {
 		display:inline-block;
 		box-sizing: border-box;
 		font-size:xx-large;
@@ -24,12 +25,18 @@ html.PAGE_LOGIN_TYPE {
 		width:100%;
 	}
 
-	a.noServerConfigured {
-		margin: 0 0 0 1em;
-		display: inline-block;
-		padding: 0.5em 1em;
-		color: #dcf8dc;
-		background: #3c681c;
+	p.textLinks {
+		text-align:right;
+	}
+
+	a.changeServer {
+		background: transparent;
+		color: #fff;
+		font-size: inherit;
+		border: none;
+		text-decoration: underline;
+		padding: 0px;
+		margin-left:1em;
 	}
 
 }

@@ -4,17 +4,22 @@ import MaharaBaseComponent from '../base.js';
 import StateStore,
        {maharaServer}      from '../../state.js';
 import Router              from '../../router.js';
-import {PAGE, PAGE_URL, STORAGE} from '../../constants.js';
+import {PAGE,
+        LOGIN,
+        PAGE_URL,
+        STORAGE}           from '../../constants.js';
 
 class LoginPage extends MaharaBaseComponent {
   render() {
     return <section>
-      <p className="textLinks">({maharaServer.domain} - <button onClick={this.backButton} className="changeServer">{this.gettext('wizard_change_server')}</button>)</p>
+      <p className="textLinks">
+        {this.props.server && this.props.server.domain ? "(" + this.props.server.domain + ")" : ""}
+        <button onClick={this.backButton} className="changeServer">{this.gettext('wizard_change_server')}</button>
+      </p>
       <label htmlFor="username">{this.gettext('username')}</label>
       <input type="text" ref="username" id="username"/>
       <label htmlFor="password">{this.gettext('password')}</label>
       <input type="password" ref="password" id="password"/>
-      <button onClick={this.forgotPassword} className="forgotPassword">{this.gettext('forgot_password')}</button>
       <button onClick={this.nextButton} className="next">{this.gettext('wizard_login_button')}</button>
     </section>;
   }
@@ -24,10 +29,6 @@ class LoginPage extends MaharaBaseComponent {
         Router.navigate(PAGE_URL.SERVER);
       });
     }
-  }
-  forgotPassword = (e) => {
-    e.preventDefault();
-    alert("Not implemented"); //TODO: implement this
   }
   backButton = (e) => {
     Router.navigate(PAGE_URL.SERVER);
@@ -44,17 +45,27 @@ class LoginPage extends MaharaBaseComponent {
       alertify.okBtn(this.gettext("alert_ok_button")).alert(this.gettext("password_empty_validation"));
       return;
     };
-    maharaServer.usernamePasswordLogin(username, password, successfulLogin, failedLogin);
-    function successfulLogin(loginDetails){
-      StateStore.dispatch({type:STORAGE.SET_SERVER_SESSION, token:loginDetails.token, user: loginDetails.user});
-      alertify.okBtn(that.gettext("alert_ok_button")).alert(that.gettext("logged_in_as") + loginDetails.user, next);
-      function next(){
+
+    maharaServer.usernamePasswordLogin(username, password, successCallback, errorCallback);
+
+    function successCallback(response){
+      if(response.loggedIn){
+        StateStore.dispatch({type:LOGIN.AFTER_LOGIN_GET_PROFILE});
         Router.navigate(PAGE_URL.ADD);
+      } else {
+        alertify.okBtn(that.gettext("alert_ok_button"))
+                .alert(that.gettext("server_says_wrong_username_password"));
       }
     }
-    function failedLogin(){
-      // FIXME: differentiate between different types of failed login
-      alertify.okBtn(that.gettext("alert_ok_button")).alert(that.gettext("server_says_wrong_username_password"));
+
+    function errorCallback(response){
+      if(response.error){
+        console.log("Error logging in", response);
+        return;
+      }
+      // TODO: differentiate between different types of failed login
+      alertify.okBtn(that.gettext("alert_ok_button"))
+              .alert(that.gettext("server_login_error"));
     }
   }
 }

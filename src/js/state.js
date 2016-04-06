@@ -5,10 +5,11 @@ import Storage         from './storage.js';
 import MaharaServer    from './mahara-lib/mahara-server.js';
 import {arrayRemoveIf} from './util.js';
 import {PAGE,
-       STORAGE,
-       JOURNAL,
-       PENDING,
-       LIBRARY}        from './constants.js';
+        LOGIN,
+        STORAGE,
+        JOURNAL,
+        PENDING,
+        LIBRARY}       from './constants.js';
 
 const maharaServerInstance = new MaharaServer();
 
@@ -42,7 +43,25 @@ function MaharaState(state, action) {
       break;
     case STORAGE.SET_SERVER_URL:
       state.server = state.server || {};
-      state.server.domain = maharaServer.setUrl(action.serverUrl, afterUpdateProtocolAndLoginMethods); // Side effects... ugh
+      state.server.url = action.serverUrl;
+      state.startAutoDetectingProtocolAndLoginMethod = true;
+      break;
+    case STORAGE.SET_SERVER_DOMAIN:
+      state.server = state.server || {};
+      state.server.domain = action.domain;
+      maharaServerInstance.domain = action.domain;
+      break;
+    case STORAGE.STOP_AUTODETECTING:
+      state.startAutoDetectingProtocolAndLoginMethod = undefined;
+      break;
+    case STORAGE.AUTODETECTED_SERVER:
+      state.server = state.server || {};
+      state.server.loginTypes = action.loginTypes;
+      state.server.protocol = action.protocol;
+      state.server.ssoUrl = action.ssoUrl;
+      maharaServerInstance.loginTypes = action.loginTypes;
+      maharaServerInstance.protocol = action.protocol;
+      maharaServerInstance.ssoUrl = action.ssoUrl;
       break;
     case STORAGE.SET_SERVER_LOGIN_TYPES:
       state.server = state.server || {};
@@ -53,15 +72,21 @@ function MaharaState(state, action) {
     case STORAGE.SET_SERVER_CHOSEN_LOGIN_TYPE:
       state.server = state.server || {};
       state.server.loginType = action.loginType;
+      maharaServerInstance.loginType = action.loginType;
       break;
     case STORAGE.SET_UPLOAD_TOKEN:
       if(console.trace) console.trace();
       console.log("Should not set upload token in state. Check previous trace to remove offending code.");
       break;
-    case STORAGE.SET_SERVER_SESSION:
+    case STORAGE.SET_USER_PROFILE:
       state.server = state.server || {};
-      state.server.token = action.token;
-      state.server.user  = action.user;
+      state.server.profile = action.profile;
+      maharaServerInstance.profile = action.profile;
+      break;
+    case STORAGE.SET_USER_SYNC_DATA:
+      state.server = state.server || {};
+      state.server.sync = action.sync;
+      maharaServerInstance.sync = action.sync;
       break;
     case JOURNAL.ADD_ENTRY:
       state.pendingUploads = state.pendingUploads || [];
@@ -75,6 +100,21 @@ function MaharaState(state, action) {
       });
       if(pendingUploadsBefore === state.pendingUploads.length){
         console.log("Warning not able to remove item ", action.guid);
+      }
+      break;
+    case PENDING.STARTED_UPLOAD_AT:
+      state.pendingUploads = state.pendingUploads || [];
+      var foundItem = false;
+      state.pendingUploads.map(function(item, index){
+        if(item.guid && item.guid === action.guid){
+          foundItem = true;
+          item.startedUploadAt = action.startedUploadAt;
+        }
+      });
+      if(!foundItem) {
+        var msg = "Fatal problem finding guid=" + action.guid;
+        alert(msg);
+        throw msg;
       }
       break;
     case PENDING.UPLOAD_NEXT:
@@ -108,6 +148,12 @@ function MaharaState(state, action) {
           state.pendingUploads.splice(i, 1);
         }
       }
+      break;
+    case LOGIN.AFTER_LOGIN_GET_PROFILE:
+      state.getProfile = true;
+      break;
+    case LOGIN.STOP_GETTING_PROFILE:
+      state.getProfile = undefined;
       break;
   }
 

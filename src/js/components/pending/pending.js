@@ -7,13 +7,19 @@ import {PENDING}           from '../../constants.js';
 import PendingItem         from './pending-item.js';
 
 class Pending extends MaharaBaseComponent {
+  constructor(){
+    super();
+    this.deleteAll = this.deleteAll.bind(this);
+    this.uploadAll = this.uploadAll.bind(this);
+    this.renderButtonTray = this.renderButtonTray.bind(this);
+  }
   render() {
     return <section>
       {this.renderPendingUploads()}
-      {this.renderDeleteAll()}
+      {this.renderButtonTray()}
     </section>;
   }
-  deleteAll = () => {
+  deleteAll(){
     var reallyDeleteAll = function(){
       StateStore.dispatch({type:PENDING.DELETE_ALL});
     }
@@ -21,9 +27,20 @@ class Pending extends MaharaBaseComponent {
             .cancelBtn(this.gettext("button_cancel"))
             .confirm(this.gettext("confirm_delete_all"), reallyDeleteAll);
   }
-  renderDeleteAll = () => {
+  uploadAll(){
+    var journalEntry,
+        that = this,
+        dontReattemptUploadWithinMilliseconds = 1000 * 60 * 10;
+
+    if(!this.props.pendingUploads || this.props.pendingUploads.length === 0) return;
+
+    StateStore.dispatch({type:PENDING.UPLOAD_NEXT});
+  }
+  renderButtonTray(){
     if(this.noPendingUploads()) return "";
-    return <div className="deleteAllButtonTray">
+    return <div className="buttonTray">
+      <button onClick={this.uploadAll} className="uploadAll small">{this.gettext("upload_all_button")}</button>
+      &nbsp;
       <button onClick={this.deleteAll} className="deleteAll small">{this.gettext("delete_all_button")}</button>
     </div>
   }

@@ -1,6 +1,8 @@
 /*jshint esnext: true */
 import httpLib      from './http-lib.js';
 
+import {parseUserConfigFromHTML} from './get-user-profile.js';
+
 export default function localLogin(username, password, successCallback, errorCallback){
   var protocolAndDomain = this.getServerProtocolAndDomain(),
       loginPath = "/",
@@ -8,37 +10,38 @@ export default function localLogin(username, password, successCallback, errorCal
 
   if(!protocolAndDomain) return errorCallback();
 
-  httpLib.post(protocolAndDomain + this.loginPath, undefined, {
+  httpLib.post(protocolAndDomain + loginPath, undefined, {
       login_username:username,
       login_password:password,
       submit:"Login",
       login_submitted: 1,
       sesskey: "",
       pieform_login: "",
-    }, scrapeFromResponse(successCallback), errorCallback);
+    }, scrapeFromResponse(successCallback, errorCallback), errorCallback);
 
-  function scrapeFromResponse(fn){
+  function scrapeFromResponse(successCallback, errorCallback){
     return function(response){
-      var responseData,
-          login;
+      var sessionDetails = /loggedin["']\s*?:\s*?1/,
+          closingScriptTag = "</script>",
+          responseData,
+          loggedIn,
+          settings;
 
-      if(!response.target || !response.target.response || !response.target.response.match('{"token":"') || !response.target.response.match("</script>")){
-        console.log("Unable to scrape session from response so can't login (1). Response was", responseData);
-        return errorCallback();
+      if(!response.target || !response.target.response){
+        console.log("Unable to scrape session from response so can't login (1). Response was", response.target);
+        return errorCallback({error:true, data:response.target});
       }
-      responseData = response.target.response;
-      responseData = responseData.substr(responseData.indexOf("</script>") + "</script>".length);
-      try {
-        login = JSON.parse(responseData);
-      } catch(e){
-        console.log("Unable to scrape session from response so can't login (2). Response was", responseData);
-        return errorCallback();
+
+      if(!response.target.response.match(sessionDetails) || !response.target.response.match(closingScriptTag)){
+        console.log("Unable to scrape session from response so can't login (2). Response was", response.target);
+        return errorCallback({error:true, loggedIn:false, data:response.target});
       }
-      if(login.token) that.token = login.token;
-      if(login.user)  that.user  = login.user;
-      var args = Array.prototype.slice.call(arguments);
-      args.unshift(login);
-      fn.apply(this, args);
+
+      settings = parseUserConfigFromHTML(response.target.response);
+
+      loggedIn = (parseFloat(settings.loggedin) === 1);
+
+      successCallback({error: !loggedIn, loggedIn:loggedIn, data:settings});
     };
   }
 }

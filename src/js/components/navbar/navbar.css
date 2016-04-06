@@ -7,7 +7,6 @@
 
 nav {
   @mixin reset;
-	margin-right:50px;
 	text-align:center;
 
   ul {
@@ -19,18 +18,13 @@ nav {
     display:inline-block;
     width:33.33%;
     text-align:center;
-    background: #333;
+    background-color: #333;
+		background-position: 99% center;
+		background-repeat: no-repeat;
+		background-size: 25px 25px;
 		box-sizing: border-box;
 		border-right: 1px solid #aaa;
   }
-
-	li:last-child {
-		position:absolute;
-		right:0px;
-		width: 100%;
-		max-width:50px;
-		border:none;
-	}
 
   a {
     color: white;
@@ -57,7 +51,7 @@ nav {
   }
 
 	li.active {
-		background: #333;
+		background-color: #333;
     box-shadow: inset -30px 0 30px -30px #000, inset 30px 0 30px -30px #000;
     color:white;
 	}

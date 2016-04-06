@@ -2,7 +2,7 @@
 
 A Mahara app for offline use.
 
-It's based on HTML5 and Phonegap.
+The technology is JavaScript ES6, React, Redux, and Phonegap.
 
 ## Smartphone Install
 
@@ -14,13 +14,15 @@ Download this repository and then run,
 
     npm install
 
-Next build the application using `node_modules/.bin/gulp` and then use the `./www/` output directory as a Phonegap project.
+Next build the application,
 
-cordova plugin add cordova-plugin-camera
+    npm run build
 
-cordova plugin add cordova-plugin-camera
+And then use the `./www/` output directory as a Phonegap project (`cordova run android`), or run,
 
- (e.g. zip it and upload it to Phonegap Build).
+    npm run devwebserver
+
+...to use it in your browser. Note that as certain plugins aren't available some features are disabled for browser use.
 
 ## Troubleshooting
 
@@ -28,13 +30,15 @@ cordova plugin add cordova-plugin-camera
 
 It might be caused by http://stackoverflow.com/a/30240520
 
-
 # TODO
 
 ## Server
 
-Mahara Server needs Mobile APIs for,
+The app currently scrapes details out of a Mahara Server instance which obviously isn't ideal.
 
+So this is a list of Mobile APIs that we need,
+
+* Deprecate/discard tokens, just use sessions like regular users
 * Login
 * Login types available (local user, SSO)
 * SSO URL

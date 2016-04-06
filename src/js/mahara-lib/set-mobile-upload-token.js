@@ -12,23 +12,31 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
 
   if(!protocolAndDomain) return errorCallback({error:true, message:"No protocol and domain from set-mobile-upload.js"});
 
-  this.checkIfLoggedIn(function(userData){
-    // first, we need to scrape the session key
-    httpLib.get(protocolAndDomain + tokenPath, undefined, successFrom(successCallback, errorCallback, METHOD_GET, userData), failureFrom(errorCallback, METHOD_GET));
-  }, errorCallback);
+  if(!that.uploadTokenNextIndex) that.uploadTokenNextIndex = 0;
 
-  function successFrom(successCallback, errorCallback, method, userData){
+  this.getLoginStatus(afterLoginStatusCheck, errorCallback);
+
+  function afterLoginStatusCheck(loggedIn){
+    if(loggedIn){
+      // first, we need to scrape the session key
+      httpLib.get(protocolAndDomain + tokenPath, undefined, successFrom(successCallback, errorCallback, METHOD_GET), failureFrom(errorCallback, METHOD_GET));
+    } else {
+      errorCallback({error:true, isLoggedIn:false});
+    }
+  }
+
+
+  function successFrom(successCallback, errorCallback, method){
     return function(response){
-      var uploadTokenNextIndex = 0,
-          existingTokens,
+      var existingTokens,
           postData = {},
-          foundExistingTokens = false,
           tags,
           i;
 
       if(!response || !response.target || !response.target.response) return errorCallback({error:true, message:"Unable to set token.", data:response});
 
       if(method === METHOD_GET){
+
         tags = response.target.response.match(/<[^>]+>/g);
         for(i = 0; i < tags.length; i++){
           if(tags[i].match(/name=["']sesskey["']/)){
@@ -39,45 +47,44 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
           }
         }
 
+        if(!sesskey){
+          console.log("Unable to scrape sesskey from ", response.target.response);
+          return errorCallback({error:true, scrapingSesskeyProblem:true, message: "No sesskey found in response.", data:response.target.response});
+        } else {
+          console.log("Able to scrape sesskey", sesskey);
+        }
+
         if(!that.uploadTokenIndexes) that.uploadTokenIndexes = {};
 
         existingTokens = response.target.response.replace(/accountprefs_mobileuploadtoken\[(\d+)\]([^>]*?)>/g, function(match, index, remainder){
           var uploadTokenParts = remainder.match(/value=['"](.*?)['"]/);
-          if(foundExistingTokens === false){
-            foundExistingTokens = true;
-            that.uploadTokenIndexes = {};
-          }
           index = parseFloat(index);
           if(uploadTokenParts.length > 1 && uploadTokenParts[1].length > 0){
             that.uploadTokenIndexes[index] = uploadTokenParts[1];
-            if(uploadTokenNextIndex < index) uploadTokenNextIndex = index;
+            if(that.uploadTokenNextIndex < index) that.uploadTokenNextIndex = index;
           }
         });
 
         for(i in that.uploadTokenIndexes){
           if(that.uploadTokenIndexes.hasOwnProperty(i)){
             postData["accountprefs_mobileuploadtoken[" + i + "]"]  = that.uploadTokenIndexes[i];
-            if(uploadTokenNextIndex < parseFloat(i)) uploadTokenNextIndex = parseFloat(i);
+            if(that.uploadTokenNextIndex < parseFloat(i)) that.uploadTokenNextIndex = parseFloat(i);
           }
         }
 
-        uploadTokenNextIndex++; // use next available index
-        that.uploadTokenIndexes[uploadTokenNextIndex] = token;
-        postData["accountprefs_mobileuploadtoken[" + uploadTokenNextIndex + "]"] = token;
+        that.uploadTokenNextIndex++; // use next available index
+        that.uploadTokenIndexes[that.uploadTokenNextIndex] = token;
+        postData["accountprefs_mobileuploadtoken[" + that.uploadTokenNextIndex + "]"] = token;
 
-        if(!sesskey){
-          return errorCallback({error:true, sesskeyError:true});
-        } else {
-          postData.sesskey = sesskey;
-          postData.pieform_accountprefs = ""; // form must have these to be accepted by Mahara Server
-          postData.pieform_jssubmission = "1";
-          httpLib.post(protocolAndDomain + tokenPath, undefined, postData, successFrom(successCallback, errorCallback, METHOD_POST, userData), failureFrom(errorCallback, METHOD_POST));
-        }
+        postData.sesskey = sesskey;
+        postData.pieform_accountprefs = ""; // form must have these to be accepted by Mahara Server
+        postData.pieform_jssubmission = "1";
+        httpLib.post(protocolAndDomain + tokenPath, undefined, postData, successFrom(successCallback, errorCallback, METHOD_POST), failureFrom(errorCallback, METHOD_POST));
       } else {
         if(!!response.target.response.match(token)){ // ensure token is in response
-          successCallback(token, userData);
+          successCallback(token);
         } else {
-          errorCallback({error:true, data:response.target, message:"Couldn't find token in response"});
+          errorCallback({error:true, tokenNotSet:true, data:response.target, message:"Couldn't find token in response"});
         }
       }
     };
@@ -85,7 +92,7 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
 
   function failureFrom(errorCallback, method){
     return function(response){
-      errorCallback({error:true, message:"Unable to set token.", data:response});
+      errorCallback({error:true, tokenNotSet:true, message:"Unable to set token.", data:response});
     };
   }
 

@@ -48,6 +48,7 @@ html.PAGE_LOGIN {
 		border: none;
 		text-decoration: underline;
 		padding: 0px;
+		margin-left:1em;
 	}
 
 	p.textLinks {

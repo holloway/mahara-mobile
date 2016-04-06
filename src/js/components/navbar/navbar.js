@@ -6,8 +6,7 @@ import MaharaBaseComponent from '../base.js';
 var menuItems = [
   {menuType: PAGE.USER,    stringId:'menu_user'},
   {menuType: PAGE.ADD,     stringId:'menu_add'},
-  {menuType: PAGE.PENDING, stringId:'menu_pending'},
-  {menuType: PAGE.SYNC,    stringId:'menu_sync', states: {
+  {menuType: PAGE.PENDING, stringId:'menu_pending', states: {
       inactive: {
         stringId: 'not_syncing',
         imageUrl: 'image/no-network-access.svg',
@@ -26,13 +25,14 @@ class NavBar extends MaharaBaseComponent {
     var propsMenuBase = this.getPropsMenuBase();
     return <nav>
         <ul>
+
+
           {menuItems.map(function(item, index){
-            return <li key={item.menuType} ref={"menu" + item.menuType} className={item.menuType === propsMenuBase ? "active": ""}>
+            return <li key={item.menuType} ref={"menu" + item.menuType} className={item.menuType === propsMenuBase ? "active": ""} style={that.renderStyles(item)}>
               <a href={"#" + PAGE_URL[item.menuType]}>
                 {that.gettext(item.stringId)}
                 {item.menuType === that.props.menu ? <span className="sr-only"> ({that.gettext('menu_active')})</span>: ""}
                 {that.renderBadge(item.menuType)}
-                {that.renderSyncState(item)}
               </a>
             </li>;
           })}
@@ -81,10 +81,10 @@ class NavBar extends MaharaBaseComponent {
     }
     return "";
   }
-  renderSyncState = (item) => {
-    if(item.menuType !== PAGE.SYNC) return "";
-    var activeOrInactive = this.props.currentlySyncing ? item.states.active : item.states.inactive;
-    return <img src={activeOrInactive.imageUrl} alt={this.gettext(activeOrInactive.stringId)}/>;
+  renderStyles = (item) => {
+    if(item.menuType !== PAGE.PENDING) return {};
+    var activeOrInactive = this.props.uploadGuid ? item.states.active : item.states.inactive;
+    return {backgroundImage: 'url("' + activeOrInactive.imageUrl + '")'};
   }
 }
 

@@ -14,14 +14,17 @@ import LoginPage            from './components/login/login.js';
 import SSOPage              from './components/sso/sso.js';
 import UserPage             from './components/user/user.js';
 import PendingPage          from './components/pending/pending.js';
-import SyncPage             from './components/sync/sync.js';
 import AddPage              from './components/add/add.js';
 import AddLibraryPage       from './components/add-library/add-library.js';
 import AddJournalEntryPage  from './components/add-journal-entry/add-journal-entry.js';
 import EditLibraryPage      from './components/add-library/edit-library.js';
 import EditJournalEntryPage from './components/add-journal-entry/edit-journal-entry.js';
 import uploadNextItem       from './upload.js';
+import {afterLoginGetProfile,
+       afterUpdateProtocolAndLoginMethods}
+                            from './after.js';
 import {PAGE,
+        LOGIN,
         STORAGE,
         PAGE_CLASSNAME}     from './constants.js';
 
@@ -66,9 +69,6 @@ const render = () => {
     case PAGE.PENDING:
       page = <PendingPage {...state}/>;
       break;
-    case PAGE.SYNC:
-      page = <SyncPage {...state}/>;
-      break;
     case PAGE.EDIT_LIBRARY:
       page = <EditLibraryPage {...state}/>;
       break;
@@ -85,7 +85,6 @@ const render = () => {
     case PAGE.EDIT_JOURNAL_ENTRY:
     case PAGE.EDIT_LIBRARY:
     case PAGE.PENDING:
-    case PAGE.SYNC:
       bar = <NavBar {...state}/>;
       break;
     case PAGE.SERVER:
@@ -110,6 +109,14 @@ const render = () => {
 
   if(state.uploadGuid){
     uploadNextItem(state);
+  }
+  if(state.getProfile){
+    StateStore.dispatch({type:LOGIN.STOP_GETTING_PROFILE});
+    afterLoginGetProfile();
+  }
+  if(state.startAutoDetectingProtocolAndLoginMethod){
+    StateStore.dispatch({type:STORAGE.STOP_AUTODETECTING});
+    afterUpdateProtocolAndLoginMethods(state.server.url);
   }
 
 };

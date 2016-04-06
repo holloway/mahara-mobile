@@ -1,33 +1,33 @@
 /*jshint esnext: true */
 import httpLib      from './http-lib.js';
 
-export default function logOut(callback){
+export default function logOut(successCallback, errorCallback){
   var logoutPath = "/?logout",
       protocolAndDomain = this.getServerProtocolAndDomain();
 
   if(!protocolAndDomain){
-    callback(undefined);
+    errorCallback({error:true, noProtocolOrDomain:true, data:this});
     return;
   }
 
-  var successFrom = function(callback){
+  var successFrom = function(successCallback, errorCallback){
     return function(response){
       var LOGGEDIN = [/\?logout/];
 
       if(!response || !response.target || !response.target.response){
-        callback(undefined);
+        errorCallback(undefined);
         return;
       }
 
-      callback(!!response.target.response.match(LOGGEDIN[0]));
+      successCallback(!!response.target.response.match(LOGGEDIN[0]));
     };
   };
 
   var failureFrom = function(callback){
     return function(response){
-      callback(undefined);
+      errorCallback({error:true, data:response});
     };
   };
 
-  httpLib.get(protocolAndDomain + logoutPath, undefined, successFrom(callback), failureFrom(callback));
+  httpLib.get(protocolAndDomain + logoutPath, undefined, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
 }

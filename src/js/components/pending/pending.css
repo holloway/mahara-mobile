@@ -39,13 +39,15 @@ html.PAGE_PENDING {
 
 	}
 
-	div.deleteAllButtonTray {
+	div.buttonTray {
 		clear:both;
 		padding-top: 1em;
 		margin-top: 1.5em;
+
+		button {
+			padding: 0.8em 1em;
+		}
 	}
 
-	button.deleteAll {
-		padding: 0.8em 1em;
-	}
+
 }

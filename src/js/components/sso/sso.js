@@ -2,14 +2,18 @@
 import React               from 'react';
 import MaharaBaseComponent from '../base.js';
 import StateStore,
-       {maharaServer}          from '../../state.js';
+       {maharaServer}      from '../../state.js';
 import Router              from '../../router.js';
-import {PAGE, PAGE_URL, STORAGE} from '../../constants.js';
+import {PAGE,
+        LOGIN,
+        PAGE_URL,
+        STORAGE}           from '../../constants.js';
 
 class SSOPage extends MaharaBaseComponent {
   render() {
+    console.log("maharaServer.ssoUrl", maharaServer.ssoUrl);
     if(maharaServer.ssoUrl){
-      return <iframe src={maharaServer.ssoUrl} ref="iframe"></iframe>
+      return <iframe src={maharaServer.ssoUrl} ref="iframe" onError={this.iframeError}></iframe>
     } else {
       return <section>
         <p>
@@ -25,15 +29,16 @@ class SSOPage extends MaharaBaseComponent {
   };
   checkIfLoggedInEveryMilliseconds = 1000;
   checkIfLoggedIn = () => {
-    maharaServer.checkIfLoggedIn(this.checkIfLoggedInResult, this.checkIfLoggedInFailure);
+    maharaServer.getLoginStatus(this.checkIfLoggedInResult, this.checkIfLoggedInFailure);
   }
-  checkIfLoggedInResult = (userSettings) => {
+  checkIfLoggedInResult = (isLoggedIn) => {
     if(this.loginChecker) clearTimeout(this.loginChecker);
-    console.log("isLoggedIn", userSettings);
-    if(userSettings.loggedin){
+    console.log("isLoggedIn", isLoggedIn);
+    if(isLoggedIn){
       Router.navigate(PAGE_URL.ADD);
+      StateStore.dispatch({type:LOGIN.AFTER_LOGIN_GET_PROFILE});
     } else {
-      this.loginChecker = setTimeout(this.checkIfLoggedIn, this.checkIfLoggedInEveryMilliseconds);
+      if(!this.hasUnmounted) this.loginChecker = setTimeout(this.checkIfLoggedIn, this.checkIfLoggedInEveryMilliseconds);
     }
   }
   checkIfLoggedInFailure = (e) => {
@@ -42,6 +47,7 @@ class SSOPage extends MaharaBaseComponent {
     this.loginChecker = setTimeout(this.checkIfLoggedIn, this.checkIfLoggedInEveryMilliseconds);
   }
   componentWillUnmount = () => {
+    this.hasUnmounted = true; //TODO: refactor this into Redux
     if(this.loginChecker) clearTimeout(this.loginChecker);
   }
   goBackToServer = () => {

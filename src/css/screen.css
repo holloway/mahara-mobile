@@ -40,7 +40,6 @@ body,
 @import "../js/components/add-library/add-library.css";
 @import "../js/components/add-journal-entry/add-journal-entry.css";
 @import "../js/components/pending/pending.css";
-@import "../js/components/sync/sync.css";
 @import "../js/components/expand-collapse/expand-collapse.css";
 @import "../js/components/react-tagsinput/react-tagsinput.css";
 @import "../lib/alertify.js/alertify.css";

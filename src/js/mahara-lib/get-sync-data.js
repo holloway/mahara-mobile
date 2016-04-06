@@ -8,8 +8,10 @@ export default function getSyncData(successCallback, errorCallback){
 
   if(!protocolAndDomain) return errorCallback({error:true});
 
-  this.setMobileUploadToken(that.generateUploadToken(), function(uploadToken, userData){
-    httpLib.get(protocolAndDomain + syncPath, {token:uploadToken, username:userData.username}, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
+  if(!that.profile || !that.profile.username)  return errorCallback({error:true, isLoggedIn:false});
+
+  this.setMobileUploadToken(that.generateUploadToken(), function(uploadToken){
+    httpLib.get(protocolAndDomain + syncPath, {token:uploadToken, username:that.profile.username}, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
   }, failureFrom(errorCallback));
 
   function successFrom(successCallback, errorCallback){
@@ -24,8 +26,6 @@ export default function getSyncData(successCallback, errorCallback){
       }
 
       if(!jsonResponse || jsonResponse.fail) return errorCallback({error:true, noPermission:true, message:jsonResponse.fail, data:jsonResponse});
-
-      console.log("succes????!?", jsonResponse);
 
       successCallback(jsonResponse);
     };

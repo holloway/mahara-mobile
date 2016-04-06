@@ -9,8 +9,18 @@ import Router              from '../../router.js';
 export default class ServerPage extends MaharaBaseComponent {
   constructor(props) {
     super(props);
+    var serverUrl;
+    console.log(props);
+
+    if(props.server && props.server.domain){
+      serverUrl = props.server.domain;
+      if(props.server.protocol){
+        serverUrl = props.server.protocol + "://" + serverUrl;
+      }
+    }
+
     this.state = {
-      serverUrl: props.server && props.server.url && props.server.url.protocol && props.server.url.domain ? (props.server.url.protocol + "://" + props.server.url.domain) : ""
+      serverUrl: serverUrl
     };
   }
   render() {
@@ -24,8 +34,7 @@ export default class ServerPage extends MaharaBaseComponent {
     this.setState({serverUrl: this.refs.serverUrl.value});
   }
   nextButton = (e) => {
-    var serverUrl = this.refs.serverUrl.value,
-        that      = this;
+    var serverUrl = this.refs.serverUrl.value;
 
     if(serverUrl.trim().length === 0) {
       alertify.alert(this.gettext("server_url_empty_validation"));

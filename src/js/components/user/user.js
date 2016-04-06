@@ -22,8 +22,11 @@ class User extends MaharaBaseComponent {
     alertify.cancelBtn(this.gettext("button_cancel"));
     alertify.confirm(this.gettext("logout_confirmation"), function (e, str) {
       if(e){
-        maharaServer.logout(function(isLoggedIn){
+        maharaServer.logOut(function(isLoggedIn){
           console.log("Is logged in?", isLoggedIn);
+          Router.navigate(PAGE_URL.LOGIN_TYPE);
+        }, function(err){
+          console.log("Couldn't logout. This probably doesn't matter.", err);
           Router.navigate(PAGE_URL.LOGIN_TYPE);
         });
       } else {

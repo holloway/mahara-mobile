@@ -3,13 +3,13 @@
     <name>Mahara Mobile</name>
     <description>
       Android uploader for Mahara, the open-source ePortfolio.
-      MaharaDroid enables Android phones to share or upload content to a Mahara site. It allows you to:
+      MaharaMobile enables Android phones to share or upload content to a Mahara site. It allows you to:
       - upload photos from your phone
       - create journal entries on your phone
       - receive your Mahara notifications on your phone
       - create Mahara content while offline, and schedule it to upload automatically at a later time
 
-      MaharaDroid is an open-source project. To contribute or report bugs, see https://github.com/holloway/mahara-mobile
+      MaharaMobile is an open-source project. To contribute or report bugs, see https://github.com/holloway/mahara-mobile
     </description>
     <author email="mahara-mobile@mahara.org" href="http://mahara.org/">
         Maraha Mobile by Catalyst IT
@@ -20,8 +20,9 @@
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.CameraLauncher" />
     </feature>
-    
+
     <access origin="*" />
+
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
