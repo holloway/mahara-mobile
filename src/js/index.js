@@ -15,9 +15,7 @@ import SSOPage              from './components/sso/sso.js';
 import UserPage             from './components/user/user.js';
 import PendingPage          from './components/pending/pending.js';
 import AddPage              from './components/add/add.js';
-import AddLibraryPage       from './components/add-library/add-library.js';
 import AddJournalEntryPage  from './components/add-journal-entry/add-journal-entry.js';
-import EditLibraryPage      from './components/add-library/edit-library.js';
 import EditJournalEntryPage from './components/add-journal-entry/edit-journal-entry.js';
 import uploadNextItem       from './upload.js';
 import {afterLoginGetProfile,
@@ -63,14 +61,8 @@ const render = () => {
     case PAGE.ADD_JOURNAL_ENTRY:
       page = <AddJournalEntryPage {...state}/>;
       break;
-    case PAGE.ADD_LIBRARY:
-      page = <AddLibraryPage {...state}/>;
-      break;
     case PAGE.PENDING:
       page = <PendingPage {...state}/>;
-      break;
-    case PAGE.EDIT_LIBRARY:
-      page = <EditLibraryPage {...state}/>;
       break;
     case PAGE.EDIT_JOURNAL_ENTRY:
       page = <EditJournalEntryPage {...state}/>;
@@ -81,9 +73,7 @@ const render = () => {
     case PAGE.USER:
     case PAGE.ADD:
     case PAGE.ADD_JOURNAL_ENTRY:
-    case PAGE.ADD_LIBRARY:
     case PAGE.EDIT_JOURNAL_ENTRY:
-    case PAGE.EDIT_LIBRARY:
     case PAGE.PENDING:
       bar = <NavBar {...state}/>;
       break;

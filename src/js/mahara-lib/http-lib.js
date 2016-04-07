@@ -42,8 +42,10 @@ export default {
       successCallback.call(this, jsonData, arguments);
     };
   },
-  post: function(path, getParams, postParams, successCallback, errorCallback, headers){
+  postText: function(path, getParams, postParams, successCallback, errorCallback, headers){
+    // Can only handle key:values of text, no blobs
     var postData;
+
     if(postParams){
       postData = "";
       for(var key in postParams){
@@ -52,6 +54,9 @@ export default {
       if(!headers) headers = {};
       headers["Content-type"] = "application/x-www-form-urlencoded";
     }
+    return this.raw("POST", headers, path, getParams, postData, successCallback, errorCallback);
+  },
+  postData: function(path, getParams, postData, successCallback, errorCallback, headers){
     return this.raw("POST", headers, path, getParams, postData, successCallback, errorCallback);
   },
 };

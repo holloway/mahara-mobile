@@ -19,13 +19,14 @@ var gulp       = require('gulp'),
     fs         = require("fs");
 
 var paths = {
-  css:     './src/**/*.css',
-  jsentry: './src/js/index.js',
-  lib:     './src/lib/**',
-  image:   './src/image/**',
-  html:    './src/*.html',
-  ready:   './src/ready.js',
-  dest:    './www',
+  css:       './src/**/*.css',
+  jsentry:   './src/js/index.js',
+  lib:       './src/lib/**',
+  image:     './src/image/**',
+  html:      './src/*.html',
+  ready:     './src/ready.js',
+  configxml: './config.xml',
+  dest:      './www',
 };
 
 gulp.task('js', function (){
@@ -75,6 +76,11 @@ gulp.task('ready', function(){
       .pipe(gulp.dest(paths.dest));
 });
 
+gulp.task('configxml', function(){
+    gulp.src(paths.configxml)
+      .pipe(gulp.dest(paths.dest));
+});
+
 gulp.task('locale', function (){
   var allStrings = {};
   glob("./src/i18n/*/strings.txt", function(er, files){
@@ -109,7 +115,7 @@ gulp.task('locale', function (){
   });
 });
 
-gulp.task('default', ['js', 'css', 'lib', 'image', 'html', 'locale', 'ready']);
+gulp.task('default', ['js', 'css', 'lib', 'image', 'html', 'locale', 'ready', 'configxml']);
 
 gulp.task('watch', function(){
   gulp.watch(['*','**'], ['default']);

@@ -40,9 +40,10 @@ class Pending extends MaharaBaseComponent {
     if(this.noPendingUploads()) return "";
     return <div className="buttonTray">
       <button onClick={this.uploadAll} className="uploadAll small">{this.gettext("upload_all_button")}</button>
-      &nbsp;
-      <button onClick={this.deleteAll} className="deleteAll small">{this.gettext("delete_all_button")}</button>
     </div>
+
+    // &nbsp;
+    // <button onClick={this.deleteAll} className="deleteAll small">{this.gettext("delete_all_button")}</button>
   }
   noPendingUploads = () => {
     return (!this.props.pendingUploads || this.props.pendingUploads.length === 0);

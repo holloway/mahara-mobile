@@ -10,7 +10,7 @@ export default function localLogin(username, password, successCallback, errorCal
 
   if(!protocolAndDomain) return errorCallback();
 
-  httpLib.post(protocolAndDomain + loginPath, undefined, {
+  httpLib.postText(protocolAndDomain + loginPath, undefined, {
       login_username:username,
       login_password:password,
       submit:"Login",

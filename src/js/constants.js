@@ -8,8 +8,6 @@ export const PAGE = {
   USER:         "USER",
   ADD:          "ADD",
   PENDING:      "PENDING",
-  ADD_LIBRARY:  "ADD_LIBRARY",
-  EDIT_LIBRARY: "EDIT_LIBRARY",
   EDIT_JOURNAL_ENTRY: "EDIT_JOURNAL_ENTRY",
   ADD_JOURNAL_ENTRY:  "ADD_JOURNAL_ENTRY",
 };
@@ -29,9 +27,7 @@ PAGE_URL[PAGE.SSO]                = "/SSO";
 PAGE_URL[PAGE.USER]               = "/User";
 PAGE_URL[PAGE.ADD]                = "/Add";
 PAGE_URL[PAGE.PENDING]            = "/Pending";
-PAGE_URL[PAGE.ADD_LIBRARY]        = "/Add/Library";
 PAGE_URL[PAGE.ADD_JOURNAL_ENTRY]  = "/Add/JournalEntry";
-PAGE_URL[PAGE.EDIT_LIBRARY]       = "/Add/Library/*";
 PAGE_URL[PAGE.EDIT_JOURNAL_ENTRY] = "/Add/JournalEntry/*";
 
 export const STORAGE = {
@@ -41,7 +37,6 @@ export const STORAGE = {
   SET_SERVER_CHOSEN_LOGIN_TYPE: "SET_SERVER_CHOSEN_LOGIN_TYPE",
   SET_UPLOAD_TOKEN:             "SET_UPLOAD_TOKEN",
   SET_SERVER_LOGIN_TYPES:       "SET_SERVER_LOGIN_TYPES",
-  ADD_LIBRARY_ACTION:           "ADD_LIBRARY_ACTION",
   SET_USER_PROFILE:             "SET_USER_PROFILE",
   SET_USER_SYNC_DATA:           "SET_USER_SYNC_DATA",
   STOP_AUTODETECTING:           "STORAGE_STOP_DETECTING_PROTOCOL_AND_METHOD",
@@ -49,8 +44,13 @@ export const STORAGE = {
 };
 
 export const JOURNAL = {
-  TYPE:         "JOURNAL_TYPE",
-  ADD_ENTRY:    "JOURNAL_ADD_ENTRY",
+  TYPE:      "JOURNAL_TYPE",
+  ADD_ENTRY: "JOURNAL_ADD_ENTRY",
+};
+
+export const FILE_ENTRY = {
+  TYPE:      "FILE_ENTRY_TYPE",
+  ADD_ENTRY: "FILE_ENTRY_ADD_ENTRY",
 };
 
 export const PENDING = {
@@ -59,11 +59,6 @@ export const PENDING = {
   UPLOAD_NEXT:       "PENDING_UPLOAD_NEXT",
   STARTED_UPLOAD_AT: "PENDING_STARTED_UPLOAD_AT",
   STOP_UPLOADS:      "PENDING_STOP_UPLOADS"
-};
-
-export const LIBRARY = {
-  TYPE:       "LIBRARY_TYPE",
-  ADD_ENTRY:  "LIBRARY_ADD_ENTRY"
 };
 
 export const LOGIN_TYPE = {

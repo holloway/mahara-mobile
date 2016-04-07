@@ -21,7 +21,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
       blog:        parseInt(that.sync.blogs[0].id, 10),
       foldername:  ''
     };
-    httpLib.post(protocolAndDomain + uploadPath, undefined, postData, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
+    httpLib.postText(protocolAndDomain + uploadPath, undefined, postData, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
   }, function(response){
     if(!response) response = {error:true};
     response.journalEntry = journalEntry;

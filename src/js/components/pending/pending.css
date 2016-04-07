@@ -21,6 +21,14 @@ html.PAGE_PENDING {
 		margin-top: 2em;
 	}
 
+	button.uploadAll,
+	button.deleteAll {
+		width:100%;
+		padding: 0.5em 0px;
+		margin: 0px 0px 0.7em 0px;
+		font-size:xx-large;
+	}
+
 	div.item {
 		display:block;
 		clear:both;

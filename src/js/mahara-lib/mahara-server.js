@@ -15,6 +15,7 @@ import setMobileUploadToken    from './set-mobile-upload-token.js';
 import uploadJournal           from './upload-journal.js';
 import generateUploadToken     from './generate-upload-token.js';
 import getSyncData             from './get-sync-data.js';
+import uploadFile              from './upload-file.js';
 
 export default class MaharaServer {
   constructor(){
@@ -26,6 +27,7 @@ export default class MaharaServer {
     this.generateUploadToken = generateUploadToken.bind(this);
     this.usernamePasswordLogin = localLogin.bind(this);
     this.uploadJournal = uploadJournal.bind(this);
+    this.uploadFile = uploadFile.bind(this);
     this.getLoginStatus = getLoginStatus.bind(this);
     this.getUserProfile = getUserProfile.bind(this);
     this.parseUserConfigFromHTML = parseUserConfigFromHTML.bind(this);

@@ -79,7 +79,7 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
         postData.sesskey = sesskey;
         postData.pieform_accountprefs = ""; // form must have these to be accepted by Mahara Server
         postData.pieform_jssubmission = "1";
-        httpLib.post(protocolAndDomain + tokenPath, undefined, postData, successFrom(successCallback, errorCallback, METHOD_POST), failureFrom(errorCallback, METHOD_POST));
+        httpLib.postText(protocolAndDomain + tokenPath, undefined, postData, successFrom(successCallback, errorCallback, METHOD_POST), failureFrom(errorCallback, METHOD_POST));
       } else {
         if(!!response.target.response.match(token)){ // ensure token is in response
           successCallback(token);

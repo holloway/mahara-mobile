@@ -8,8 +8,8 @@ import {PAGE,
         LOGIN,
         STORAGE,
         JOURNAL,
-        PENDING,
-        LIBRARY}       from './constants.js';
+        FILE_ENTRY,
+        PENDING}       from './constants.js';
 
 const maharaServerInstance = new MaharaServer();
 
@@ -33,9 +33,7 @@ function MaharaState(state, action) {
     case PAGE.SSO:
     case PAGE.USER:
     case PAGE.ADD:
-    case PAGE.ADD_LIBRARY:
     case PAGE.ADD_JOURNAL_ENTRY:
-    //case PAGE.EDIT_LIBRARY:
     //case PAGE.EDIT_JOURNAL_ENTRY:
     case PAGE.PENDING:
     case PAGE.SYNC:
@@ -92,6 +90,10 @@ function MaharaState(state, action) {
       state.pendingUploads = state.pendingUploads || [];
       state.pendingUploads.push(action.journalEntry);
       break;
+    case FILE_ENTRY.ADD_ENTRY:
+      state.pendingUploads = state.pendingUploads || [];
+      state.pendingUploads.push(action.fileEntry);
+      break;
     case PENDING.DELETE:
       state.pendingUploads = state.pendingUploads || [];
       var pendingUploadsBefore = state.pendingUploads.length;
@@ -99,7 +101,7 @@ function MaharaState(state, action) {
         return (item.guid && item.guid === action.guid);
       });
       if(pendingUploadsBefore === state.pendingUploads.length){
-        console.log("Warning not able to remove item ", action.guid);
+        console.log("Warning not able to remove item ", action.guid, state.pendingUploads);
       }
       break;
     case PENDING.STARTED_UPLOAD_AT:
@@ -131,10 +133,6 @@ function MaharaState(state, action) {
           state.startedUploadAt = undefined;
         }
       }
-      break;
-    case LIBRARY.ADD_ENTRY:
-      state.pendingUploads = state.pendingUploads || [];
-      state.pendingUploads.push(action.libraryItem);
       break;
     case PENDING.DELETE_ALL:
       state.pendingUploads = undefined;

@@ -12,10 +12,47 @@ html.PAGE_USER {
 		margin: 0 auto;
 	}
 
+	hr {
+		width:90%;
+		clear:both;
+		margin: 1em auto;
+		border: none;
+	}
+
 	button {
 		width:100%;
 		padding: 0.5em 0px;
 		margin: 0px 0px 0.7em 0px;
 		font-size:xx-large;
 	}
+
+	img.profile {
+		float:left;
+		margin-right:1em;
+		margin-bottom:1em;
+		width:100%;
+		border: solid 1px white;
+		max-width: 100px;
+	}
+
+	p.userBlock {
+		font-size:large;
+
+		&::after {
+			content: "";
+			clear:both;
+		}
+	}
+
+	a.changeServer {
+		text-decoration: underline;
+	}
+
+	span.changeServerBrackets {
+		margin-left:0.8em;
+	}
+
+
+
+
 }
