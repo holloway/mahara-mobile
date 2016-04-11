@@ -44,7 +44,6 @@
     "react-redux": "^4.0.1",
     "react-tagsinput": "^3.0.3",
     "redux": "^3.0.5",
-    "sanitize-html": "^1.11.4",
     "vinyl-source-stream": "^1.1.0"
   }
 }

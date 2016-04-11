@@ -12,3 +12,8 @@ export const UPLOAD_HANDLER_TYPE = {
   PHONEGAP_UPLOADER: "UPLOAD_HANDLER_PHONEGAP",
   XHR_UPLOADER:      "UPLOAD_HANDLER_XHR"
 };
+
+export const DOWNLOAD_HTML_ELEMENT = {
+  ELEMENT: "a",
+  CLASSNAME: 'file-download-link'
+};

@@ -41,11 +41,12 @@ class Add extends MaharaBaseComponent {
 
     if(!fileUploadElement || !fileUploadElement.files || fileUploadElement.files.length === 0) return;
 
-    this.handleAsDataUrl(fileUploadElement);
+    this.handleInputAsDataUrl(fileUploadElement);
+    //this.handleInputAs
 
     Router.navigate(PAGE_URL.PENDING);
   }
-  handleFileAsDataUrl = (fileUploadElement) => {
+  handleInputAsDataUrl = (fileUploadElement) => {
     var that = this,
         readerLoad,
         reader,

@@ -12,3 +12,7 @@ export function dataURItoBlob(dataURI) {
   }
   return new Blob([blobArray], {type: mimeType});
 }
+
+export function trimString(str) {
+  return str.replace(/^\s+|\s+$/g, '');
+}

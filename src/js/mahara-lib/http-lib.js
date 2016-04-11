@@ -63,8 +63,8 @@ export default {
 
     for(key in postParams){
       value = postParams[key];
-      if(value.filename){
-        formData.append(key, value, value.filename);
+      if(value.fileName){
+        formData.append(key, value, value.fileName);
       } else {
         formData.append(key, value);
       }

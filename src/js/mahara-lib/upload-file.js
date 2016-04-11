@@ -1,10 +1,12 @@
 /*jshint esnext: true */
-import SanitizeHTML          from 'sanitize-html';
-
 import httpLib               from './http-lib.js';
-import {dataURItoBlob}       from './util.js';
+import {dataURItoBlob,
+        trimString}          from './util.js';
 import http                  from './http-lib.js';
-import {UPLOAD_HANDLER_TYPE} from './constants.js';
+import {UPLOAD_HANDLER_TYPE,
+        DOWNLOAD_HTML_ELEMENT} from './constants.js';
+
+
 
 export default function uploadFile(fileEntry, successCallback, errorCallback){
   var protocolAndDomain = this.getServerProtocolAndDomain(),
@@ -17,20 +19,30 @@ export default function uploadFile(fileEntry, successCallback, errorCallback){
   if(!this.profile || !this.profile.sesskey || !this.sync) return errorCallback({error:true, isLoggedIn:false, message: "Not logged in."});
 
   params.folder = 0;
+  params.files_filebrowser_changefolder = "";
   params.files_filebrowser_foldername = "Home";
-  params.files_filebrowser_uploadnumber = 2;
-  params.files_filebrowser_upload = 1;
+  params.files_filebrowser_uploadnumber = 1; // might need to be dynamically calculated?
+  params.MAX_FILE_SIZE = 2097152;
+  params.files_filebrowser_upload = "Upload";
+  params.files_filebrowser_createfolder_name = "";
+  params.files_filebrowser_move = "";
+  params.files_filebrowser_moveto = "";
+  params.files_filebrowser_edit_description = "";
+  params.files_filebrowser_edit_tags = "";
+  params.files_filebrowser_edit_allowcomments = "on";
+  params.files_filebrowser_edit_title = fileEntry.fileName;
   params.sesskey = this.profile.sesskey;
+  params.pieform_files = "";
   params.pieform_jssubmission = 1;
   params.pieform_jssubmission = 1;
 
   if(fileEntry.fileBlob){
     params["userfile[]"] = fileEntry.fileBlob;
-    params["userfile[]"].filename = fileEntry.fileName;
+    params["userfile[]"].fileName = fileEntry.fileName;
     http.postData(protocolAndDomain + uploadPath, undefined, params, successFrom(successCallback, errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry), errorFrom(errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry));
   } else if(fileEntry.dataURL){ // typically only used in browsers not in app
     params["userfile[]"] = dataURItoBlob(fileEntry.dataURL);
-    params["userfile[]"].filename = fileEntry.fileName;
+    params["userfile[]"].fileName = fileEntry.fileName;
     http.postData(protocolAndDomain + uploadPath, undefined, params, successFrom(successCallback, errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry), errorFrom(errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry));
   } else {
     // Assume Phonegap
@@ -48,17 +60,14 @@ export default function uploadFile(fileEntry, successCallback, errorCallback){
 
   function successFrom(successCallback, errorCallback, handler, fileEntry){
     return function(response){
-      var responseJSON;
+      var responseJSON,
+          uploads;
 
       if(!response || !response.target || !response.target.response) return errorCallback({error:true, data:response, fileEntry:fileEntry});
-      
-      parseResponseForUploads(response.target.response)
 
       if(response.target.response.indexOf(fileEntry.fileName) === -1) return errorCallback({error:true, uploadFailure:true, data:response, fileEntry:fileEntry});
 
-
-      console.log("success", handler, response);
-      // successCallback({fileEntry:fileEntry});
+      successCallback({fileEntry:fileEntry});
     };
   }
 
@@ -70,19 +79,6 @@ export default function uploadFile(fileEntry, successCallback, errorCallback){
       callback(response);
     };
   }
-
-}
-
-function parseResponseForUploads(htmlString){
-  var cleanHTML = SanitizeHTML(htmlString, {
-    allowedTags: ["span"],
-    allowedAttributes: {
-      'span': [ 'class' ]
-    }
-  });
-
-  console.log(cleanHTML);
-
 
 }
 
