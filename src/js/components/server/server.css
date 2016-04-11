@@ -1,7 +1,7 @@
 /* PostCSS */
 
 html.PAGE_SERVER {
-	background: #5c883c;
+	background: red;
 
 	section {
 		max-width:800px;
