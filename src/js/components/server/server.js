@@ -10,7 +10,7 @@ export default class ServerPage extends MaharaBaseComponent {
   constructor(props) {
     super(props);
 
-    var serverUrl;
+    var serverUrl = "";
     if(props.server && props.server.domain){
       serverUrl = props.server.domain;
       if(props.server.protocol){

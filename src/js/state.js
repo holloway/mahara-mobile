@@ -96,13 +96,27 @@ function MaharaState(state, action) {
       break;
     case FILE_ENTRY.ADD_ENTRY:
       state.pendingUploads = state.pendingUploads || [];
+      if(window.localStorage && action.fileEntry.dataURL){
+        // we store it seperately because it's a lot of data (often megabytes),
+        // and every subsequent change to the MaharaState is serialized to
+        // localStorage, so even a page change would mean serializing this data
+        // yet again which can cause 100ms+ stalls.
+        window.localStorage.setItem(action.fileEntry.guid, action.fileEntry.dataURL);
+        action.fileEntry.dataURL = true;
+      }
       state.pendingUploads.push(action.fileEntry);
       break;
     case PENDING.DELETE:
       state.pendingUploads = state.pendingUploads || [];
       var pendingUploadsBefore = state.pendingUploads.length;
       arrayRemoveIf.bind(state.pendingUploads)(function(item, index){
-        return (item.guid && item.guid === action.guid);
+        if(item.guid && item.guid === action.guid) {
+          if(window.localStorage && item.dataURL === true){
+            window.localStorage.removeItem(action.guid);
+          }
+          return true;
+        }
+        return false;
       });
       if(pendingUploadsBefore === state.pendingUploads.length){
         console.log("Warning not able to remove item ", action.guid, state.pendingUploads);
@@ -173,22 +187,6 @@ function afterUpdateProtocolAndLoginMethods(){
     ssoUrl:     maharaServerInstance.ssoUrl
   });
 }
-
-export var inputTypeFileStore = {
-  // Should only be used in browsers during testing, not in apps.
-  //
-  // Stored outside of State because state can't be preserved
-  // (we can't restore the state of an <input type=file>)
-  // So we store it outside and keep a reference and hope the data
-  // is still there by the time we attempt to upload
-  store: {},
-  set: function(guid, fileObj){
-    inputTypeFileStore.store[guid] = fileObj;
-  },
-  get: function(guid){
-    return inputTypeFileStore.store[guid];
-  }
-};
 
 const StateStore = createStore(MaharaState);
 
