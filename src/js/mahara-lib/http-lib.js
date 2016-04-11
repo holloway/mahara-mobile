@@ -56,7 +56,20 @@ export default {
     }
     return this.raw("POST", headers, path, getParams, postData, successCallback, errorCallback);
   },
-  postData: function(path, getParams, postData, successCallback, errorCallback, headers){
-    return this.raw("POST", headers, path, getParams, postData, successCallback, errorCallback);
+  postData: function(path, getParams, postParams, successCallback, errorCallback, headers){
+    var formData = new FormData(),
+        key,
+        value;
+
+    for(key in postParams){
+      value = postParams[key];
+      if(value.filename){
+        formData.append(key, value, value.filename);
+      } else {
+        formData.append(key, value);
+      }
+    }
+
+    return this.raw("POST", headers, path, getParams, formData, successCallback, errorCallback);
   },
 };

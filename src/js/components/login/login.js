@@ -24,7 +24,7 @@ class LoginPage extends MaharaBaseComponent {
     </section>;
   }
   componentWillMount(){
-    if(!maharaServer.protocol || !maharaServer.domain) {
+    if(!this.props.server.domain) {
       alertify.okBtn(this.gettext("alert_ok_button")).alert(this.gettext("cant_login_no_server_configured"), function(){
         Router.navigate(PAGE_URL.SERVER);
       });

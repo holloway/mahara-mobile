@@ -46,6 +46,6 @@ export default class MaharaServer {
     this.uploadToken = state.uploadToken;
     this.profile = state.profile;
     this.sync = state.sync;
-    console.log("state was", state);
+    console.log("ServerState was", state);
   }
 }

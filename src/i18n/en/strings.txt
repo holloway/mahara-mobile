@@ -55,3 +55,5 @@ login_type_error_choose_server=No server found. Please configure one.
 server_login_error=Unable to login to server. Is the server address correct?
 add_journal_entry=Add Journal Entry
 change_server=Change server
+wizard_skip_button=Skip
+upload_file=Upload File

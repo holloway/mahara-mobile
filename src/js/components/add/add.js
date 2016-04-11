@@ -2,23 +2,84 @@
 import React from 'react';
 import MaharaBaseComponent from '../base.js';
 import {PAGE_URL,
-        FILE_ENTRY}          from '../../constants.js';
+        FILE_ENTRY}        from '../../constants.js';
 import Router              from '../../router.js';
-import StateStore          from '../../state.js';
+import StateStore,
+       {inputTypeFileStore}
+                           from '../../state.js';
 
 class Add extends MaharaBaseComponent {
+  constructor(){
+    super();
+
+    this.renderTakePhoto  = this.renderTakePhoto.bind(this);
+    this.renderUpload     = this.renderUpload.bind(this);
+    this.uploadFileChange = this.uploadFileChange.bind(this);
+    this.takePhoto        = this.takePhoto.bind(this);
+  }
   render() {
-    // <button onClick={this.addLibrary} className="big">Library</button>
     return <section>
       <h1>Add New</h1>
-      <button onClick={this.takePhoto} className="big">{this.gettext('camera_take_photo_button')}</button>
+      {this.renderUpload()}
       <button onClick={this.addJournalEntry} className="big">{this.gettext('add_journal_entry')}</button>
     </section>;
   }
+  renderTakePhoto(){
+    if(this.props.isCordova === false) return "";
+    return <button onClick={this.takePhoto} className="big">{this.gettext('camera_take_photo_button')}</button>
+  }
+  renderUpload(){
+    if(!isFileInputSupported) return "";
+    var inputId = "fileUpload" + this.props.pendingUploads.length;
+    return <span>
+            <input type="file" id={inputId} onChange={this.uploadFileChange} ref="fileUpload"/>
+            <label htmlFor={inputId} className="big">{this.gettext('upload_file')}</label>
+          </span>
+  }
+  uploadFileChange(e){
+    var fileUploadElement = this.refs.fileUpload;
+
+    if(!fileUploadElement || !fileUploadElement.files || fileUploadElement.files.length === 0) return;
+
+    this.handleAsDataUrl(fileUploadElement);
+
+    Router.navigate(PAGE_URL.PENDING);
+  }
+  handleFileAsDataUrl = (fileUploadElement) => {
+    var that = this,
+        readerLoad,
+        reader,
+        i;
+
+    var readerLoad = function(fileObj){
+      return function(e){
+        var dataURL = reader.result,
+            fileName = that.uriToFilename(fileObj.name || fileUploadElement.value),
+            fileEntry = {
+              type:         FILE_ENTRY.TYPE,
+              title:        fileName,
+              guid:         that.guidGenerator(),
+              dataURL:      dataURL,
+              fileName:     fileName,
+              mimeType:     fileObj.type || "image/jpeg",
+              createdOn:    Date.now()
+            };
+
+        StateStore.dispatch({type:FILE_ENTRY.ADD_ENTRY, fileEntry:fileEntry});
+      }
+    };
+
+    for(i = 0; i < fileUploadElement.files.length; i++){
+      reader = new FileReader();
+      reader.onload = readerLoad(fileUploadElement.files[i]);
+      reader.readAsDataURL(fileUploadElement.files[i]);
+    }
+  }
+  uriToFilename(uri){
+    return (uri.indexOf("/") === -1) ? uri : uri.substring(uri.lastIndexOf("/") + 1);
+  }
   takePhoto = (e) => {
-    this.cameraSuccess("/sdfsdf/sdfsdfs/image.jpg");
     if(!navigator.camera || !navigator.camera.getPicture || !navigator.camera.DestinationType){
-      //this.html5Camera();
       alertify.okBtn(this.gettext('alert_ok_button'));
       alertify.alert(this.gettext('camera_unavailable'));
       return;
@@ -29,16 +90,19 @@ class Add extends MaharaBaseComponent {
       {destinationType: navigator.camera.DestinationType.FILE_URI});
   }
   cameraSuccess = (imageUri) => {
-    var fileName = (imageUri.indexOf("/") === -1) ? imageUri : imageUri.substring(imageUri.lastIndexOf("/") + 1);
-    var fileEntry = {
-      title:     fileName,
-      type:      FILE_ENTRY.TYPE,
-      guid:      this.guidGenerator(),
-      uri:       imageUri,
-      filename:  fileName,
-      createdOn: Date.now()
-    };
+    var fileName = this.uriToFilename(imageUri),
+        fileEntry = {
+          type:      FILE_ENTRY.TYPE,
+          title:     fileName,
+          guid:      this.guidGenerator(),
+          uri:       imageUri,
+          mimeType:  "image/jpeg",
+          fileName:  fileName,
+          createdOn: Date.now()
+        };
+
     StateStore.dispatch({type:FILE_ENTRY.ADD_ENTRY, fileEntry:fileEntry})
+    Router.navigate(PAGE_URL.PENDING);
   }
   cameraError = (message) => {
     alertify
@@ -48,13 +112,21 @@ class Add extends MaharaBaseComponent {
   guidGenerator(){
     return (Math.random() + 1).toString(36).substring(2, 12) + (Math.random() + 1).toString(36).substring(2, 12);
   }
-  addLibrary = (e) => {
-    Router.navigate(PAGE_URL.ADD_LIBRARY);
-  }
   addJournalEntry = (e) => {
     Router.navigate(PAGE_URL.ADD_JOURNAL_ENTRY);
   }
 }
+
+var isFileInputSupported = (function () {
+  // Handle devices which falsely report support
+  if (navigator.userAgent && navigator.userAgent.match(/(Android (1.0|1.1|1.5|1.6|2.0|2.1))|(Windows Phone (OS 7|8.0))|(XBLWP)|(ZuneWP)|(w(eb)?OSBrowser)|(webOS)|(Kindle\/(1.0|2.0|2.5|3.0))/)) {
+    return false;
+  }
+  // Create test element
+  var el = document.createElement("input");
+  el.type = "file";
+  return !el.disabled;
+})();
 
 export default Add;
 

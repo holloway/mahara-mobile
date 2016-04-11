@@ -26,6 +26,10 @@ function MaharaState(state, action) {
 
   state = JSON.parse(JSON.stringify(state)); // clone so that we don't accidentally overwrite existing object
 
+  if(window.isCordova !== undefined){   // ok, technically this is a side-effect (a big no no)...
+    state.isCordova = window.isCordova; // but it doesn't change during the app lifecycle (once loaded)
+  }                                     // loading so it's harmless
+
   switch (action.type) {
     case PAGE.SERVER:
     case PAGE.LOGIN_TYPE:
@@ -169,6 +173,22 @@ function afterUpdateProtocolAndLoginMethods(){
     ssoUrl:     maharaServerInstance.ssoUrl
   });
 }
+
+export var inputTypeFileStore = {
+  // Should only be used in browsers during testing, not in apps.
+  //
+  // Stored outside of State because state can't be preserved
+  // (we can't restore the state of an <input type=file>)
+  // So we store it outside and keep a reference and hope the data
+  // is still there by the time we attempt to upload
+  store: {},
+  set: function(guid, fileObj){
+    inputTypeFileStore.store[guid] = fileObj;
+  },
+  get: function(guid){
+    return inputTypeFileStore.store[guid];
+  }
+};
 
 const StateStore = createStore(MaharaState);
 
