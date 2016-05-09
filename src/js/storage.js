@@ -1,9 +1,9 @@
 /*jshint esnext: true */
-import {STORAGE} from './constants.js';
+import {STATE_STORAGE_KEY} from './constants.js';
 
 var items = {
   state: {
-    key: STORAGE.STATE_STORAGE_KEY,
+    key: STATE_STORAGE_KEY,
     isJSON: true
   }
 };

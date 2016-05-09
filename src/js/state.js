@@ -97,10 +97,12 @@ function MaharaState(state, action) {
     case FILE_ENTRY.ADD_ENTRY:
       state.pendingUploads = state.pendingUploads || [];
       if(window.localStorage && action.fileEntry.dataURL){
-        // we store it seperately because it's a lot of data (often megabytes),
-        // and every subsequent change to the MaharaState is serialized to
-        // localStorage, so even a page change would mean serializing this data
-        // yet again which can cause 100ms+ stalls.
+        // we store it seperately because it's a lot of data (often megabytes
+        // of text), and every subsequent change to the MaharaState is
+        // serialized to localStorage, so even a page change would mean
+        // serializing this data yet again. This can cause 100ms+ stalls.
+        // This means we only serialize it once, and read it once, and then
+        // delete it.
         window.localStorage.setItem(action.fileEntry.guid, action.fileEntry.dataURL);
         action.fileEntry.dataURL = true;
       }
