@@ -113,11 +113,6 @@ const render = () => {
 
 };
 
-var serverUrl = localStorage.getItem(STORAGE.SERVER_URL);
-if(serverUrl){
-  StateStore.dispatch({type:STORAGE.SET_SERVER_URL, serverUrl:serverUrl});
-}
-
 setTimeout(function(){
   document.documentElement.classList.add("ready");
   setTimeout(function(){

@@ -31,7 +31,7 @@ PAGE_URL[PAGE.ADD_JOURNAL_ENTRY]  = "/Add/JournalEntry";
 PAGE_URL[PAGE.EDIT_JOURNAL_ENTRY] = "/Add/JournalEntry/*";
 
 export const STORAGE = {
-  STATE_STORAGE_KEY:            "MaharaState",
+  STATE_STORAGE_KEY:            "MaharaMobile",
   SET_SERVER_URL:               "STORAGE_SET_SERVER_URL",
   SET_SERVER_DOMAIN:            "STORAGE_SET_SERVER_DOMAIN",
   SET_SERVER_CHOSEN_LOGIN_TYPE: "SET_SERVER_CHOSEN_LOGIN_TYPE",

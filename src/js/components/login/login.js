@@ -13,7 +13,7 @@ class LoginPage extends MaharaBaseComponent {
   render() {
     return <section>
       <p className="textLinks">
-        {this.props.server && this.props.server.domain ? "(" + this.props.server.domain + ")" : ""}
+        {this.props.server && this.props.server.url ? "(" + this.props.server.url + ")" : ""}
         <button onClick={this.backButton} className="changeServer">{this.gettext('wizard_change_server')}</button>
       </p>
       <label htmlFor="username">{this.gettext('username')}</label>
@@ -24,7 +24,7 @@ class LoginPage extends MaharaBaseComponent {
     </section>;
   }
   componentWillMount(){
-    if(!this.props.server.domain) {
+    if(!this.props.server.url) {
       alertify.okBtn(this.gettext("alert_ok_button")).alert(this.gettext("cant_login_no_server_configured"), function(){
         Router.navigate(PAGE_URL.SERVER);
       });
@@ -59,7 +59,7 @@ class LoginPage extends MaharaBaseComponent {
     }
 
     function errorCallback(response){
-      if(response.error){
+      if(!response || response.error){
         console.log("Error logging in", response);
         return;
       }

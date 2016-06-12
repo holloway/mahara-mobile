@@ -2,7 +2,7 @@
 import httpLib      from './http-lib.js';
 
 export default function getLoginStatus(successCallback, errorCallback){
-  var protocolAndDomain = this.getServerProtocolAndDomain(),
+  var protocolAndDomain = this.getUrl(),
       userHomePath = "/user/view.php";
 
   // TODO: Cache logged in status for a minute or something

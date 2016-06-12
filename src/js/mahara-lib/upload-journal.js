@@ -2,7 +2,7 @@
 import httpLib      from './http-lib.js';
 
 export default function uploadJournal(journalEntry, successCallback, errorCallback){
-  var protocolAndDomain = this.getServerProtocolAndDomain(),
+  var protocolAndDomain = this.getUrl(),
       uploadPath = "/api/mobile/upload.php",
       that = this;
 

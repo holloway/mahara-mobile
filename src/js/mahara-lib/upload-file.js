@@ -9,12 +9,12 @@ import {UPLOAD_HANDLER_TYPE,
 
 
 export default function uploadFile(fileEntry, successCallback, errorCallback){
-  var protocolAndDomain = this.getServerProtocolAndDomain(),
+  var url = this.getUrl(),
       uploadPath = "/artefact/file/index.php",
       that = this,
       params = {};
 
-  if(!protocolAndDomain) return errorCallback({error:true, noProtocolAndDomain:true, message: "No protocol or domain", fileEntry:fileEntry});
+  if(!url) return errorCallback({error:true, noProtocolAndDomain:true, message: "No protocol or domain", fileEntry:fileEntry});
 
   if(!this.profile || !this.profile.sesskey || !this.sync) return errorCallback({error:true, isLoggedIn:false, message: "Not logged in."});
 
@@ -39,11 +39,11 @@ export default function uploadFile(fileEntry, successCallback, errorCallback){
   if(fileEntry.fileBlob){
     params["userfile[]"] = fileEntry.fileBlob;
     params["userfile[]"].fileName = fileEntry.fileName;
-    http.postData(protocolAndDomain + uploadPath, undefined, params, successFrom(successCallback, errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry), errorFrom(errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry));
+    http.postData(url + uploadPath, undefined, params, successFrom(successCallback, errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry), errorFrom(errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry));
   } else if(fileEntry.dataURL){ // typically only used in browsers not in app
     params["userfile[]"] = dataURItoBlob(fileEntry.dataURL);
     params["userfile[]"].fileName = fileEntry.fileName;
-    http.postData(protocolAndDomain + uploadPath, undefined, params, successFrom(successCallback, errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry), errorFrom(errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry));
+    http.postData(url + uploadPath, undefined, params, successFrom(successCallback, errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry), errorFrom(errorCallback, UPLOAD_HANDLER_TYPE.XHR_UPLOADER, fileEntry));
   } else {
     // Assume Phonegap
     var options = new FileUploadOptions();
@@ -55,7 +55,7 @@ export default function uploadFile(fileEntry, successCallback, errorCallback){
     //var headers={'Authorization':"Basic " + Base64.encode(username + ":" + password)};
     //options.headers = headers;
     var ft = new FileTransfer();
-    ft.upload(fileEntry.uri, protocolAndDomain + uploadPath, successFrom(successCallback, errorCallback, UPLOAD_HANDLER_TYPE.PHONEGAP_UPLOADER, fileEntry), errorFrom(errorCallback, UPLOAD_HANDLER_TYPE.PHONEGAP_UPLOADER, fileEntry), options);
+    ft.upload(fileEntry.uri, url + uploadPath, successFrom(successCallback, errorCallback, UPLOAD_HANDLER_TYPE.PHONEGAP_UPLOADER, fileEntry), errorFrom(errorCallback, UPLOAD_HANDLER_TYPE.PHONEGAP_UPLOADER, fileEntry), options);
   }
 
   function successFrom(successCallback, errorCallback, handler, fileEntry){

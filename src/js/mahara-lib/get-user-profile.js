@@ -44,7 +44,7 @@ export function parseUserConfigFromHTML(htmlString){
 
 
 export function getLocalLoginProfile(successCallback, errorCallback){
-  var protocolAndDomain = this.getServerProtocolAndDomain(),
+  var protocolAndDomain = this.getUrl(),
       userHomePath = "/account/index.php",
       that = this;
 
@@ -96,7 +96,7 @@ export function getLocalLoginProfile(successCallback, errorCallback){
 
 
 export function getSSOProfile(successCallback, errorCallback){
-  var protocolAndDomain = this.getServerProtocolAndDomain(),
+  var protocolAndDomain = this.getUrl(),
       userHomePath = "/user/view.php",
       that = this;
 

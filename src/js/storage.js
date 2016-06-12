@@ -1,11 +1,11 @@
 /*jshint esnext: true */
-import {STATE_STORAGE_KEY} from './constants.js';
+import {STORAGE} from './constants.js';
 
-var items = {
-  state: {
-    key: STATE_STORAGE_KEY,
-    isJSON: true
-  }
+var items = {};
+
+items.state = {
+  key: STORAGE.STATE_STORAGE_KEY,
+  isJSON: true
 };
 
 var Storage = {};

@@ -83,10 +83,9 @@ export default function autoDetectProtocolAndLoginMethod(successCallback, errorC
 
 }
 
-export function getServerProtocolAndDomain(){
-  if(!this.protocol) return console.log("Error no protocol chosen yet. Run autoDetectProtocolAndLoginMethod(callback) first.");
-  if(!this.domain)   return console.log("Error no domain chosen yet. Run autoDetectProtocolAndLoginMethod(callback) first.");
-  return this.protocol + "://" + this.domain;
+export function getUrl(){
+  console.log("geturl", this);
+  return this.url;
 }
 
 export function setUrl(url, successCallback, errorCallback){

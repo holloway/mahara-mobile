@@ -6,7 +6,7 @@ import getUserProfile,
         getLocalLoginProfile,
         getSSOProfile}         from './get-user-profile.js';
 import autoDetectProtocolAndLoginMethod,
-       {getServerProtocolAndDomain,
+       {getUrl,
         parseUrl,
         setUrl}                from './server-url.js';
 import localLogin              from './local-login.js';
@@ -22,7 +22,7 @@ export default class MaharaServer {
     this.loadState = this.loadState.bind(this);
     this.autoDetectProtocolAndLoginMethod = autoDetectProtocolAndLoginMethod.bind(this);
     this.setUrl = setUrl.bind(this);
-    this.getServerProtocolAndDomain = getServerProtocolAndDomain.bind(this);
+    this.getUrl = getUrl.bind(this);
     this.setMobileUploadToken = setMobileUploadToken.bind(this);
     this.generateUploadToken = generateUploadToken.bind(this);
     this.usernamePasswordLogin = localLogin.bind(this);
@@ -37,8 +37,7 @@ export default class MaharaServer {
     this.logOut = logOut.bind(this);
   }
   loadState(state){
-    this.protocol = state.protocol;
-    this.domain = state.domain;
+    this.url = state.url;
     this.ssoUrl = state.ssoUrl;
     this.loginTypes = state.loginTypes;
     this.loginType = state.loginType;

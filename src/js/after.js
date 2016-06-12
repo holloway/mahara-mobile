@@ -30,12 +30,7 @@ export function afterLoginGetProfile(){
 
 
 export function afterUpdateProtocolAndLoginMethods(serverUrl){
-  var domain = maharaServer.setUrl(serverUrl, successCallback, errorCallback);
-
-  StateStore.dispatch({
-    type: STORAGE.SET_SERVER_DOMAIN,
-    domain: domain
-  });
+  maharaServer.setUrl(serverUrl, successCallback, errorCallback);
 
   function successCallback(response){
     StateStore.dispatch({
