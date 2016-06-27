@@ -2,7 +2,8 @@
 import React               from 'react';
 import MaharaBaseComponent from '../base.js';
 import Router              from '../../router.js';
-import StateStore          from '../../state.js';
+import StateStore,
+       {maharaServer}      from '../../state.js';
 import JournalEntry        from './journal-entry.js';
 import {JOURNAL, PAGE_URL} from '../../constants.js';
 

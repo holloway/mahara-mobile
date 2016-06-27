@@ -35,10 +35,10 @@ body,
 @import "../js/components/sso/sso.css";
 @import "../js/components/logobar/logobar.css";
 @import "../js/components/navbar/navbar.css";
+@import "../js/components/add-journal-entry/select2.css";
 @import "../js/components/user/user.css";
 @import "../js/components/add/add.css";
 @import "../js/components/add-journal-entry/add-journal-entry.css";
 @import "../js/components/pending/pending.css";
 @import "../js/components/expand-collapse/expand-collapse.css";
-@import "../js/components/react-tagsinput/react-tagsinput.css";
 @import "../lib/alertify.js/alertify.css";

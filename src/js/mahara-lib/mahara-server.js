@@ -16,6 +16,7 @@ import uploadJournal           from './upload-journal.js';
 import generateUploadToken     from './generate-upload-token.js';
 import getSyncData             from './get-sync-data.js';
 import uploadFile              from './upload-file.js';
+import isSSOServerAvailable    from './sso.js';
 
 export default class MaharaServer {
   constructor(){
@@ -33,6 +34,7 @@ export default class MaharaServer {
     this.parseUserConfigFromHTML = parseUserConfigFromHTML.bind(this);
     this.getLocalLoginProfile = getLocalLoginProfile.bind(this);
     this.getSSOProfile = getSSOProfile.bind(this);
+    this.isSSOServerAvailable = isSSOServerAvailable.bind(this);
     this.getSyncData = getSyncData.bind(this);
     this.logOut = logOut.bind(this);
   }
@@ -45,6 +47,6 @@ export default class MaharaServer {
     this.uploadToken = state.uploadToken;
     this.profile = state.profile;
     this.sync = state.sync;
-    console.log("ServerState was", state);
+    // console.log("ServerState was", state);
   }
 }

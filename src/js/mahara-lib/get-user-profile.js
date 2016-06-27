@@ -1,6 +1,7 @@
 /*jshint esnext: true */
 import httpLib from './http-lib.js';
 import {LOGIN_TYPE} from './constants.js';
+import JSON5 from 'json5';
 
 export default function getUserProfile(successCallback, errorCallback){
   switch(this.loginType){
@@ -32,7 +33,7 @@ export function parseUserConfigFromHTML(htmlString){
                              .replace(/':/g, '":');
 
       try {
-        settings = JSON.parse(regexMatch);
+        settings = JSON5.parse(regexMatch);
       } catch(e){
         console.log("Problem extracting metadata", regexMatch, e, settings);
       }

@@ -84,7 +84,6 @@ export default function autoDetectProtocolAndLoginMethod(successCallback, errorC
 }
 
 export function getUrl(){
-  console.log("geturl", this);
   return this.url;
 }
 

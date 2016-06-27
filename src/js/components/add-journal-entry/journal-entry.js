@@ -1,25 +1,55 @@
 /*jshint esnext: true */
 import React               from 'react';
 import MaharaBaseComponent from '../base.js';
-import TagsInput           from 'react-tagsinput';
+import Select2 from 'react-select2';
+import {maharaServer}      from '../../state.js';
 
 class JournalEntry extends MaharaBaseComponent {
   constructor(props) {
     super(props);
-    this.state = {tags:[]};
+    var suggestedTags = [],
+        i;
+
+    if(maharaServer.sync && maharaServer.sync.tags){
+      for(i = 0; i < maharaServer.sync.tags.length; i++){
+        suggestedTags.push(maharaServer.sync.tags[i].id);
+      }
+    }
+
+    this.state = {
+      suggestedTags:suggestedTags,
+      tags: ''
+    };
+    this.changeTags = this.changeTags.bind(this);
   }
   render() {
+    const inputProps = {
+       placeholder: 'Tags...',
+       value: this.state.tags,
+       onChange: this.changeTags
+    };
     return <div>
       <h2>Title</h2>
       <input ref="title" type="text" className="subject"/>
       <h2>Detail</h2>
       <textarea ref="textarea" className="body"></textarea>
-      <TagsInput value={this.state.tags} onChange={this.changeTags} />
+      <h2>Tags</h2>
+      <Select2
+        value=" f"
+        multiple
+        data={['bug', 'feature', 'documents', 'discussion']}
+        options={
+          {
+            placeholder: 'search by tags',
+          }
+        }
+      />
     </div>;
   }
-  changeTags = (tags) => {
+  changeTags(event, tags){
+    console.log("new tags", tags);
     this.setState({
-      tags: tags
+      tags: tags.newValue
     });
   }
   componentDidMount(){

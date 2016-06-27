@@ -21,7 +21,7 @@ export default function localLogin(username, password, successCallback, errorCal
 
   function scrapeFromResponse(successCallback, errorCallback){
     return function(response){
-      var sessionDetails = /loggedin["']\s*?:\s*?1/,
+      var sessionDetails = /loggedin["'][\s]*?:/i,
           closingScriptTag = "</script>",
           responseData,
           loggedIn,
