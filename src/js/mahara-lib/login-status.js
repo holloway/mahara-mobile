@@ -2,17 +2,19 @@
 import httpLib      from './http-lib.js';
 
 export default function getLoginStatus(successCallback, errorCallback){
-  var protocolAndDomain = this.getUrl(),
+  var url = this.getUrl(),
       userHomePath = "/user/view.php";
 
   // TODO: Cache logged in status for a minute or something
 
-  if(!protocolAndDomain) {
-    console.log("no protocol/domain");
+  console.log("url", url);
+
+  if(!url) {
+    console.log("no url");
     return errorCallback();
   }
 
-  httpLib.get(protocolAndDomain + userHomePath, undefined, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
+  httpLib.get(url + userHomePath, undefined, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
 
   function successFrom(successCallback, errorCallback){
     return function(response){
@@ -32,6 +34,3 @@ export default function getLoginStatus(successCallback, errorCallback){
   }
 
 }
-
-
-
