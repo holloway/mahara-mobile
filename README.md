@@ -18,11 +18,40 @@ Next build the application,
 
     npm run build
 
-And then use the `./www/` output directory as a Phonegap project (`cordova run android`), or run,
+The `./www/` output directory will be a static website, intended to be packaged as a Phonegap project.
 
-    npm run devwebserver
+For basic debug you can serve this directory up from a static file webserver,
 
-...to use it in your browser. Note that as certain plugins aren't available some features are disabled for browser use.
+   npm run devwebserver
+
+Note: Phonegap plugins aren't available in the browser and so feature using these won't be available.
+
+### Android Build
+
+To wrap as a Phonegap project, then run
+
+    npm run cordova-init
+
+Then for Android first install dependencies (Ubuntu 16.04),
+
+    sudo add-apt-repository -y ppa:webupd8team/java
+    sudo add-apt-repository ppa:paolorotolo/android-studio
+    sudo apt-get update
+    sudo apt-get install oracle-java7-installer oracle-java7-set-default
+    apt-get install android-sdk android-emulator android-studio
+
+Next run,
+
+    /opt/android-studio/bin/studio.sh
+
+Click through the wizard, then,
+
+    npm run cordova-init-android1
+    npm run cordova-init-android2
+
+Then see if it's all working by,
+
+    npm run cordova-run-android
 
 ## Troubleshooting
 

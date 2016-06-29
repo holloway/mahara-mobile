@@ -4,7 +4,11 @@
   "description": "Mahara Mobile",
   "scripts": {
     "build": "./node_modules/.bin/gulp",
-    "devwebserver": "cd www && python -m SimpleHTTPServer && cd .."
+    "devwebserver": "cd www && python -m SimpleHTTPServer && cd ..",
+    "cordova-init": "./node_modules/.bin/cordova create app nz.net.catalyst.maharamobile \"MaharaMobile\"",
+    "cordova-init-android1": "cd app && ../node_modules/.bin/cordova platform add android && cd ..",
+    "cordova-init-android2": "cd app && ../node_modules/.bin/cordova plugin add cordova-plugin-media cordova-plugin-file-transfer && cd ..",
+    "cordova-run-android": "cd app && ../node_modules/.bin/cordova run android"
   },
   "repository": {
     "type": "git",
