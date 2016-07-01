@@ -1,0 +1,46 @@
+/* PostCSS */
+
+html.PAGE_LOGIN_TYPE {
+	background: #5c883c;
+
+}
+
+html.PAGE_LOGIN_TYPE section {
+	max-width:800px;
+	padding: 0.7em 15px 100px 15px;
+	margin: 0px auto;
+	text-align:center;
+	color:white;
+
+}
+
+html.PAGE_LOGIN_TYPE button.loginType,
+	html.PAGE_LOGIN_TYPE button.changeServer {
+	display:inline-block;
+	box-sizing: border-box;
+	font-size:xx-large;
+	padding: 0.5em 7px;
+	border: none;
+	border-radius: 3px;
+	text-align:center;
+	background: white;
+	margin: 0.5em 0px;
+	width:100%;
+
+}
+
+html.PAGE_LOGIN_TYPE p.textLinks {
+	text-align:right;
+
+}
+
+html.PAGE_LOGIN_TYPE a.changeServer {
+	background: transparent;
+	color: #fff;
+	font-size: inherit;
+	border: none;
+	text-decoration: underline;
+	padding: 0px;
+	margin-left:1em;
+
+}

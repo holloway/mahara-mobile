@@ -1,0 +1,96 @@
+/* PostCSS */
+
+nav {
+  padding:0;
+  margin:0;
+	text-align:center;
+}
+
+nav ul {
+  padding:0;
+  margin:0;
+}
+
+nav li {
+  padding:0;
+  margin:0;
+  display:inline-block;
+  width:33.33%;
+  text-align:center;
+  background-color: #333;
+  background-position: 99% center;
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
+  box-sizing: border-box;
+  border-right: 1px solid #aaa;
+}
+
+nav a {
+  color: white;
+  display:block;
+  padding: 1em 0px;
+  text-decoration:none;
+  text-shadow: 1px 1px 2px #555;
+  font-size:large;
+  text-transform:uppercase;
+}
+
+nav a:active,
+		nav a:focus,
+		nav a:hover {
+  color:white;
+  text-decoration:none;
+  outline:none;
+}
+
+nav a img {
+  vertical-align: top;
+  height:1.1em;
+  margin-left:5px;
+}
+
+nav li.active {
+  background-color: #333;
+  box-shadow: inset -30px 0 30px -30px #000, inset 30px 0 30px -30px #000;
+  color:white;
+}
+
+nav span.sr-only {/* ScreenReader only -- class name from Twitter Bootstrap */
+  display: inline-block;
+  width:0px;
+  height:0px;
+  overflow:hidden;
+}
+
+nav span.badge {
+  position:relative;
+  font-size:small;
+  top: -10px;
+  left: 2px;
+  background: red;
+  color: #fdd;
+  padding: 3px 7px 3px 7px;
+  border-radius: 100%;
+  font-weight:bold;
+  text-shadow:none;
+}
+
+nav i.navbarActiveHighlight {
+  display:block;
+  -webkit-transition:all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  position:relative;
+  border-bottom: solid 3px #9f9;
+  height: 2px;
+  width:30%;
+}
+
+@media (max-width: 400px) {
+	nav a {
+    font-size:small;
+  }
+	nav span.badge {
+    font-size:xx-small;
+    padding: 2px 5px 2px 5px;
+  }
+}

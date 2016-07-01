@@ -1,0 +1,60 @@
+/* PostCSS */
+
+html.PAGE_SERVER {
+	background: #5c883c;
+}
+
+html.PAGE_SERVER section {
+	max-width:800px;
+	padding: 20px 15px 100px 15px;
+	margin: 0px auto;
+	color: black;
+	text-align:center;
+}
+
+html.PAGE_SERVER label {
+	display:block;
+	font-size:x-large;
+	color: white;
+	margin-bottom: 0.5em;
+}
+
+html.PAGE_SERVER input[type=url] {
+	font-size:xx-large;
+	padding: 5px 7px;
+	border:solid 1px #999;
+	border-radius: 3px;
+	text-align:left;
+	display:block;
+	box-sizing: border-box;
+	width:100%;
+}
+
+html.PAGE_SERVER button {
+	background: #5c883c;
+	color: #fff;
+	font-weight:100;
+	font-size:xx-large;
+	padding: 0.5em 1em 0.5em 1em;
+	border: solid 1px white;
+}
+
+html.PAGE_SERVER button.next {
+	position:fixed;
+	bottom: 0px;
+	right:0px;
+}
+
+html.PAGE_SERVER button.skip {
+	position:fixed;
+	bottom: 0px;
+	left:0px;
+}
+
+
+
+@media (max-width: 400px) {
+	html.PAGE_SERVER input[type=url] {
+		font-size:x-large;
+	}
+}

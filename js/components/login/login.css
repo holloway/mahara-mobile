@@ -1,0 +1,77 @@
+/* PostCSS */
+
+html.PAGE_LOGIN {
+	overflow:hidden;
+	background: #5c883c;
+
+}
+
+html.PAGE_LOGIN section {
+	max-width:800px;
+	padding: 0px 15px 100px 15px;
+	margin: 0px auto;
+	text-align:center;
+	color:white;
+
+}
+
+html.PAGE_LOGIN input {
+	font-size:xx-large;
+	padding: 5px 7px;
+	border:solid 1px #999;
+	border-radius: 3px;
+	text-align:left;
+	width:100%;
+
+}
+
+html.PAGE_LOGIN label {
+	display:block;
+	text-align:left;
+	font-size:x-large;
+	margin: 0.5em 0px 0px 0px;
+	padding: 0;
+
+}
+
+html.PAGE_LOGIN button.next {
+	background: #5c883c;
+	color: #fff;
+	font-weight:100;
+	position:fixed;
+	bottom: 0px;
+	right:0px;
+	font-size:xx-large;
+	padding: 0.5em 0.5em 0.5em 1em;
+	border: none;
+
+}
+
+html.PAGE_LOGIN button.changeServer {
+	background: transparent;
+	color: #fff;
+	font-size: inherit;
+	border: none;
+	text-decoration: underline;
+	padding: 0px;
+	margin-left:1em;
+
+}
+
+html.PAGE_LOGIN p.textLinks {
+	text-align:right;
+	padding: 0px;
+	text-indent: 0px;
+
+}
+
+html.PAGE_LOGIN button.forgotPassword {
+	margin-top: 0.5em;
+	font-size:medium;
+	float:right;
+	color: white;
+	text-decoration:underline;
+	border: none;
+	background: none;
+
+}

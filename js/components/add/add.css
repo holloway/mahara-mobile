@@ -1,0 +1,36 @@
+/* PostCSS */
+
+
+html.PAGE_ADD section {
+
+
+    max-width:800px;
+
+
+    padding: 10px 15px;
+
+
+    margin: 0 auto;
+}
+
+
+html.PAGE_ADD input[type=file]{
+
+
+    width: 0.1px;
+
+
+    height: 0.1px;
+
+
+    opacity: 0;
+
+
+    overflow: hidden;
+
+
+    position: absolute;
+
+
+    z-index: -1;
+}

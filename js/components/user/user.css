@@ -1,0 +1,69 @@
+/* PostCSS */
+
+html.PAGE_USER section {
+
+    max-width:800px;
+
+    padding: 10px 15px;
+
+    margin: 0 auto;
+}
+
+html.PAGE_USER hr {
+
+    width:90%;
+
+    clear:both;
+
+    margin: 1em auto;
+
+    border: none;
+}
+
+html.PAGE_USER button {
+
+    width:100%;
+
+    padding: 0.5em 0px;
+
+    margin: 0px 0px 0.7em 0px;
+
+    font-size:xx-large;
+}
+
+html.PAGE_USER img.profile {
+
+    float:left;
+
+    margin-right:1em;
+
+    margin-bottom:1em;
+
+    width:100%;
+
+    border: solid 1px white;
+
+    max-width: 100px;
+}
+
+html.PAGE_USER p.userBlock {
+
+    font-size:large;
+}
+
+html.PAGE_USER p.userBlock::after {
+
+    content: "";
+
+    clear:both;
+}
+
+html.PAGE_USER a.changeServer {
+
+    text-decoration: underline;
+}
+
+html.PAGE_USER span.changeServerBrackets {
+
+    margin-left:0.8em;
+}

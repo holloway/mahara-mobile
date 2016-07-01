@@ -1,0 +1,50 @@
+/* PostCSS */
+
+html.PAGE_SSO {
+	background: #5c883c;
+
+}
+
+html.PAGE_SSO section {
+	max-width:800px;
+	padding: 0.7em 15px 100px 15px;
+	margin: 0px auto;
+	text-align:center;
+	color:white;
+
+}
+
+html.PAGE_SSO iframe {
+	width: 100%;
+	height: 100%;
+	border:none;
+	min-height: 1000px;
+	min-width: 100%;
+
+}
+
+html.PAGE_SSO a.noSSOFound,
+	html.PAGE_SSO a.ssoError {
+	margin: 0 0 0 1em;
+	display: inline-block;
+	padding: 0.5em 1em;
+	color: #dcf8dc;
+	background: #3c681c;
+
+}
+
+html.PAGE_SSO button.goBack {
+	margin: 1em 0 0 2em;
+	display: inline-block;
+	padding: 0.5em 1em;
+	color: white;
+	background: transparent;
+	border: solid 1px white;
+	font-weight:bold;
+
+}
+
+html.PAGE_SSO a.ssoError {
+	margin-top: 1em;
+
+}

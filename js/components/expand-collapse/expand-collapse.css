@@ -1,0 +1,57 @@
+.expandCollapse {
+  position:relative;
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding: 0.5em 0px 0.5em 0px;
+  clear:both;
+  margin-bottom: 0.8em;
+  border-top: solid 1px #999;
+  border-radius: 0.3em;
+  box-shadow: 0px -2px 3px 0px #555;
+}
+.expandCollapse > button {
+  display: inline-block;
+  width: 2.5em;
+  height: 2.5em;
+  border: none;
+  background: none;
+  outline:none;
+  font-weight:bold;
+  color: #fff;
+  -webkit-box-flex:0;
+      -ms-flex:none;
+          flex:none;
+}
+.expandCollapse.hidden {
+  cursor:pointer;
+}
+.expandCollapse.visible {}
+.expandCollapse a.summary {
+  display:block;
+  width:100%;
+  white-space: nowrap;
+  overflow:hidden;
+  margin-left:0.6em;
+  margin-top: 0.3em;
+}
+.expandCollapse a.summary::after {
+  content: "";
+  width:1em;
+  height:2em;
+  margin-left: -1em;
+  position:absolute;
+  right:0px;
+  background: -webkit-linear-gradient(left, rgba(0,0,0,0), #666);
+  background: linear-gradient(90deg, rgba(0,0,0,0), #666);
+}
+.expandCollapse.hidden {}
+.expandCollapse::after {
+  content: "";
+  display:block;
+  clear:both;
+}
