@@ -16,6 +16,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
     var postData = {
       title:       journalEntry.title,
       description: journalEntry.body,
+      tags:        journalEntry.tags.join(","),
       token:       uploadToken,
       username:    that.profile.username,
       blog:        parseInt(that.sync.blogs[0].id, 10),

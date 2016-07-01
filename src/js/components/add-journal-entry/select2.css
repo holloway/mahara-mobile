@@ -2,6 +2,7 @@
   box-sizing: border-box;
   display: inline-block;
   margin: 0;
+  color:black;
   position: relative;
   vertical-align: middle; }
   .select2-container .select2-selection--single {

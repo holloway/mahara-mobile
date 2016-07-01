@@ -9,11 +9,13 @@ export function afterLoginGetProfile(){
   maharaServer.getUserProfile(profileSuccessCallback, errorCallback);
 
   function profileSuccessCallback(profile){
+    console.log("pr", profile);
     StateStore.dispatch({type:STORAGE.SET_USER_PROFILE, profile:profile});
     maharaServer.getSyncData(syncDataSuccessCallback, errorCallback);
   }
 
   function syncDataSuccessCallback(response){
+    console.log("sc", response);
     if(response.success){
       StateStore.dispatch({type:STORAGE.SET_USER_SYNC_DATA, sync:response.sync});
     } else {
@@ -47,4 +49,3 @@ export function afterUpdateProtocolAndLoginMethods(serverUrl){
     // TODO: alert an error?
   }
 }
-

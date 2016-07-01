@@ -1,24 +1,23 @@
 /*jshint esnext: true */
 import React               from 'react';
 import MaharaBaseComponent from '../base.js';
-import Select2 from 'react-select2';
+import Select2             from 'react-select2';
 import {maharaServer}      from '../../state.js';
 
 class JournalEntry extends MaharaBaseComponent {
   constructor(props) {
     super(props);
-    var suggestedTags = [],
+    var tags = [],
         i;
 
     if(maharaServer.sync && maharaServer.sync.tags){
       for(i = 0; i < maharaServer.sync.tags.length; i++){
-        suggestedTags.push(maharaServer.sync.tags[i].id);
+        tags.push(maharaServer.sync.tags[i].id);
       }
     }
 
     this.state = {
-      suggestedTags:suggestedTags,
-      tags: ''
+      tags: tags
     };
     this.changeTags = this.changeTags.bind(this);
   }
@@ -28,6 +27,7 @@ class JournalEntry extends MaharaBaseComponent {
        value: this.state.tags,
        onChange: this.changeTags
     };
+
     return <div>
       <h2>Title</h2>
       <input ref="title" type="text" className="subject"/>
@@ -35,22 +35,31 @@ class JournalEntry extends MaharaBaseComponent {
       <textarea ref="textarea" className="body"></textarea>
       <h2>Tags</h2>
       <Select2
-        value=" f"
         multiple
-        data={['bug', 'feature', 'documents', 'discussion']}
+        onChange={this.changeTags}
+        ref="reactSelect2"
+        data={this.state.tags}
         options={
           {
-            placeholder: 'search by tags',
+            placeholder: this.gettext("tags_placeholder"),
+            width: '100%',
+            tags: true
           }
         }
       />
     </div>;
   }
-  changeTags(event, tags){
-    console.log("new tags", tags);
-    this.setState({
-      tags: tags.newValue
-    });
+  changeTags(event){
+    var tagsObj = this.refs.reactSelect2.el.select2('data'),
+        tags = [],
+        i;
+
+    for(i = 0; i < tagsObj.length; i++){
+      tags.push(tagsObj[i].text);
+    }
+
+    //console.log("new tags", tags);
+    this.tags = tags; // parent component accesses it this way
   }
   componentDidMount(){
     var textarea = this.refs.textarea,
