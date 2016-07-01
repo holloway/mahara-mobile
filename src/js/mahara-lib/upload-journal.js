@@ -6,7 +6,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
       uploadPath = "/api/mobile/upload.php",
       that = this;
 
-  if(!protocolAndDomain) return errorCallback({error:true, noProtocolAndDomain:true, message: "No protocol or domain", journalEntry:journalEntry});
+  if(!protocolAndDomain) return errorCallback({error:true, noProtocolAndDomain:true, message: "No url", journalEntry:journalEntry});
 
   if(!this.profile || !this.profile.username || !this.sync) return errorCallback({error:true, isLoggedIn:false, message: "Not logged in."});
 
