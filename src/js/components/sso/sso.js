@@ -12,7 +12,6 @@ import {PAGE,
 class SSOPage extends MaharaBaseComponent {
   constructor(props){
     super(props)
-    this.state = {};
   }
   render() {
     if(!maharaServer.ssoUrl){
@@ -22,13 +21,13 @@ class SSOPage extends MaharaBaseComponent {
           <a onClick={this.goBackToServer} className="noSSOFound">{this.gettext('try_again_question')}</a>
         </p>
       </section>
-    } else if(this.state.ssoAvailable === undefined){
+    } else if(this.props.server.ssoAvailable === undefined){
       return <section>
         <p>{this.gettext('waiting_for_sso')}</p>
       </section>
-    } else if(this.state.ssoAvailable === true){
+    } else if(this.props.server.ssoAvailable === true){
       return <iframe src={maharaServer.ssoUrl} ref="iframe"></iframe>
-    } else if(this.state.ssoAvailable === false) {
+    } else if(this.props.server.ssoAvailable === false) {
       return <section>
         <p>
           {this.gettext('sso_error')}<br/>
@@ -55,15 +54,11 @@ class SSOPage extends MaharaBaseComponent {
   ssoIsAvailable = () => {
     //console.log("ssoIsAvailable...");
     this.loginChecker = setTimeout(this.checkIfLoggedIn, this.checkIfLoggedInEveryMilliseconds);
-    this.setState({
-      ssoAvailable: true
-    });
+    StateStore.dispatch({type:LOGIN.SSO_IS_AVAILABLE});
   }
   ssoIsNotAvailable = () => {
     //console.log("ssoIsNotAvailable...");
-    this.setState({
-      ssoAvailable: false
-    });
+    StateStore.dispatch({type:LOGIN.SSO_NOT_AVAILABLE});
   }
   checkIfLoggedInEveryMilliseconds = 1000;
   checkIfLoggedIn = () => {
@@ -83,9 +78,7 @@ class SSOPage extends MaharaBaseComponent {
   checkIfLoggedInFailure = (e) => {
     //console.log("sso failure", arguments);
     if(this.loginChecker) clearTimeout(this.loginChecker);
-    this.setState({
-      ssoAvailable: false
-    });
+    StateStore.dispatch({type:LOGIN.SSO_NOT_AVAILABLE});
   }
   componentWillUnmount = () => {
     this.hasUnmounted = true; //TODO: refactor this into Redux

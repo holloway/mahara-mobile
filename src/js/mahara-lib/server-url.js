@@ -79,8 +79,6 @@ export default function autoDetectProtocolAndLoginMethod(successCallback, errorC
       successCallback(response);
     }
   }
-
-
 }
 
 export function getUrl(){
@@ -92,4 +90,3 @@ export function setUrl(url, successCallback, errorCallback){
   this.autoDetectProtocolAndLoginMethod(successCallback, errorCallback, domain);
   return domain;
 }
-

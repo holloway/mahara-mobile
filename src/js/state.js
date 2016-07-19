@@ -80,6 +80,18 @@ function MaharaState(state, action) {
       if(console.trace) console.trace();
       console.log("Should not set upload token in state. Check previous trace to remove offending code.");
       break;
+    case LOGIN.SSO_AVAILABILITY_RESET:
+      state.server = state.server || {};
+      state.server.ssoAvailable = undefined;
+      break;
+    case LOGIN.SSO_IS_AVAILABLE:
+      state.server = state.server || {};
+      state.server.ssoAvailable = true;
+      break;
+    case LOGIN.SSO_NOT_AVAILABLE:
+      state.server = state.server || {};
+      state.server.ssoAvailable = false;
+      break;
     case STORAGE.SET_USER_PROFILE:
       state.server = state.server || {};
       state.server.profile = action.profile;

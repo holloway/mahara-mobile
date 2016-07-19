@@ -48,7 +48,7 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
         }
 
         if(!sesskey){
-          console.log("Unable to scrape sesskey from ", response.target.response);
+          //console.log("Unable to scrape sesskey from ", response.target.response);
           return errorCallback({error:true, scrapingSesskeyProblem:true, message: "No sesskey found in response.", data:response.target.response});
         } else {
           console.log("Able to scrape sesskey", sesskey);

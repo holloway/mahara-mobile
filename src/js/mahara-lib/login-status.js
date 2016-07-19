@@ -7,8 +7,6 @@ export default function getLoginStatus(successCallback, errorCallback){
 
   // TODO: Cache logged in status for a minute or something
 
-  console.log("url", url);
-
   if(!url) {
     console.log("no url");
     return errorCallback();
