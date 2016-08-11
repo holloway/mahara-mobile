@@ -4,13 +4,13 @@ import httpLib      from './http-lib.js';
 export default function setMobileUploadToken(token, successCallback, errorCallback){
   var tokenPath = "/account/index.php",
       fieldName = "accountprefs_mobileuploadtoken[",
-      protocolAndDomain = this.getServerProtocolAndDomain(),
+      url = this.getUrl(),
       that = this,
       METHOD_GET = "GET",
       METHOD_POST = "POST",
       sesskey; //named after Mahara Server's variable name
 
-  if(!protocolAndDomain) return errorCallback({error:true, message:"No protocol and domain from set-mobile-upload.js"});
+  if(!url) return errorCallback({error:true, message:"No protocol and domain from set-mobile-upload.js"});
 
   if(!that.uploadTokenNextIndex) that.uploadTokenNextIndex = 0;
 
@@ -19,7 +19,7 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
   function afterLoginStatusCheck(loggedIn){
     if(loggedIn){
       // first, we need to scrape the session key
-      httpLib.get(protocolAndDomain + tokenPath, undefined, successFrom(successCallback, errorCallback, METHOD_GET), failureFrom(errorCallback, METHOD_GET));
+      httpLib.get(url + tokenPath, undefined, successFrom(successCallback, errorCallback, METHOD_GET), failureFrom(errorCallback, METHOD_GET));
     } else {
       errorCallback({error:true, isLoggedIn:false});
     }
@@ -48,7 +48,7 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
         }
 
         if(!sesskey){
-          console.log("Unable to scrape sesskey from ", response.target.response);
+          //console.log("Unable to scrape sesskey from ", response.target.response);
           return errorCallback({error:true, scrapingSesskeyProblem:true, message: "No sesskey found in response.", data:response.target.response});
         } else {
           console.log("Able to scrape sesskey", sesskey);
@@ -79,7 +79,7 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
         postData.sesskey = sesskey;
         postData.pieform_accountprefs = ""; // form must have these to be accepted by Mahara Server
         postData.pieform_jssubmission = "1";
-        httpLib.postText(protocolAndDomain + tokenPath, undefined, postData, successFrom(successCallback, errorCallback, METHOD_POST), failureFrom(errorCallback, METHOD_POST));
+        httpLib.postText(url + tokenPath, undefined, postData, successFrom(successCallback, errorCallback, METHOD_POST), failureFrom(errorCallback, METHOD_POST));
       } else {
         if(!!response.target.response.match(token)){ // ensure token is in response
           successCallback(token);

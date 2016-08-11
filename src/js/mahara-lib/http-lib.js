@@ -13,8 +13,12 @@ export default {
         path += (path.slice(-1) === "?" ? "" : "&") + encodeURIComponent(key) + "=" + encodeURIComponent(getParams[key]);
       }
     }
-    request.withCredentials = true;
-    request.open(method, path);
+    if ("withCredentials" in request){
+      request.withCredentials = true;
+      request.open(method, path, true);
+    } else {
+      request.open(method, path);
+    }
     if(headers){
       for(key in headers){
         request.setRequestHeader(key, headers[key]);
@@ -63,8 +67,8 @@ export default {
 
     for(key in postParams){
       value = postParams[key];
-      if(value.filename){
-        formData.append(key, value, value.filename);
+      if(value.fileName){
+        formData.append(key, value, value.fileName);
       } else {
         formData.append(key, value);
       }

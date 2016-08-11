@@ -2,11 +2,13 @@
 
 import StateStore,
        {maharaServer}                          from './state.js';
+import Router                                  from './router.js';
+import {getLangString}                         from './i18n.js';
 import {REATTEMPT_UPLOADS_AFTER_MILLISECONDS,
         PENDING,
         JOURNAL,
-        FILE_ENTRY}                            from './constants.js';
-import {getLangString}                         from './i18n.js';
+        FILE_ENTRY,
+        PAGE_URL}                              from './constants.js';
 
 var langCodes;
 
@@ -61,6 +63,9 @@ function uploadJournal(journalEntry){
 }
 
 function uploadFile(fileEntry){
+  if(fileEntry.dataURL === true){
+    fileEntry.dataURL = window.localStorage.getItem(fileEntry.guid);
+  }
   maharaServer.uploadFile(fileEntry, afterUploadComplete, afterUploadError);
 }
 
@@ -80,7 +85,12 @@ function afterUploadError(response){
       });
     } else if(response.hasOwnProperty('sesskeyError')){
       alertify.alert(getLangString(langCodes, "sesskey_scrape_error"));
+    } else if(response.hasOwnProperty("noProtocolAndDomain")){
+      alertify.alert(getLangString(langCodes, "no_server_found"), function(e, str){
+        Router.navigate(PAGE_URL.SERVER);
+      });
     } else if(response.hasOwnProperty("message")){
+      alert("sdfsd");
       alertify.alert(getLangString(langCodes, "server_response_prefix") + "\n" + response.message);
     }
     console.log("Problem uploading. Response was", response);

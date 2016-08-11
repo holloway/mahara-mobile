@@ -3,7 +3,7 @@ import httpLib      from './http-lib.js';
 
 export default function logOut(successCallback, errorCallback){
   var logoutPath = "/?logout",
-      protocolAndDomain = this.getServerProtocolAndDomain();
+      protocolAndDomain = this.getUrl();
 
   if(!protocolAndDomain){
     errorCallback({error:true, noProtocolOrDomain:true, data:this});

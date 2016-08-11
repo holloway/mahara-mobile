@@ -2,11 +2,11 @@
 import httpLib      from './http-lib.js';
 
 export default function uploadJournal(journalEntry, successCallback, errorCallback){
-  var protocolAndDomain = this.getServerProtocolAndDomain(),
+  var protocolAndDomain = this.getUrl(),
       uploadPath = "/api/mobile/upload.php",
       that = this;
 
-  if(!protocolAndDomain) return errorCallback({error:true, noProtocolAndDomain:true, message: "No protocol or domain", journalEntry:journalEntry});
+  if(!protocolAndDomain) return errorCallback({error:true, noProtocolAndDomain:true, message: "No url", journalEntry:journalEntry});
 
   if(!this.profile || !this.profile.username || !this.sync) return errorCallback({error:true, isLoggedIn:false, message: "Not logged in."});
 
@@ -16,6 +16,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
     var postData = {
       title:       journalEntry.title,
       description: journalEntry.body,
+      tags:        journalEntry.tags.join(","),
       token:       uploadToken,
       username:    that.profile.username,
       blog:        parseInt(that.sync.blogs[0].id, 10),

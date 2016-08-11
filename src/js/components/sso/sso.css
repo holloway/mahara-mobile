@@ -16,12 +16,27 @@ html.PAGE_SSO {
 		min-width: 100%;
 	}
 
-	a.noSSOFound {
+	a.noSSOFound,
+	a.ssoError {
 		margin: 0 0 0 1em;
 		display: inline-block;
 		padding: 0.5em 1em;
 		color: #dcf8dc;
 		background: #3c681c;
+	}
+
+	button.goBack {
+		margin: 1em 0 0 2em;
+		display: inline-block;
+		padding: 0.5em 1em;
+		color: white;
+		background: transparent;
+		border: solid 1px white;
+		font-weight:bold;
+	}
+
+	a.ssoError {
+		margin-top: 1em;
 	}
 
 }

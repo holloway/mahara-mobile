@@ -105,7 +105,7 @@ gulp.task('locale', function (){
           if(filesRemaining > 0) return;
           fs.mkdir(paths.dest + '/i18n', function(e){
             if(e && e.code !== 'EEXIST') console.log(e);
-            fs.writeFile(paths.dest + '/i18n/strings.json', JSON.stringify(allStrings), 'utf-8');
+            fs.writeFile(paths.dest + '/i18n/strings.json', JSON.stringify(allStrings, null, 2), 'utf-8');
           });
         };
 

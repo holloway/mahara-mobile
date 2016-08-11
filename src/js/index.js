@@ -24,6 +24,7 @@ import {afterLoginGetProfile,
 import {PAGE,
         LOGIN,
         STORAGE,
+        PENDING,
         PAGE_CLASSNAME}     from './constants.js';
 
 var container = document.getElementById('container');
@@ -98,6 +99,7 @@ const render = () => {
   );
 
   if(state.uploadGuid){
+    StateStore.dispatch({type:PENDING.STOP_UPLOADS});
     uploadNextItem(state);
   }
   if(state.getProfile){
@@ -110,11 +112,6 @@ const render = () => {
   }
 
 };
-
-var serverUrl = localStorage.getItem(STORAGE.SERVER_URL);
-if(serverUrl){
-  StateStore.dispatch({type:STORAGE.SET_SERVER_URL, serverUrl:serverUrl});
-}
 
 setTimeout(function(){
   document.documentElement.classList.add("ready");

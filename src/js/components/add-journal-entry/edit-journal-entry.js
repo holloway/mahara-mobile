@@ -10,7 +10,7 @@ class EditJournalEntry extends MaharaBaseComponent {
   render() {
     return <section>
       <h1>Add Journal Entry</h1>
-      <JournalEntry parent={this} edit={true} ref="journalEntry"/>
+      <JournalEntry parent={this} {...this.props} edit={true} ref="journalEntry"/>
       <button ref="saveButton" onClick={this.saveButton}>Save</button>
     </section>;
   }

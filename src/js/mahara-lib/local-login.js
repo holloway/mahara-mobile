@@ -4,13 +4,13 @@ import httpLib      from './http-lib.js';
 import {parseUserConfigFromHTML} from './get-user-profile.js';
 
 export default function localLogin(username, password, successCallback, errorCallback){
-  var protocolAndDomain = this.getServerProtocolAndDomain(),
+  var url = this.getUrl(),
       loginPath = "/",
       that = this;
 
-  if(!protocolAndDomain) return errorCallback();
+  if(!url) return errorCallback({error: "No URL configured."});
 
-  httpLib.postText(protocolAndDomain + loginPath, undefined, {
+  httpLib.postText(url + loginPath, undefined, {
       login_username:username,
       login_password:password,
       submit:"Login",
@@ -21,7 +21,7 @@ export default function localLogin(username, password, successCallback, errorCal
 
   function scrapeFromResponse(successCallback, errorCallback){
     return function(response){
-      var sessionDetails = /loggedin["']\s*?:\s*?1/,
+      var sessionDetails = /loggedin["'][\s]*?:/i,
           closingScriptTag = "</script>",
           responseData,
           loggedIn,

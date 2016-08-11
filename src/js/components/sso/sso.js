@@ -10,30 +10,64 @@ import {PAGE,
         STORAGE}           from '../../constants.js';
 
 class SSOPage extends MaharaBaseComponent {
+  constructor(props){
+    super(props)
+  }
   render() {
-    console.log("maharaServer.ssoUrl", maharaServer.ssoUrl);
-    if(maharaServer.ssoUrl){
-      return <iframe src={maharaServer.ssoUrl} ref="iframe" onError={this.iframeError}></iframe>
-    } else {
+    if(!maharaServer.ssoUrl){
       return <section>
         <p>
           {this.gettext('no_sso_url_found')}
           <a onClick={this.goBackToServer} className="noSSOFound">{this.gettext('try_again_question')}</a>
         </p>
       </section>
+    } else if(this.props.server.ssoAvailable === undefined){
+      return <section>
+        <p>{this.gettext('waiting_for_sso')}</p>
+      </section>
+    } else if(this.props.server.ssoAvailable === true){
+      return <iframe src={maharaServer.ssoUrl} ref="iframe"></iframe>
+    } else if(this.props.server.ssoAvailable === false) {
+      return <section>
+        <p>
+          {this.gettext('sso_error')}<br/>
+          <button onClick={this.ssoIsAvailable} className="goBack">{this.gettext('try_sso_anyway')}</button><br/>
+          <button onClick={this.goBackToServer} className="goBack">{this.gettext('choose_different_login_method')}</button>
+        </p>
+        <p>{this.gettext('sso_error_url_before')}<br/>
+          <a href={maharaServer.ssoUrl} onClick={this.gotoSSOUrlManually} className="ssoError">{maharaServer.ssoUrl}</a>
+        </p>
+      </section>
+    } else {
+      return <section><p>(unknown SSO state)</p></section>;
     }
   }
-  componentDidMount = () => {
-    if(!this.refs.iframe) return;
+  componentWillMount = () => {
+    //console.log("Before about to check...");
+    maharaServer.isSSOServerAvailable(this.ssoIsAvailable, this.ssoIsNotAvailable);
+  }
+  gotoSSOUrlManually = (e) => {
+    e.preventDefault();
+    var winRef = window.open(maharaServer.ssoUrl, "ssoServerUrl");
+    winRef.opener = null; // https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
+  }
+  ssoIsAvailable = () => {
+    //console.log("ssoIsAvailable...");
     this.loginChecker = setTimeout(this.checkIfLoggedIn, this.checkIfLoggedInEveryMilliseconds);
-  };
+    StateStore.dispatch({type:LOGIN.SSO_IS_AVAILABLE});
+  }
+  ssoIsNotAvailable = () => {
+    //console.log("ssoIsNotAvailable...");
+    StateStore.dispatch({type:LOGIN.SSO_NOT_AVAILABLE});
+  }
   checkIfLoggedInEveryMilliseconds = 1000;
   checkIfLoggedIn = () => {
+    //console.log("Checking...");
     maharaServer.getLoginStatus(this.checkIfLoggedInResult, this.checkIfLoggedInFailure);
   }
   checkIfLoggedInResult = (isLoggedIn) => {
+    //console.log("Checked...", isLoggedIn);
     if(this.loginChecker) clearTimeout(this.loginChecker);
-    console.log("isLoggedIn", isLoggedIn);
     if(isLoggedIn){
       Router.navigate(PAGE_URL.ADD);
       StateStore.dispatch({type:LOGIN.AFTER_LOGIN_GET_PROFILE});
@@ -42,9 +76,9 @@ class SSOPage extends MaharaBaseComponent {
     }
   }
   checkIfLoggedInFailure = (e) => {
-    console.log("sso failure", arguments);
+    //console.log("sso failure", arguments);
     if(this.loginChecker) clearTimeout(this.loginChecker);
-    this.loginChecker = setTimeout(this.checkIfLoggedIn, this.checkIfLoggedInEveryMilliseconds);
+    StateStore.dispatch({type:LOGIN.SSO_NOT_AVAILABLE});
   }
   componentWillUnmount = () => {
     this.hasUnmounted = true; //TODO: refactor this into Redux
@@ -52,9 +86,6 @@ class SSOPage extends MaharaBaseComponent {
   }
   goBackToServer = () => {
     Router.navigate(PAGE_URL.SERVER);
-  }
-  iframeError = (e) => {
-    console.log("iframe error", e);
   }
 }
 

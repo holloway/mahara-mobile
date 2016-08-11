@@ -80,6 +80,18 @@ function MaharaState(state, action) {
       if(console.trace) console.trace();
       console.log("Should not set upload token in state. Check previous trace to remove offending code.");
       break;
+    case LOGIN.SSO_AVAILABILITY_RESET:
+      state.server = state.server || {};
+      state.server.ssoAvailable = undefined;
+      break;
+    case LOGIN.SSO_IS_AVAILABLE:
+      state.server = state.server || {};
+      state.server.ssoAvailable = true;
+      break;
+    case LOGIN.SSO_NOT_AVAILABLE:
+      state.server = state.server || {};
+      state.server.ssoAvailable = false;
+      break;
     case STORAGE.SET_USER_PROFILE:
       state.server = state.server || {};
       state.server.profile = action.profile;
@@ -96,13 +108,29 @@ function MaharaState(state, action) {
       break;
     case FILE_ENTRY.ADD_ENTRY:
       state.pendingUploads = state.pendingUploads || [];
+      if(window.localStorage && action.fileEntry.dataURL){
+        // we store it seperately because it's a lot of data (often megabytes
+        // of text), and every subsequent change to the MaharaState is
+        // serialized to localStorage, so even a page change would mean
+        // serializing this data yet again. This can cause 100ms+ stalls.
+        // This means we only serialize it once, and read it once, and then
+        // delete it.
+        window.localStorage.setItem(action.fileEntry.guid, action.fileEntry.dataURL);
+        action.fileEntry.dataURL = true;
+      }
       state.pendingUploads.push(action.fileEntry);
       break;
     case PENDING.DELETE:
       state.pendingUploads = state.pendingUploads || [];
       var pendingUploadsBefore = state.pendingUploads.length;
       arrayRemoveIf.bind(state.pendingUploads)(function(item, index){
-        return (item.guid && item.guid === action.guid);
+        if(item.guid && item.guid === action.guid) {
+          if(window.localStorage && item.dataURL === true){
+            window.localStorage.removeItem(action.guid);
+          }
+          return true;
+        }
+        return false;
       });
       if(pendingUploadsBefore === state.pendingUploads.length){
         console.log("Warning not able to remove item ", action.guid, state.pendingUploads);
@@ -173,22 +201,6 @@ function afterUpdateProtocolAndLoginMethods(){
     ssoUrl:     maharaServerInstance.ssoUrl
   });
 }
-
-export var inputTypeFileStore = {
-  // Should only be used in browsers during testing, not in apps.
-  //
-  // Stored outside of State because state can't be preserved
-  // (we can't restore the state of an <input type=file>)
-  // So we store it outside and keep a reference and hope the data
-  // is still there by the time we attempt to upload
-  store: {},
-  set: function(guid, fileObj){
-    inputTypeFileStore.store[guid] = fileObj;
-  },
-  get: function(guid){
-    return inputTypeFileStore.store[guid];
-  }
-};
 
 const StateStore = createStore(MaharaState);
 

@@ -30,7 +30,8 @@ class Add extends MaharaBaseComponent {
   }
   renderUpload(){
     if(!isFileInputSupported) return "";
-    var inputId = "fileUpload" + this.props.pendingUploads.length;
+    
+    var inputId = "fileUpload" + (this.props.pendingUploads ? this.props.pendingUploads.length : 0);
     return <span>
             <input type="file" id={inputId} onChange={this.uploadFileChange} ref="fileUpload"/>
             <label htmlFor={inputId} className="big">{this.gettext('upload_file')}</label>
@@ -41,11 +42,17 @@ class Add extends MaharaBaseComponent {
 
     if(!fileUploadElement || !fileUploadElement.files || fileUploadElement.files.length === 0) return;
 
-    this.handleAsDataUrl(fileUploadElement);
+    this.handleInputAsDataUrl(fileUploadElement);
+    //this.handleInputAsFileInputs(fileUploadElement);
 
     Router.navigate(PAGE_URL.PENDING);
   }
-  handleFileAsDataUrl = (fileUploadElement) => {
+  handleInputAsDataUrl = (fileUploadElement) => {
+    // DataURLs are like base64 so they waste bytes
+    // and need processing to be used, and are inefficient
+    // at large sizes, but they can be preserved in localStorage.
+    // More here https://developer.mozilla.org/en-US/docs/Web/HTTP/data_URIs
+
     var that = this,
         readerLoad,
         reader,

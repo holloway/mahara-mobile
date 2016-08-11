@@ -1,6 +1,7 @@
 /*jshint esnext: true */
 import httpLib from './http-lib.js';
 import {LOGIN_TYPE} from './constants.js';
+import JSON5 from 'json5';
 
 export default function getUserProfile(successCallback, errorCallback){
   switch(this.loginType){
@@ -32,7 +33,7 @@ export function parseUserConfigFromHTML(htmlString){
                              .replace(/':/g, '":');
 
       try {
-        settings = JSON.parse(regexMatch);
+        settings = JSON5.parse(regexMatch);
       } catch(e){
         console.log("Problem extracting metadata", regexMatch, e, settings);
       }
@@ -44,7 +45,7 @@ export function parseUserConfigFromHTML(htmlString){
 
 
 export function getLocalLoginProfile(successCallback, errorCallback){
-  var protocolAndDomain = this.getServerProtocolAndDomain(),
+  var protocolAndDomain = this.getUrl(),
       userHomePath = "/account/index.php",
       that = this;
 
@@ -96,7 +97,7 @@ export function getLocalLoginProfile(successCallback, errorCallback){
 
 
 export function getSSOProfile(successCallback, errorCallback){
-  var protocolAndDomain = this.getServerProtocolAndDomain(),
+  var protocolAndDomain = this.getUrl(),
       userHomePath = "/user/view.php",
       that = this;
 
