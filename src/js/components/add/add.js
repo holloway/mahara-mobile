@@ -30,6 +30,7 @@ class Add extends MaharaBaseComponent {
   }
   renderUpload(){
     if(!isFileInputSupported) return "";
+    
     var inputId = "fileUpload" + (this.props.pendingUploads ? this.props.pendingUploads.length : 0);
     return <span>
             <input type="file" id={inputId} onChange={this.uploadFileChange} ref="fileUpload"/>
