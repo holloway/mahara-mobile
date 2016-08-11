@@ -2,49 +2,51 @@
 
 html.PAGE_LOGIN {
 	overflow:hidden;
-	background: #5c883c;
 
 	section {
-		max-width:800px;
-		padding: 0px 15px 100px 15px;
+		padding: 20px 15px 20px 15px;
 		margin: 0px auto;
 		text-align:center;
-		color:white;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
 	}
 
 	input {
-		font-size:xx-large;
-		padding: 5px 7px;
-		border:solid 1px #999;
-		border-radius: 3px;
-		text-align:left;
+		padding: 9px 13px;
+		border: 0;
+		border-bottom: 2px solid #68992a;
+		box-shadow: none;
+		background-color: #527b1e;
+		text-align: left;
+		display: block;
+		box-sizing: border-box;
 		width:100%;
+		color: #c1e494;
+		margin-bottom: 20px;
 	}
 
 	label {
-		display:block;
-		text-align:left;
-		font-size:x-large;
-		margin: 0.5em 0px 0px 0px;
+		display: block;
+		text-align: left;
+		margin: 5px 0px 0px 0px;
 		padding: 0;
+		font-weight: bold;
 	}
 
 	button.next {
-		background: #5c883c;
 		color: #fff;
-		font-weight:100;
-		position:fixed;
-		bottom: 0px;
-		right:0px;
-		font-size:xx-large;
-		padding: 0.5em 0.5em 0.5em 1em;
-		border: none;
+		padding: 10px 10px;
+		border: 1px solid white;
+		background: #477f00;
+		text-align: left;
+		margin-top: 20px;
 	}
 
 	button.changeServer {
 		background: transparent;
-		color: #fff;
-		font-size: inherit;
+		color: #ecff64;
 		border: none;
 		text-decoration: underline;
 		padding: 0px;
@@ -52,9 +54,9 @@ html.PAGE_LOGIN {
 	}
 
 	p.textLinks {
-		text-align:right;
+		text-align: right;
 		padding: 0px;
-		text-indent: 0px;
+		margin: 0;
 	}
 
 	button.forgotPassword {

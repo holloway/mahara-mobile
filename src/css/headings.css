@@ -1,16 +1,11 @@
-body,
+body {
+  font-weight: normal;
+}
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-weight: 100;
-}
-
-h1 {
-  color: #fff;
-  padding-bottom: 0.4em;
-  text-shadow: 1px 1px 1px #444;
-  font-size:medium;
+  font-weight: bold;
 }
