@@ -1,14 +1,11 @@
 /* PostCSS */
 
 html.PAGE_SSO {
-	background: #5c883c;
 
 	section {
-		max-width:800px;
-		padding: 0.7em 15px 100px 15px;
+		padding: 20px 15px 20px 15px;
 		margin: 0px auto;
-		text-align:center;
-		color:white;
+		text-align: center;
 	}
 
 	iframe {

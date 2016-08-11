@@ -7,15 +7,20 @@
 
 html {
 	transition: background-color 0.5s;
-	background: #666;
+	background: #3f6212;
+
+	section {
+		background: #456d12;
+	}
 }
 
 body {
   user-select: none;
   @mixin reset;
-  font-family: sans-serif;
-	color: #fff;
-	font-weight:100;
+  font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	color: #FFFFFF;
+	font-weight: normal;
 }
 
 html,
@@ -25,7 +30,7 @@ body,
 	min-height: 100%;
 }
 
-
+@import "./fonts.css";
 @import "./buttons.css";
 @import "./headings.css";
 @import "./forms.css";
