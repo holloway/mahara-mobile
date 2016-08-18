@@ -1,24 +1,22 @@
 /* PostCSS */
 
 html.PAGE_LOGIN {
+  background: url(../image/blurbkgd.jpg) no-repeat 0 0;
+  background-size: cover;
 	overflow:hidden;
 
 	section {
-		padding: 20px 15px 20px 15px;
+		padding: 20px 30px 20px 30px;
 		margin: 0px auto;
 		text-align:center;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
 	}
 
 	input {
-		padding: 9px 13px;
+		padding: 13px 13px;
 		border: 0;
-		border-bottom: 2px solid #68992a;
+		border-bottom: 2px solid #61733e;
 		box-shadow: none;
-		background-color: #527b1e;
+		background-color: #51632e;
 		text-align: left;
 		display: block;
 		box-sizing: border-box;
@@ -30,18 +28,18 @@ html.PAGE_LOGIN {
 	label {
 		display: block;
 		text-align: left;
-		margin: 5px 0px 0px 0px;
+		margin: 5px 0px;
 		padding: 0;
-		font-weight: bold;
+    font-size: 18px;
 	}
 
 	button.next {
-		color: #fff;
-		padding: 10px 10px;
-		border: 1px solid white;
-		background: #477f00;
-		text-align: left;
 		margin-top: 20px;
+		color: #a7ce74;
+		padding: 13px 40px;
+		background: #33510c;
+		border: 0;
+		font-size: 16px;
 	}
 
 	button.changeServer {
@@ -51,12 +49,14 @@ html.PAGE_LOGIN {
 		text-decoration: underline;
 		padding: 0px;
 		margin-left:1em;
+		font-size: 14px;
 	}
 
 	p.textLinks {
-		text-align: right;
+		text-align: center;
 		padding: 0px;
-		margin: 0;
+		margin: 0 0 15px 0;
+		font-size: 16px;
 	}
 
 	button.forgotPassword {

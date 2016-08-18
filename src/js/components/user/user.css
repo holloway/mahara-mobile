@@ -6,10 +6,20 @@
 }
 
 html.PAGE_USER {
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3a4b20+0,5d8827+50,5d8827+50,80a529+100 */
+	background: #3a4b20; /* Old browsers */
+	background: -moz-linear-gradient(top,  #3a4b20 0%, #5d8827 50%, #5d8827 50%, #80a529 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #3a4b20 0%,#5d8827 50%,#5d8827 50%,#80a529 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #3a4b20 0%,#5d8827 50%,#5d8827 50%,#80a529 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3a4b20', endColorstr='#80a529',GradientType=0 ); /* IE6-9 */
+
 	section {
-		max-width:800px;
-		padding: 10px 15px;
-		margin: 0 auto;
+		padding: 20px 30px 20px 30px;
+		margin: 0px auto;
+	}
+
+	h2 {
+		border-bottom: dotted 1px white;
 	}
 
 	hr {
@@ -23,7 +33,6 @@ html.PAGE_USER {
 		width:100%;
 		padding: 0.5em 0px;
 		margin: 0px 0px 0.7em 0px;
-		font-size:xx-large;
 	}
 
 	img.profile {

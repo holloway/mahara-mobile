@@ -1,9 +1,11 @@
 /* PostCSS */
 
 html.PAGE_LOGIN_TYPE {
+  background: url(../image/blurbkgd.jpg) no-repeat 0 0;
+  background-size: cover;
 
 	section {
-		padding: 20px 15px 20px 15px;
+		padding: 20px 30px 20px 30px;
 		margin: 0px auto;
 		text-align: center;
 		position: fixed;
@@ -16,25 +18,24 @@ html.PAGE_LOGIN_TYPE {
 	button.changeServer {
 		display: inline-block;
 		box-sizing: border-box;
-		color: #fff;
-		padding: 10px 10px;
 		text-align: center;
     margin: 5px 5px;
-		border: 1px solid white;
-		background: #477f00;
-		width: auto;
+		color: #a7ce74;
+		padding: 13px 40px;
+		background: #33510c;
+		border: 0;
+		font-size: 16px;
 	}
 
 	h2 {
 		color: #FFFFFF;
 		margin-bottom: 5px;
-		font-size: 16px;
-		font-weight: bold;
+		font-size: 24px;
+		font-weight: 300;
 	}
 
 	p.textLinks {
-		text-align: right;
-		font-size: 14px;
+		font-size: 16px;
 	}
 
 	a.changeServer {
@@ -44,6 +45,7 @@ html.PAGE_LOGIN_TYPE {
 		text-decoration: underline;
 		padding: 0px;
 		margin-left: 1em;
+		font-size: 14px;
 	}
 
 }

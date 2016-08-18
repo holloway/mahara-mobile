@@ -11,6 +11,17 @@
 }
 @font-face {
   font-family: 'Open Sans';
+    src: url('../fonts/opensans/OpenSansLight.eot');
+    src: url('../fonts/opensans/OpenSansLight.eot') format('embedded-opentype'),
+         url('../fonts/opensans/OpenSansLight.woff2') format('woff2'),
+         url('../fonts/opensans/OpenSansLight.woff') format('woff'),
+         url('../fonts/opensans/OpenSansLight.ttf') format('truetype'),
+         url('../fonts/opensans/OpenSansLight.svg#OpenSansLight') format('svg');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Open Sans';
     src: url('../fonts/opensans/OpenSansItalic.eot');
     src: url('../fonts/opensans/OpenSansItalic.eot') format('embedded-opentype'),
          url('../fonts/opensans/OpenSansItalic.woff2') format('woff2'),

@@ -7,11 +7,6 @@
 
 html {
 	transition: background-color 0.5s;
-	background: #3f6212;
-
-	section {
-		background: #456d12;
-	}
 }
 
 body {
@@ -47,3 +42,25 @@ body,
 @import "../js/components/pending/pending.css";
 @import "../js/components/expand-collapse/expand-collapse.css";
 @import "../lib/alertify.js/alertify.css";
+
+.alertify {
+	.alert, .dialog {
+		> * {
+			border-radius: 10px;
+		}
+
+		nav {
+			button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button) {
+			  background: #33510c;
+				color: #a7ce74;
+				border-radius: 0;
+
+				&:hover, &:focus {
+					background: #33510c;
+					color: #a7ce74;
+				}
+			}
+		}
+
+	}
+}
