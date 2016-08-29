@@ -1,9 +1,11 @@
 /* PostCSS */
 
 html.PAGE_SERVER {
+  background: url(../image/blurbkgd.jpg) no-repeat 0 0;
+  background-size: cover;
 
 	section {
-		padding: 20px 15px 20px 15px;
+		padding: 20px 30px 20px 30px;
 		margin: 0px auto;
 		text-align: center;
 		position: fixed;
@@ -16,37 +18,37 @@ html.PAGE_SERVER {
 		display: block;
 		color: #FFFFFF;
 		margin-bottom: 5px;
-		font-size: 16px;
-		font-weight: bold;
+		font-size: 24px;
+		font-weight: 300;
 	}
 
 	input[type=url] {
-		padding: 9px 13px;
+		padding: 13px 13px;
 		border: 0;
-		border-bottom: 2px solid #68992a;
+		border-bottom: 2px solid #61733e;
 		box-shadow: none;
-		background-color: #527b1e;
+		background-color: #51632e;
 		text-align: left;
 		display: block;
 		box-sizing: border-box;
 		width:100%;
 		color: #c1e494;
 		margin-bottom: 20px;
+    font-size: 16px;
 	}
 
 	button {
-		color: #fff;
-		padding: 10px 10px;
+		color: #a7ce74;
+		padding: 13px 40px;
+		background: #33510c;
+		border: 0;
+		font-size: 18px;
 
 		&.next {
-			border: 1px solid white;
-			background: #477f00;
 			margin-left: 5px;
 		}
 
 		&.skip {
-			border: 0;
-			background: #3f6212;
 			margin-right: 5px;
 		}
 	}

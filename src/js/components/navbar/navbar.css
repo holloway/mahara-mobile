@@ -18,22 +18,21 @@ nav {
     display:inline-block;
     width:33.33%;
     text-align:center;
-    background-color: #333;
+    background-color: #202020;
 		background-position: 99% center;
 		background-repeat: no-repeat;
 		background-size: 25px 25px;
 		box-sizing: border-box;
-		border-right: 1px solid #aaa;
+
   }
 
   a {
     color: white;
     display:block;
-    padding: 1em 0px;
+    padding: 30px 0px 7px 0;
     text-decoration:none;
-    text-shadow: 1px 1px 2px #555;
-		font-size:large;
-		text-transform:uppercase;
+		background: url(../image/add.svg) no-repeat center 7px;
+		background-size: 23px 23px;
 
 		&:active,
 		&:focus,
@@ -50,10 +49,23 @@ nav {
 		}
   }
 
+	li:first-child a {
+		background: url(../image/user.svg) no-repeat center 7px;
+		background-size: 23px 23px;
+  }
+
+	li:last-child {
+		background-position: center 1px;
+		background-size: 30px 30px;
+
+		a {
+			background: none;
+		}
+	}
+
 	li.active {
-		background-color: #333;
-    box-shadow: inset -30px 0 30px -30px #000, inset 30px 0 30px -30px #000;
-    color:white;
+		background-color: #292929;
+    border-bottom: 10px solid #292929;
 	}
 
 	span.sr-only { /* ScreenReader only -- class name from Twitter Bootstrap */
@@ -65,11 +77,11 @@ nav {
 
 	span.badge {
 		position:relative;
-		font-size:small;
-		top: -10px;
-		left: 2px;
-		background: red;
-		color: #fdd;
+		font-size: 10px;
+		top: -3px;
+		left: 7px;
+		background: #d76e08;
+		color: #FFF;
 		padding: 3px 7px 3px 7px;
 		border-radius: 100%;
 		font-weight:bold;
@@ -80,7 +92,7 @@ nav {
 		display:block;
 		transition: all 0.5s ease-in-out;
 		position:relative;
-		border-bottom: solid 3px #9f9;
+		border-bottom: solid 3px #72cf00;
 		height: 2px;
 		width:30%;
 	}

@@ -15,15 +15,14 @@ button.big,
 button.small {
   box-sizing: border-box;
   cursor: pointer;
-  background: #696969;
-  border: solid 1px #444;
-  color: #fff;
-  box-shadow: 1px 1px 2px #333, inset 1px 1px 4px #888;
+  background: #33510c;
+	color: #a7ce74;
+  border: 0;
+	padding: 13px 20px;
+  font-weight: bold;
 
   &:active {
-    box-shadow: -1px -1px 2px #333, inset -1px -1px 4px #888;
-    background: #595959;
-    border: solid 1px #444;
+    background: #477c02;
   }
 }
 
@@ -32,17 +31,13 @@ button.big {
   display:inline-block;
   text-align:center;
   width:100%;
-  padding: 0.5em;
-  margin: 0px 0px 0.7em 0px;
-  border-radius: 3px;
-  font-size:xx-large;
-  font-weight:100;
+  margin: 0px 0px 10px 0px;
+  font-size: 18px;
 }
 
 button.small {
-  padding: 0.5em 0.8em;
-  margin: 0px 0px 0.7em 0px;
-  border-radius: 2px;
-  font-size:small;
-  font-weight:100;
+  padding: 7px;
+  margin: 0px 0px 10px 0px;
+  font-size: 14px;
+  font-weight:normal;
 }
