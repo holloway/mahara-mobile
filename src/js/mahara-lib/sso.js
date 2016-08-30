@@ -2,7 +2,7 @@
 import httpLib      from './http-lib.js';
 
 export default function isSSOServerAvailable(availableCallback, notAvailableCallback){
-  if(!this.ssoUrl) return notAvailableCall();
+  if(!this.ssoUrl) return notAvailableCallback();
 
   var ssoTimer = setTimeout(notAvailableCallback, 10000);
 

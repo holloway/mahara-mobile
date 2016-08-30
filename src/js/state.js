@@ -38,9 +38,9 @@ function MaharaState(state, action) {
     case PAGE.USER:
     case PAGE.ADD:
     case PAGE.ADD_JOURNAL_ENTRY:
-    //case PAGE.EDIT_JOURNAL_ENTRY:
     case PAGE.PENDING:
     case PAGE.SYNC:
+    //case PAGE.EDIT_JOURNAL_ENTRY:
       state.page = action.type;
       break;
     case STORAGE.SET_SERVER_URL:
@@ -120,22 +120,6 @@ function MaharaState(state, action) {
       }
       state.pendingUploads.push(action.fileEntry);
       break;
-    case PENDING.DELETE:
-      state.pendingUploads = state.pendingUploads || [];
-      var pendingUploadsBefore = state.pendingUploads.length;
-      arrayRemoveIf.bind(state.pendingUploads)(function(item, index){
-        if(item.guid && item.guid === action.guid) {
-          if(window.localStorage && item.dataURL === true){
-            window.localStorage.removeItem(action.guid);
-          }
-          return true;
-        }
-        return false;
-      });
-      if(pendingUploadsBefore === state.pendingUploads.length){
-        console.log("Warning not able to remove item ", action.guid, state.pendingUploads);
-      }
-      break;
     case PENDING.STARTED_UPLOAD_AT:
       state.pendingUploads = state.pendingUploads || [];
       var foundItem = false;
@@ -161,7 +145,7 @@ function MaharaState(state, action) {
     case PENDING.STOP_UPLOADS:
       state.uploadGuid = undefined;
       if(state.pendingUploads && state.pendingUploads.length){
-        for(i = 0; i < state.pendingUploads.length; i++){
+        for(var i = 0; i < state.pendingUploads.length; i++){
           state.startedUploadAt = undefined;
         }
       }
@@ -170,13 +154,19 @@ function MaharaState(state, action) {
       state.pendingUploads = undefined;
       break;
     case PENDING.DELETE:
-      var pendingUpload;
-      if(!action.guid) console.log("Expected a guid with ", PENDING.DELETE);
-      for(var i = 0; i < state.pendingUploads.length; i++){
-        pendingUpload = state.pendingUploads[i];
-        if(pendingUpload.guid !== undefined && pendingUpload.guid === action.guid){
-          state.pendingUploads.splice(i, 1);
+      state.pendingUploads = state.pendingUploads || [];
+      var pendingUploadsBefore = state.pendingUploads.length;
+      arrayRemoveIf.bind(state.pendingUploads)(function(item, index){
+        if(item.guid && item.guid === action.guid) {
+          if(window.localStorage && item.dataURL === true){
+            window.localStorage.removeItem(action.guid);
+          }
+          return true;
         }
+        return false;
+      });
+      if(pendingUploadsBefore === state.pendingUploads.length){
+        console.log("Warning not able to remove item ", action.guid, state.pendingUploads);
       }
       break;
     case LOGIN.AFTER_LOGIN_GET_PROFILE:

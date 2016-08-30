@@ -81,7 +81,7 @@ export default function setMobileUploadToken(token, successCallback, errorCallba
         postData.pieform_jssubmission = "1";
         httpLib.postText(url + tokenPath, undefined, postData, successFrom(successCallback, errorCallback, METHOD_POST), failureFrom(errorCallback, METHOD_POST));
       } else {
-        if(!!response.target.response.match(token)){ // ensure token is in response
+        if(response.target.response.match(token)){ // ensure token is in response
           successCallback(token);
         } else {
           errorCallback({error:true, tokenNotSet:true, data:response.target, message:"Couldn't find token in response"});

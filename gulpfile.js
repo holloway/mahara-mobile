@@ -45,11 +45,11 @@ gulp.task('js', function (){
 gulp.task('css', function(){
     var processors = [
       require('postcss-import'),
-  		require('postcss-mixins'),
-  		require('postcss-simple-vars'),
-  		require('postcss-nested'),
-  		require('autoprefixer')({ browsers: ['last 2 versions', '> 2%'] })
-  	];
+      require('postcss-mixins'),
+      require('postcss-simple-vars'),
+      require('postcss-nested'),
+      require('autoprefixer')({ browsers: ['last 2 versions', '> 2%'] })
+    ];
     gulp.src(paths.css)
       .pipe(postcss(processors))
       .pipe(gulp.dest(paths.dest));

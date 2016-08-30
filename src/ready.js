@@ -58,7 +58,7 @@
       } else if(resource.match(/\.json$/)){
         var req = http.getAsJSON(resource, undefined, oneResourceLoaded(resource));
       } else {
-        log.warning("Unable to add resource: " + resource);
+        console.log("Unable to add resource: " + resource);
       }
     }
   };

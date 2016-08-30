@@ -33,7 +33,7 @@ export default {
     return this.raw("GET", headers, path, getParams, null, successCallback, errorCallback);
   },
   getAsJSON: function(path, getParams, successCallback, errorCallback, headers){
-    return this.get(path, getParams, http.asJSON(successCallback, errorCallback), errorCallback, headers);
+    return this.get(path, getParams, this.asJSON(successCallback, errorCallback), errorCallback, headers);
   },
   asJSON: function(successCallback, errorCallback){
     return function asJSON(response){
