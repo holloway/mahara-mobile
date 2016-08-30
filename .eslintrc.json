@@ -1,0 +1,38 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-unused-vars": "off",
+        "no-console": "off",
+        "no-empty": "off"
+    },
+    "globals": {
+      "mahara": false,
+        // From alertify plugin
+      "alertify": false,
+      // From cordova-file-transfer plugin
+      "FileUploadOptions": false,
+      "FileTransfer": false
+    }
+}
