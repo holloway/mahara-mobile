@@ -4,13 +4,13 @@ import httpLib      from './http-lib.js';
 export default function setMobileUploadToken(token, successCallback, errorCallback){
   var tokenPath = "/account/index.php",
       fieldName = "accountprefs_mobileuploadtoken[",
-      url = this.getUrl(),
+      url = this.getWwwroot(),
       that = this,
       METHOD_GET = "GET",
       METHOD_POST = "POST",
       sesskey; //named after Mahara Server's variable name
 
-  if(!url) return errorCallback({error:true, message:"No protocol and domain from set-mobile-upload.js"});
+  if(!url) return errorCallback({error:true, message:"No protocol and wwwroot from set-mobile-upload.js"});
 
   if(!that.uploadTokenNextIndex) that.uploadTokenNextIndex = 0;
 

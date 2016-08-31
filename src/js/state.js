@@ -45,13 +45,8 @@ function MaharaState(state, action) {
       break;
     case STORAGE.SET_SERVER_URL:
       state.server = state.server || {};
-      state.server.url = action.serverUrl;
+      state.server.wwwroot = action.serverUrl;
       state.startAutoDetectingProtocolAndLoginMethod = true;
-      break;
-    case STORAGE.SET_SERVER_DOMAIN:
-      state.server = state.server || {};
-      state.server.domain = action.domain;
-      maharaServerInstance.domain = action.domain;
       break;
     case STORAGE.STOP_AUTODETECTING:
       state.startAutoDetectingProtocolAndLoginMethod = undefined;
@@ -59,17 +54,11 @@ function MaharaState(state, action) {
     case STORAGE.AUTODETECTED_SERVER:
       state.server = state.server || {};
       state.server.loginTypes = action.loginTypes;
-      state.server.protocol = action.protocol;
-      state.server.ssoUrl = action.ssoUrl;
       maharaServerInstance.loginTypes = action.loginTypes;
-      maharaServerInstance.protocol = action.protocol;
-      maharaServerInstance.ssoUrl = action.ssoUrl;
       break;
     case STORAGE.SET_SERVER_LOGIN_TYPES:
       state.server = state.server || {};
       state.server.loginTypes = action.loginTypes;
-      state.server.ssoUrl     = action.ssoUrl;
-      state.server.protocol   = action.protocol;
       break;
     case STORAGE.SET_SERVER_CHOSEN_LOGIN_TYPE:
       state.server = state.server || {};
@@ -180,16 +169,6 @@ function MaharaState(state, action) {
   Storage.state.set(state);
 
   return state;
-}
-
-function afterUpdateProtocolAndLoginMethods(){
-  console.log("maharaServerInstance.protocol:", maharaServerInstance);
-  StateStore.dispatch({
-    type:       STORAGE.SET_SERVER_LOGIN_TYPES,
-    protocol:   maharaServerInstance.protocol,
-    loginTypes: maharaServerInstance.loginTypes,
-    ssoUrl:     maharaServerInstance.ssoUrl
-  });
 }
 
 const StateStore = createStore(MaharaState);

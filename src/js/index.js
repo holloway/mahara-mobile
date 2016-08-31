@@ -19,7 +19,7 @@ import AddJournalEntryPage  from './components/add-journal-entry/add-journal-ent
 import EditJournalEntryPage from './components/add-journal-entry/edit-journal-entry.js';
 import uploadNextItem       from './upload.js';
 import {afterLoginGetProfile,
-       afterUpdateProtocolAndLoginMethods}
+       afterInputWwwroot}
                             from './after.js';
 import {PAGE,
         LOGIN,
@@ -108,7 +108,7 @@ const render = () => {
   }
   if(state.startAutoDetectingProtocolAndLoginMethod){
     StateStore.dispatch({type:STORAGE.STOP_AUTODETECTING});
-    afterUpdateProtocolAndLoginMethods(state.server.url);
+    afterInputWwwroot(state.server.wwwroot);
   }
 
 };

@@ -40,9 +40,9 @@ class User extends MaharaBaseComponent {
     });
   }
   renderServer(){
-    if(!this.props.server || !this.props.server.domain) return "";
+    if(!this.props.server || !this.props.server.wwwroot) return "";
     return <span>
-      {this.props.server.domain}
+      {this.props.server.wwwroot}
 
        <span className="changeServerBrackets">(<a onClick={this.changeServer} className="changeServer">{this.gettext("change_server")}</a>)</span>
     </span>;

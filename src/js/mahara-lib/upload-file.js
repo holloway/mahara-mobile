@@ -9,12 +9,12 @@ import {UPLOAD_HANDLER_TYPE,
 
 
 export default function uploadFile(fileEntry, successCallback, errorCallback){
-  var url = this.getUrl(),
+  var url = this.getWwwroot(),
       uploadPath = "/artefact/file/index.php",
       that = this,
       params = {};
 
-  if(!url) return errorCallback({error:true, noProtocolAndDomain:true, message: "No protocol or domain", fileEntry:fileEntry});
+  if(!url) return errorCallback({error:true, noProtocolAndDomain:true, message: "No protocol or wwwroot", fileEntry:fileEntry});
 
   if(!this.profile || !this.profile.sesskey || !this.sync) return errorCallback({error:true, isLoggedIn:false, message: "Not logged in."});
 

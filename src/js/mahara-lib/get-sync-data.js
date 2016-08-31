@@ -2,7 +2,7 @@
 import httpLib from './http-lib.js';
 
 export default function getSyncData(successCallback, errorCallback){
-  var protocolAndDomain = this.getUrl(),
+  var protocolAndDomain = this.getWwwroot(),
       syncPath = "/api/mobile/sync.php",
       that = this;
 

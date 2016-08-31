@@ -11,13 +11,13 @@ import {PAGE_URL,
 class LoginTypePage extends MaharaBaseComponent {
   
   render() {
-    if(!this.props.server || !this.props.server.url){
+    if(!this.props.server || !this.props.server.wwwroot){
       return <section>
         <button onClick={this.changeServer} className="changeServer">{this.gettext('login_type_error_choose_server')}</button>
       </section>;
     } else {
       return <section>
-        <p className="textLinks">({this.props.server.url}) <a onClick={this.changeServer} className="changeServer">{this.gettext('wizard_change_server')}</a></p>
+        <p className="textLinks">({this.props.server.wwwroot}) <a onClick={this.changeServer} className="changeServer">{this.gettext('wizard_change_server')}</a></p>
         <h2>{this.gettext('login_types_header')}</h2>
         {this.supportsSingleSignOn()}
         {this.supportsLocalLogin()}

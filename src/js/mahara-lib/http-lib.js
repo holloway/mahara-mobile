@@ -29,23 +29,33 @@ export default {
     request.send(postData);
     return request;
   },
+
   get: function(path, getParams, successCallback, errorCallback, headers){
     return this.raw("GET", headers, path, getParams, null, successCallback, errorCallback);
   },
+
   getAsJSON: function(path, getParams, successCallback, errorCallback, headers){
     return this.get(path, getParams, this.asJSON(successCallback, errorCallback), errorCallback, headers);
   },
+
   asJSON: function(successCallback, errorCallback){
     return function asJSON(response){
       var jsonData;
       try {
         jsonData = JSON.parse(response.target.responseText);
       } catch (e){
-        return errorCallback(response, e);
+        return errorCallback.call(this, response, e);
       }
-      successCallback.call(this, jsonData, arguments);
+      // When mahara knows JSON is expected in the response, 
+      // and there's an error, it prints an error code and
+      // message.
+      if (jsonData.error) {
+        return errorCallback.call(this, response, jsonData);
+      }
+      return successCallback.call(this, jsonData, arguments);
     };
   },
+
   postText: function(path, getParams, postParams, successCallback, errorCallback, headers){
     // Can only handle key:values of text, no blobs
     var postData;
@@ -60,6 +70,7 @@ export default {
     }
     return this.raw("POST", headers, path, getParams, postData, successCallback, errorCallback);
   },
+
   postData: function(path, getParams, postParams, successCallback, errorCallback, headers){
     var formData = new FormData(),
         key,
@@ -76,4 +87,31 @@ export default {
 
     return this.raw("POST", headers, path, getParams, formData, successCallback, errorCallback);
   },
+
+  /**
+   * Access a Mahara REST-based webservice using an auth token.
+   */
+  getWebservice(
+      wsfunction,
+      wsparams,
+      successCallback,
+      errorCallback
+  ) {
+
+    // TODO: some kind of auto-fallthrough to send you to the auth system when you need to re-auth?
+    if (!this.getAccessToken()) {
+      return errorCallback("Not connected to webservice yet");
+    }
+    
+    var fullparams;
+    try {
+      fullparams = Object.assign({}, wsparams);
+    } catch (e) {
+      fullparams = {};
+    }
+    fullparams.wsfunction = wsfunction;
+    fullparams.wstoken = this.getAccessToken();
+    // TODO: handle a "re-auth needed" failure?
+    return this.getAsJSON(this.getWwwroot + 'webservice/rest/server.php', fullparams, successCallback, errorCallback);
+  }
 };

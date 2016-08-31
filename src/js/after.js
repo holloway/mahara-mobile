@@ -31,15 +31,13 @@ export function afterLoginGetProfile(){
 }
 
 
-export function afterUpdateProtocolAndLoginMethods(serverUrl){
-  maharaServer.setUrl(serverUrl, successCallback, errorCallback);
+export function afterInputWwwroot(serverUrl){
+  maharaServer.updateWwwroot(serverUrl, successCallback, errorCallback);
 
   function successCallback(response){
     StateStore.dispatch({
       type:       STORAGE.AUTODETECTED_SERVER,
-      protocol:   response.protocol,
-      loginTypes: response.loginTypes,
-      ssoUrl:     response.loginTypes.ssoUrl
+      loginTypes: response.loginTypes
     });
   }
 

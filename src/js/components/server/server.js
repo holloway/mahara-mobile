@@ -12,8 +12,8 @@ export default class ServerPage extends MaharaBaseComponent {
     super(props);
 
     var serverUrl = "";
-    if(props.server && props.server.url){
-      serverUrl = props.server.url;
+    if(props.server && props.server.wwwroot){
+      serverUrl = props.server.wwwroot;
     }
     this.state = {
       serverUrl: serverUrl
@@ -37,12 +37,16 @@ export default class ServerPage extends MaharaBaseComponent {
 
   nextButton(){
     var serverUrl = this.refs.serverUrl.value;
-    if(!serverUrl.match(/\/$/)){
-      serverUrl += "/";
-    }
     if(serverUrl.trim().length === 0) {
       alertify.alert(this.gettext("server_url_empty_validation"));
       return;
+    }
+    if (serverUrl.slice(-1) !== "/") {
+      serverUrl = serverUrl + "/";
+    }
+
+    if (!/^https?:\/\//.test(serverUrl)) {
+      serverUrl = "https://" + serverUrl;
     }
     this.setState({serverUrl: serverUrl});
     StateStore.dispatch({type:STORAGE.SET_SERVER_URL, serverUrl:serverUrl});

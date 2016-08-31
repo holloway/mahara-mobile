@@ -14,7 +14,7 @@ class LoginPage extends MaharaBaseComponent {
   render() {
     return <section>
       <p className="textLinks">
-        {this.props.server && this.props.server.url ? "(" + this.props.server.url + ")" : ""}
+        {this.props.server && this.props.server.wwwroot ? "(" + this.props.server.wwwroot + ")" : ""}
         <button onClick={this.backButton} className="changeServer">{this.gettext('wizard_change_server')}</button>
       </p>
       <label htmlFor="username">{this.gettext('username')}</label>
@@ -26,7 +26,7 @@ class LoginPage extends MaharaBaseComponent {
   }
 
   componentWillMount(){
-    if(!this.props.server.url) {
+    if(!this.props.server.wwwroot) {
       alertify.okBtn(this.gettext("alert_ok_button")).alert(this.gettext("cant_login_no_server_configured"), function(){
         Router.navigate(PAGE_URL.SERVER);
       });
