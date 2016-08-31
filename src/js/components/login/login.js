@@ -10,6 +10,7 @@ import {PAGE,
         STORAGE}           from '../../constants.js';
 
 class LoginPage extends MaharaBaseComponent {
+  
   render() {
     return <section>
       <p className="textLinks">
@@ -23,6 +24,7 @@ class LoginPage extends MaharaBaseComponent {
       <button onClick={this.nextButton} className="next">{this.gettext('wizard_login_button')}</button>
     </section>;
   }
+
   componentWillMount(){
     if(!this.props.server.url) {
       alertify.okBtn(this.gettext("alert_ok_button")).alert(this.gettext("cant_login_no_server_configured"), function(){
@@ -40,11 +42,12 @@ class LoginPage extends MaharaBaseComponent {
     if(username.trim().length === 0) {
       alertify.okBtn(this.gettext("alert_ok_button")).alert(this.gettext("username_empty_validation"));
       return;
-    };
+    }
+
     if(password.trim().length === 0) {
       alertify.okBtn(this.gettext("alert_ok_button")).alert(this.gettext("password_empty_validation"));
       return;
-    };
+    }
 
     maharaServer.usernamePasswordLogin(username, password, successCallback, errorCallback);
 

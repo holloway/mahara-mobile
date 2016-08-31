@@ -7,6 +7,7 @@ import {STORAGE, PAGE_URL} from '../../constants.js';
 import Router              from '../../router.js';
 
 export default class ServerPage extends MaharaBaseComponent {
+
   constructor(props) {
     super(props);
 
@@ -20,6 +21,7 @@ export default class ServerPage extends MaharaBaseComponent {
     this.nextButton = this.nextButton.bind(this);
     this.skipButton = this.skipButton.bind(this);
   }
+
   render() {
     return <section>
       <label htmlFor="serverUrl">{this.gettext('server_question')}</label>
@@ -28,9 +30,11 @@ export default class ServerPage extends MaharaBaseComponent {
       <button onClick={this.nextButton} className="next">{this.gettext('wizard_next_button')}</button>
     </section>;
   }
+
   onChange = (e) => {
     this.setState({serverUrl: this.refs.serverUrl.value});
   }
+
   nextButton(){
     var serverUrl = this.refs.serverUrl.value;
     if(!serverUrl.match(/\/$/)){
@@ -39,11 +43,12 @@ export default class ServerPage extends MaharaBaseComponent {
     if(serverUrl.trim().length === 0) {
       alertify.alert(this.gettext("server_url_empty_validation"));
       return;
-    };
+    }
     this.setState({serverUrl: serverUrl});
     StateStore.dispatch({type:STORAGE.SET_SERVER_URL, serverUrl:serverUrl});
     Router.navigate(PAGE_URL.LOGIN_TYPE);
   }
+
   skipButton(){
     Router.navigate(PAGE_URL.ADD);
   }

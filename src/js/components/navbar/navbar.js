@@ -17,7 +17,7 @@ var menuItems = [
       },
     }
   }
-]
+];
 
 class NavBar extends MaharaBaseComponent {
   render() {
@@ -62,7 +62,7 @@ class NavBar extends MaharaBaseComponent {
         that.refs.navbarActiveHighlight.style.left  = liPosition.left + "px";
         that.refs.navbarActiveHighlight.style.width = liPosition.width + "px";
       }
-    })
+    });
   }
   getPropsMenuBase = () => {
    var propsMenuBase = this.props.page;

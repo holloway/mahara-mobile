@@ -26,7 +26,7 @@ class Add extends MaharaBaseComponent {
   }
   renderTakePhoto(){
     if(this.props.isCordova === false) return "";
-    return <button onClick={this.takePhoto} className="big">{this.gettext('camera_take_photo_button')}</button>
+    return <button onClick={this.takePhoto} className="big">{this.gettext('camera_take_photo_button')}</button>;
   }
   renderUpload(){
     if(!isFileInputSupported) return "";
@@ -35,7 +35,7 @@ class Add extends MaharaBaseComponent {
     return <span>
             <input type="file" id={inputId} onChange={this.uploadFileChange} ref="fileUpload"/>
             <label htmlFor={inputId} className="big">{this.gettext('upload_file')}</label>
-          </span>
+          </span>;
   }
   uploadFileChange(e){
     var fileUploadElement = this.refs.fileUpload;
@@ -54,7 +54,6 @@ class Add extends MaharaBaseComponent {
     // More here https://developer.mozilla.org/en-US/docs/Web/HTTP/data_URIs
 
     var that = this,
-        readerLoad,
         reader,
         i;
 
@@ -73,7 +72,7 @@ class Add extends MaharaBaseComponent {
             };
 
         StateStore.dispatch({type:FILE_ENTRY.ADD_ENTRY, fileEntry:fileEntry});
-      }
+      };
     };
 
     for(i = 0; i < fileUploadElement.files.length; i++){
@@ -108,7 +107,7 @@ class Add extends MaharaBaseComponent {
           createdOn: Date.now()
         };
 
-    StateStore.dispatch({type:FILE_ENTRY.ADD_ENTRY, fileEntry:fileEntry})
+    StateStore.dispatch({type:FILE_ENTRY.ADD_ENTRY, fileEntry:fileEntry});
     Router.navigate(PAGE_URL.PENDING);
   }
   cameraError = (message) => {
