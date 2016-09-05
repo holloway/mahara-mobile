@@ -16,7 +16,12 @@ var gulp       = require('gulp'),
     source     = require("vinyl-source-stream"),
     babelify   = require('babelify'),
     glob       = require("glob"),
-    fs         = require("fs");
+    fs         = require("fs"),
+    source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
+    uglify = require('gulp-uglify'),
+    sourcemaps = require('gulp-sourcemaps'),
+    gutil = require('gulp-util');
 
 var paths = {
   css:       './src/**/*.css',
@@ -31,15 +36,21 @@ var paths = {
 
 gulp.task('js', function (){
     // Process JS files into ES5
-    browserify({
+    var b = browserify({
      entries: './src/js/index.js',
      extensions: ['.js'],
      debug: true
     })
-    .transform(babelify, {presets:["es2015", "react", "stage-0"]})
-    .bundle()
-    .pipe(source('bundle.js'))
-    .pipe(gulp.dest(paths.dest));
+    .transform(babelify, {presets:["es2015", "react", "stage-0"]});
+
+    return b.bundle()
+      .pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({loadMaps:true}))
+        // Add transformation tasks to the pipeline here
+//        .pipe(uglify())
+      .pipe(sourcemaps.write(paths.dest))
+      .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('css', function(){
