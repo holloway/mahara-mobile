@@ -13,43 +13,43 @@ App packages will be available at a later date.
 Download this repository and then run,
 
     npm install
+    npm run init
 
-Next build the application,
+This will install the cordova dependencies and platforms specified in the config.xml file. Next build the application,
 
     npm run build
 
-The `./www/` output directory will be a static website, intended to be packaged as a Phonegap project.
+This bundles up the Javascript source code in the `./src` directory and outputs it into the `./www/` directory. The `./www/` output directory will be a static website, intended to be packaged as a Phonegap project.
 
-For basic debug you can serve this directory up from a static file webserver,
+For basic debugging you can serve this directory up from a static file webserver:
 
    npm run devwebserver
+
+This command will also launch the Chromium browser with the "--disable-web-security" and "--user-data-dir" flags. (This is necessary to avoid CORS restrictions that would otherwise apply for a web application running in a web browser.)
 
 Note: Phonegap plugins aren't available in the browser and so feature using these won't be available.
 
 ### Android Build
 
-To wrap as a Phonegap project, then run
-
-    npm run cordova-init
-
-Then for Android first install dependencies (Ubuntu 16.04),
+To build the Android app, first install dependencies (Ubuntu 16.04):
 
     sudo add-apt-repository -y ppa:webupd8team/java
     sudo add-apt-repository ppa:paolorotolo/android-studio
     sudo apt-get update
     sudo apt-get install oracle-java7-installer oracle-java7-set-default
-    apt-get install android-sdk android-emulator android-studio
 
-Next run,
+Then download and install Android studio from https://developer.android.com/studio/index.html
 
-    /opt/android-studio/bin/studio.sh
+Launch Android Studio and run through the first-time wizard. Then from the tools menu, launch the SDK Manager. Install:
 
-Click through the wizard, then,
+    Android SDK Tools
+    Android SDK Platform-tools
+    Android 6.0 -> SDK Platform
+    Android 6.0 -> Intel x86 Atom_64 System Image
 
-    npm run cordova-init-android1
-    npm run cordova-init-android2
+Once those are installed, close the SDK Manager and launch the AVD Manager. Create an Android 6 (API 23) virtual device, and launch it. (Or alternately, you could connect up a physical Android device via USB, and put it in development mode.)
 
-Then see if it's all working by,
+Then finally, run:
 
     npm run cordova-run-android
 

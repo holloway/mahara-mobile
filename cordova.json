@@ -1,7 +1,6 @@
 {
      "android": {
          "release": {
-             "keystore": "mahara-mobile-production.keystore",
              "alias": "maharamobile"
          }
      }

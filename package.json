@@ -3,13 +3,12 @@
   "version": "3.0.0",
   "description": "Mahara Mobile",
   "scripts": {
-    "build": "./node_modules/.bin/gulp",
-    "devwebserver": "cd www && python -m SimpleHTTPServer && cd ..",
-    "cordova-init": "./node_modules/.bin/cordova create app nz.net.catalyst.maharamobile \"MaharaMobile\"",
-    "cordova-init-android1": "cd app && ../node_modules/.bin/cordova platform add android && cd ..",
-    "cordova-init-android2": "cd app && ../node_modules/.bin/cordova plugin add cordova-plugin-media cordova-plugin-file-transfer && cd ..",
-    "cordova-run-android": "cd app && ../node_modules/.bin/cordova run android",
-    "cordova-build-android": "rm -rf app/www/* && cp -R www/* app/www/ && cd app && ../node_modules/.bin/cordova build android --release --buildConfig ../cordova.json && cd .."
+    "init": "cordova prepare",
+    "build": "gulp",
+    "devwebserver": "cordova serve & chromium-browser --disable-web-security --user-data-dir=/tmp/cordova/ http://localhost:8000/browser/www/index.html",
+    "cordova-run-android": "cordova run android",
+    "cordova-build-android": "cordova build android",
+    "cordova-build-android-prod": "cordova build android --release --buildConfig cordova.json  -keystore MAKEYOUROWNKEYSTORE"
   },
   "repository": {
     "type": "git",
@@ -31,6 +30,7 @@
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
     "cordova": "^5.4.1",
+    "cordova-serve": "^1.0.0",
     "glob": "^7.0.3",
     "grapnel": "^0.6.2",
     "gulp": "^3.9.0",
