@@ -1,0 +1,18 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    // Enable / disable JavaScript validation
+    // Disable this because we're using ESLint instead
+    "javascript.validate.enable": false,
+
+    // Configure glob patterns for excluding files and folders.
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "app": true,
+        "node_modules": true,
+        "plugins": true,
+        "www": true
+    }
+}
