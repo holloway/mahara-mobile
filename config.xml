@@ -37,4 +37,5 @@
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <plugin name="cordova-plugin-media" spec="~2.3.0" />
     <plugin name="cordova-plugin-file-transfer" spec="~1.5.1" />
+    <plugin name="cordova-plugin-camera" spec="~2.3.0" />
 </widget>
