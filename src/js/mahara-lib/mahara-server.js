@@ -1,10 +1,7 @@
 /*jshint esnext: true */
 import httpLib                 from './http-lib.js';
 import getLoginStatus          from './login-status.js';
-import getUserProfile,
-       {parseUserConfigFromHTML,
-        getLocalLoginProfile,
-        getSSOProfile}         from './get-user-profile.js';
+import getUserProfile          from './get-user-profile.js';
 import autoDetectServerCapabilities,
        {getWwwroot,
         parseUrl,
@@ -16,7 +13,7 @@ import uploadJournal           from './upload-journal.js';
 import generateUploadToken     from './generate-upload-token.js';
 import getSyncData             from './get-sync-data.js';
 import uploadFile              from './upload-file.js';
-import isSSOServerAvailable    from './sso.js';
+import openSsoWindow           from './sso.js';
 
 export default class MaharaServer {
   
@@ -30,17 +27,14 @@ export default class MaharaServer {
     this.uploadFile = uploadFile.bind(this);
     this.getLoginStatus = getLoginStatus.bind(this);
     this.getUserProfile = getUserProfile.bind(this);
-    this.parseUserConfigFromHTML = parseUserConfigFromHTML.bind(this);
-    this.getLocalLoginProfile = getLocalLoginProfile.bind(this);
-    this.getSSOProfile = getSSOProfile.bind(this);
-    this.isSSOServerAvailable = isSSOServerAvailable.bind(this);
+    this.openSsoWindow = openSsoWindow.bind(this);
     this.getSyncData = getSyncData.bind(this);
     this.logOut = logOut.bind(this);
     this.getWwwroot = getWwwroot.bind(this);
     this.updateWwwroot = updateWwwroot.bind(this);
 
-    this.getAccessToken = this.setAccessToken.bind(this);
-    this.setAccessToken = this.getAccessToken.bind(this);
+    this.getAccessToken = this.getAccessToken.bind(this);
+    this.setAccessToken = this.setAccessToken.bind(this);
   }
   
   loadState(state){

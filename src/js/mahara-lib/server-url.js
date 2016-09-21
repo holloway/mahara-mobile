@@ -3,7 +3,7 @@ import httpLib      from './http-lib.js';
 import {LOGIN_TYPE} from './constants.js';
 
 export default function autoDetectServerCapabilities(wwwroot, finalSuccessCallback, finalErrorCallback){
-  var infoPath = "webservice/info.php";
+  var infoPath = "module/mobileapi/json/info.php";
   httpLib.getAsJSON(
     wwwroot + infoPath,
     {},

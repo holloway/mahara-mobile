@@ -56,10 +56,6 @@ function MaharaState(state, action) {
       state.server.loginTypes = action.loginTypes;
       maharaServerInstance.loginTypes = action.loginTypes;
       break;
-    case STORAGE.SET_SERVER_LOGIN_TYPES:
-      state.server = state.server || {};
-      state.server.loginTypes = action.loginTypes;
-      break;
     case STORAGE.SET_SERVER_CHOSEN_LOGIN_TYPE:
       state.server = state.server || {};
       state.server.loginType = action.loginType;

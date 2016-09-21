@@ -1,16 +1,77 @@
-/*jshint esnext: true */
-import httpLib      from './http-lib.js';
+import httpLib from './http-lib.js';
+import StateStore,
+       {maharaServer}      from '../state.js';
+//import Router              from '../router.js';
+import {PAGE,
+        LOGIN,
+        PAGE_URL,
+        STORAGE}           from '../constants.js';
 
-export default function isSSOServerAvailable(availableCallback, notAvailableCallback){
-  if(!this.ssoUrl) return notAvailableCallback();
+const service = "maharamobile";
+const component = "module/mobileapi/webservice";
+const loginurl = "module/mobileapi/tokenform.php";
 
-  var ssoTimer = setTimeout(notAvailableCallback, 10000);
+/**
+ * Opens another webview in the app, with the SSO
+ * login screen in it.
+ */
+export default function openSsoWindow() {
+    var ssoUrl = this.getWwwroot() + loginurl
+        + '?service=' + service
+        + '&component=' + encodeURIComponent(component);
+    var ssoWindow = cordova.InAppBrowser.open(
+        ssoUrl,
+        '_blank',
+        'clearsessioncache=yes,clearcache=yes,location=yes,enableViewportScale=yes',
+    );
+    var loopid = null;
+    
+    ssoWindow.addEventListener(
+        "loadstop",
+        // Run this every time the child window finishes loading a page.
+        function(event) {
 
-  httpLib.get(this.ssoUrl, undefined, function(resp){
-    if(ssoTimer) clearTimeout(ssoTimer);
-    availableCallback();
-  }, function(resp){
-    if(ssoTimer) clearTimeout(ssoTimer);
-    notAvailableCallback();
-  });
-}
+            // Poll the child window once per second until the window.maharatoken
+            // variable is available.
+            var loadedUrl;
+            if (typeof event.url === "string") {
+                loadedUrl = event.url;
+            }
+            else if (typeof event.url.href === "string") {
+                loadedUrl = event.url.href;
+            }
+            else {
+                // Huh.
+                console.log("Can't find URL string.");
+                loadedUrl = '';
+            }
+            if (loadedUrl.indexOf(ssoUrl) === 0) {
+                if (loopid) {
+                    clearInterval(loopid);
+                }
+                loopid = setInterval(
+                    // Execute this script once per second
+                    function() {
+                        ssoWindow.executeScript(
+                            // Child script should set window.maharatoken
+                            {code: "window.maharatoken;"},
+                            // Final expression of the executed code will be
+                            // returned here, enclosed in an array for some
+                            // reason. 
+                            function(token) {
+                                if (token[0]) {
+                                    clearInterval(loopid);
+                                    this.setAccessToken(token[0]);
+                                    ssoWindow.close();
+                                    StateStore.dispatch({type:LOGIN.AFTER_LOGIN_GET_PROFILE});
+                                    Router.navigate(PAGE_URL.ADD);
+                                }
+                            }
+                        );
+                    },
+                    1000
+                );
+            }
+        }
+    );
+};

@@ -3,12 +3,12 @@
   "version": "3.0.0",
   "description": "Mahara Mobile",
   "scripts": {
-    "init": "cordova prepare",
-    "build": "gulp",
-    "devwebserver": "cordova serve & chromium-browser --disable-web-security --user-data-dir=/tmp/cordova/ http://localhost:8000/browser/www/index.html",
-    "cordova-run-android": "cordova run android",
-    "cordova-build-android": "cordova build android",
-    "cordova-build-android-prod": "cordova build android --release --buildConfig cordova.json  -keystore MAKEYOUROWNKEYSTORE"
+    "postinstall": "gulp && cordova prepare",
+    "init": "npm postinstall",
+    "build": "gulp && cordova build browser",
+    "android": "gulp && cordova run android",
+    "prestart": "chromium-browser --disable-web-security --user-data-dir=/tmp/cordova/ --app=http://localhost:8000/browser/www/index.html &",
+    "start": "cordova serve 8000"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-cssnext": "^1.0.1",
     "gulp-postcss": "^6.0.1",
+    "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",

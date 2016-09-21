@@ -13,6 +13,7 @@
         "app": true,
         "node_modules": true,
         "plugins": true,
-        "www": true
+        "www": true,
+        "platforms": true
     }
 }

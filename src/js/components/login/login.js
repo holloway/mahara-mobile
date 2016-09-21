@@ -52,13 +52,14 @@ class LoginPage extends MaharaBaseComponent {
     maharaServer.usernamePasswordLogin(username, password, successCallback, errorCallback);
 
     function successCallback(response){
-      if(response.loggedIn){
+      // if(response.loggedIn){
         StateStore.dispatch({type:LOGIN.AFTER_LOGIN_GET_PROFILE});
         Router.navigate(PAGE_URL.ADD);
-      } else {
-        alertify.okBtn(that.gettext("alert_ok_button"))
-                .alert(that.gettext("server_says_wrong_username_password"));
-      }
+        // Move this to the errorCallback
+      // } else {
+      //   alertify.okBtn(that.gettext("alert_ok_button"))
+      //           .alert(that.gettext("server_says_wrong_username_password"));
+      // }
     }
 
     function errorCallback(response){

@@ -11,7 +11,7 @@ export function afterLoginGetProfile(){
   function profileSuccessCallback(profile){
     //console.log("pr", profile);
     StateStore.dispatch({type:STORAGE.SET_USER_PROFILE, profile:profile});
-    maharaServer.getSyncData(syncDataSuccessCallback, errorCallback);
+    //maharaServer.getSyncData(syncDataSuccessCallback, errorCallback);
   }
 
   function syncDataSuccessCallback(response){
