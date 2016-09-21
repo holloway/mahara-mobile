@@ -14,8 +14,11 @@ const loginurl = "module/mobileapi/tokenform.php";
 /**
  * Opens another webview in the app, with the SSO
  * login screen in it.
+ * 
+ * This function has no error callback. If the SSO process fails, the user
+ * is expected to just close the popup window.
  */
-export default function openSsoWindow() {
+export default function openSsoWindow(win) {
     var ssoUrl = this.getWwwroot() + loginurl
         + '?service=' + service
         + '&component=' + encodeURIComponent(component);
@@ -63,8 +66,7 @@ export default function openSsoWindow() {
                                     clearInterval(loopid);
                                     this.setAccessToken(token[0]);
                                     ssoWindow.close();
-                                    StateStore.dispatch({type:LOGIN.AFTER_LOGIN_GET_PROFILE});
-                                    Router.navigate(PAGE_URL.ADD);
+                                    win(token[0]);
                                 }
                             }
                         );
