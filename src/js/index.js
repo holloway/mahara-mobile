@@ -1,6 +1,7 @@
 /*jshint esnext: true */
 import React                from 'react';
 import ReactDOM             from 'react-dom';
+import "babel-polyfill";
 import $                    from 'jquery';
 import MaharaState          from './state.js';
 import StateStore           from './state.js';
