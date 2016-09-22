@@ -1,7 +1,6 @@
 import httpLib from './http-lib.js';
 import StateStore,
        {maharaServer}      from '../state.js';
-//import Router              from '../router.js';
 import {PAGE,
         LOGIN,
         PAGE_URL,
@@ -64,7 +63,7 @@ export default function openSsoWindow(win) {
                             function(token) {
                                 if (token[0]) {
                                     clearInterval(loopid);
-                                    this.setAccessToken(token[0]);
+                                    maharaServer.setAccessToken(token[0]);
                                     ssoWindow.close();
                                     win(token[0]);
                                 }

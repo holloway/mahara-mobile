@@ -6,7 +6,8 @@ import StateStore,
 import Router                 from '../../router.js';
 import {PAGE_URL,
         LOGIN_TYPE,
-        STORAGE}              from '../../constants.js';
+        STORAGE,
+        LOGIN}              from '../../constants.js';
 
 class LoginTypePage extends MaharaBaseComponent {
   
@@ -42,7 +43,7 @@ class LoginTypePage extends MaharaBaseComponent {
   
   sso = (e) => {
     StateStore.dispatch({type:STORAGE.SET_SERVER_CHOSEN_LOGIN_TYPE, loginType: LOGIN_TYPE.SINGLE_SIGN_ON});
-    this.props.server.openSsoWindow(this.ssoSuccess);
+    maharaServer.openSsoWindow(this.ssoSuccess);
   };
 
   ssoSuccess = (token) => {
