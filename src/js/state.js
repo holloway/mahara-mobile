@@ -86,6 +86,8 @@ function MaharaState(state, action) {
       state.server = state.server || {};
       state.server.sync = action.sync;
       maharaServerInstance.sync = action.sync;
+      state.server.profile = maharaServerInstance.profile = action.sync.userprofile;
+      
       break;
     case JOURNAL.ADD_ENTRY:
       state.pendingUploads = state.pendingUploads || [];

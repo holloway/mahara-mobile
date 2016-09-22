@@ -1,6 +1,6 @@
 import {maharaServer} from '../state.js';
 
-export default {
+var httpLib = {
   /**
    * Raw asynchronous HTTP request. (Wrapper around XMLHttpRequest)
    * 
@@ -53,7 +53,7 @@ export default {
    * @returns
    */
   get: function(path, getParams, successCallback, errorCallback, headers){
-    return this.raw("GET", headers, path, getParams, null, successCallback, errorCallback);
+    return httpLib.raw("GET", headers, path, getParams, null, successCallback, errorCallback);
   },
 
   /**
@@ -67,7 +67,7 @@ export default {
    * @returns
    */
   getAsJSON: function(path, getParams, successCallback, errorCallback, headers){
-    return this.get(path, getParams, this.asJSON(successCallback, errorCallback), errorCallback, headers);
+    return httpLib.get(path, getParams, httpLib.asJSON(successCallback, errorCallback), errorCallback, headers);
   },
 
   /**
@@ -88,12 +88,12 @@ export default {
         rawText = response.response;
       }
       else {
-        return errorCallback.call(this, response, null, null);
+        return errorCallback.call(httpLib, response, null, null);
       }
       try {
         jsonData = JSON.parse(rawText);
       } catch (e){
-        return errorCallback.call(this, response, e, rawText);
+        return errorCallback.call(httpLib, response, e, rawText);
       }
       // When mahara knows JSON is expected in the response, 
       // and there's an error, it prints an error code and
@@ -101,9 +101,9 @@ export default {
       //
       // The Legacy API sets "fail"
       if (jsonData.error || jsonData.fail) {
-        return errorCallback.call(this, response, null, jsonData);
+        return errorCallback.call(httpLib, response, null, jsonData);
       }
-      return successCallback.call(this, jsonData);
+      return successCallback.call(httpLib, jsonData);
     };
   },
 
@@ -130,7 +130,7 @@ export default {
       if(!headers) headers = {};
       headers["Content-type"] = "application/x-www-form-urlencoded";
     }
-    return this.raw("POST", headers, path, getParams, postData, successCallback, errorCallback);
+    return httpLib.raw("POST", headers, path, getParams, postData, successCallback, errorCallback);
   },
 
   /**
@@ -177,7 +177,7 @@ export default {
       );
     }
     else {
-      return this.raw("POST", headers, path, getParams, formData, successCallback, errorCallback);
+      return httpLib.raw("POST", headers, path, getParams, formData, successCallback, errorCallback);
     }
   },
 
@@ -193,7 +193,7 @@ export default {
    * @returns
    */
   postAsJSON: function(path, getParams, postParams, successCallback, errorCallback, headers, fileUpload, filesParamName){
-    return this.postData(path, getParams, postParams, this.asJSON(successCallback, errorCallback), errorCallback, headers, fileUpload, filesParamName);
+    return httpLib.raw("POST", null, path, getParams, JSON.stringify(postParams), httpLib.asJSON(successCallback, errorCallback), errorCallback, headers, fileUpload, filesParamName);
   },
 
   /**
@@ -217,18 +217,28 @@ export default {
       return errorCallback("Not connected to webservice yet");
     }
     
-    var fullparams = {
+    var getparams = {
       alt:'json',
+    };
+    var postparams = {
       wsfunction: wsfunction,
       wstoken: maharaServer.getAccessToken(),
     };
     try {
-      fullparams = Object.assign(fullparams, wsparams);
+      postparams = Object.assign(postparams, wsparams);
     } catch (e) {
       // TODO: log that wsparams was the wrong type of object?
     }
 
     // TODO: handle a "re-auth needed" failure?
-    return this.postAsJSON(maharaServer.getWwwroot() + 'webservice/rest/server.php', fullparams, null, successCallback, errorCallback);
+    return httpLib.postAsJSON(
+      maharaServer.getWwwroot() + 'webservice/rest/server.php',
+      getparams,
+      postparams,
+      successCallback,
+      errorCallback
+    );
   }
 };
+
+export default httpLib;

@@ -12,22 +12,22 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
 
   if(!this.sync.blogs || this.sync.blogs.length === 0) return errorCallback({error:true, isLoggedIn:false, message: "No blogs configured on the server."});
 
-  this.setMobileUploadToken(this.generateUploadToken(), function(uploadToken){
-    var postData = {
-      title:       journalEntry.title,
-      description: journalEntry.body,
-      tags:        journalEntry.tags.join(","),
-      token:       uploadToken,
-      username:    that.profile.username,
-      blog:        parseInt(that.sync.blogs[0].id, 10),
-      foldername:  ''
-    };
-    httpLib.postText(protocolAndDomain + uploadPath, undefined, postData, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
-  }, function(response){
-    if(!response) response = {error:true};
-    response.journalEntry = journalEntry;
-    errorCallback(response);
-  });
+  // this.setMobileUploadToken(this.generateUploadToken(), function(uploadToken){
+  //   var postData = {
+  //     title:       journalEntry.title,
+  //     description: journalEntry.body,
+  //     tags:        journalEntry.tags.join(","),
+  //     token:       uploadToken,
+  //     username:    that.profile.username,
+  //     blog:        parseInt(that.sync.blogs[0].id, 10),
+  //     foldername:  ''
+  //   };
+  //   httpLib.postText(protocolAndDomain + uploadPath, undefined, postData, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
+  // }, function(response){
+  //   if(!response) response = {error:true};
+  //   response.journalEntry = journalEntry;
+  //   errorCallback(response);
+  // });
 
   function successFrom(successCallback, errorCallback){
     return function(response){

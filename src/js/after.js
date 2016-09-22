@@ -1,33 +1,22 @@
-/*jshint esnext: true */
-
 import StateStore,
        {maharaServer}   from './state.js';
 import {LOGIN,
         STORAGE}        from './constants.js';
 
 export function afterLoginGetProfile(){
-  maharaServer.getUserProfile(profileSuccessCallback, errorCallback);
-
-  function profileSuccessCallback(profile){
-    //console.log("pr", profile);
-    StateStore.dispatch({type:STORAGE.SET_USER_PROFILE, profile:profile});
-    //maharaServer.getSyncData(syncDataSuccessCallback, errorCallback);
-  }
-
-  function syncDataSuccessCallback(response){
-    //console.log("sc", response);
-    if(response.success){
-      StateStore.dispatch({type:STORAGE.SET_USER_SYNC_DATA, sync:response.sync});
-    } else {
-      errorCallback(response);
+  maharaServer.getSyncData(
+    function winfn(syncData) {
+      StateStore.dispatch(
+        {
+          type: STORAGE.SET_USER_SYNC_DATA,
+          sync: syncData
+        }
+      );
+    },
+    function failfn(error) {
+      console.log("Problem getting sync data.");
     }
-  }
-
-  function errorCallback(e){
-    console.log("Problem...", e);
-    // don't try again. might be network problems.
-    // TODO: alert an error?
-  }
+  );
 }
 
 

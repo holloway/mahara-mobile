@@ -8,9 +8,7 @@ import autoDetectServerCapabilities,
         updateWwwroot}                from './server-url.js';
 import localLogin              from './local-login.js';
 import logOut                  from './logout.js';
-import setMobileUploadToken    from './set-mobile-upload-token.js';
 import uploadJournal           from './upload-journal.js';
-import generateUploadToken     from './generate-upload-token.js';
 import getSyncData             from './get-sync-data.js';
 import uploadFile              from './upload-file.js';
 import openSsoWindow           from './sso.js';
@@ -20,8 +18,6 @@ export default class MaharaServer {
   constructor(){
     this.loadState = this.loadState.bind(this);
     this.autoDetectServerCapabilities = autoDetectServerCapabilities.bind(this);
-    this.setMobileUploadToken = setMobileUploadToken.bind(this);
-    this.generateUploadToken = generateUploadToken.bind(this);
     this.usernamePasswordLogin = localLogin.bind(this);
     this.uploadJournal = uploadJournal.bind(this);
     this.uploadFile = uploadFile.bind(this);

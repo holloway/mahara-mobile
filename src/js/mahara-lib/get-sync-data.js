@@ -1,40 +1,42 @@
-/*jshint esnext: true */
 import httpLib from './http-lib.js';
 
-export default function getSyncData(successCallback, errorCallback){
-  var protocolAndDomain = this.getWwwroot(),
-      syncPath = "/api/mobile/sync.php",
-      that = this;
+/**
+ * A function to sync data from the user's account
+ */
+export default function getSyncData(winfn, failfn){
+  var wsfunction = "module_mobileapi_sync";
+  var wscomponent = "module/mobileapi/webservice";
+  var maharaServer = this;
 
-  if(!protocolAndDomain) return errorCallback({error:true});
-
-  if(!that.profile || !that.profile.username)  return errorCallback({error:true, isLoggedIn:false});
-
-  this.setMobileUploadToken(that.generateUploadToken(), function(uploadToken){
-    httpLib.get(protocolAndDomain + syncPath, {token:uploadToken, username:that.profile.username}, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
-  }, failureFrom(errorCallback));
-
-  function successFrom(successCallback, errorCallback){
-    return function(response){
-      var jsonResponse;
-
-      if(!response || !response.target || !response.target.response) return errorCallback({error:true, syncDataError:true});
-
-      try {
-        jsonResponse = JSON.parse(response.target.response);
-      } catch(e){
+  // Can't sync if the user hasn't authenticated yet.
+  if (!this.getWwwroot() || !this.getAccessToken()) {
+    return failfn(
+      {
+        error: true,
+        isLoggedin: false
       }
-
-      if(!jsonResponse || jsonResponse.fail) return errorCallback({error:true, noPermission:true, message:jsonResponse.fail, data:jsonResponse});
-
-      successCallback(jsonResponse);
-    };
+    );
   }
 
-  function failureFrom(callback){
-    return function(response){
-      callback(response);
-    };
-  }
-
+  httpLib.callWebservice(
+    wsfunction,
+    {
+      blogs: {},
+      folders: {},
+      notifications: {
+        lastsync: 0 // TODO: Store lastsync
+      },
+      tags: {},
+      userprofile: {}
+    },
+    function(syncData) {
+      // TODO: Download profile icon and save it locally instead
+      // of just loading it by URL.
+      syncData.userprofile.iconurl = maharaServer.getWwwroot()
+       + "module/mobileapi/download.php?wsfunction=module_mobileapi_get_user_profileicon&wstoken="
+       + maharaServer.getAccessToken();
+      winfn(syncData);
+    },
+    failfn
+  );
 }
