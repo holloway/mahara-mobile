@@ -9,7 +9,7 @@ import autoDetectServerCapabilities,
 import localLogin              from './local-login.js';
 import logOut                  from './logout.js';
 import uploadJournal           from './upload-journal.js';
-import getSyncData             from './get-sync-data.js';
+import getSyncData, {refreshUserProfile} from './get-sync-data.js';
 import uploadFile              from './upload-file.js';
 import openSsoWindow           from './sso.js';
 
@@ -25,6 +25,7 @@ export default class MaharaServer {
     this.getUserProfile = getUserProfile.bind(this);
     this.openSsoWindow = openSsoWindow.bind(this);
     this.getSyncData = getSyncData.bind(this);
+    this.refreshUserProfile = refreshUserProfile.bind(this);
     this.logOut = logOut.bind(this);
     this.getWwwroot = getWwwroot.bind(this);
     this.updateWwwroot = updateWwwroot.bind(this);

@@ -82,6 +82,11 @@ function MaharaState(state, action) {
       state.server.profile = action.profile;
       maharaServerInstance.profile = action.profile;
       break;
+    case STORAGE.SET_USER_PROFILE_ICON:
+      state.server = state.server || {};
+      state.server.profile = state.server.profile || {};
+      state.server.profile.icon = action.icon;
+      break;
     case STORAGE.SET_USER_SYNC_DATA:
       state.server = state.server || {};
       state.server.sync = action.sync;

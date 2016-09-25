@@ -7,7 +7,7 @@ import {PAGE,
         STORAGE}           from '../constants.js';
 
 const service = "maharamobile";
-const component = "module/mobileapi/webservice";
+const component = "module/mobileapi";
 const loginurl = "module/mobileapi/tokenform.php";
 
 /**
@@ -20,7 +20,11 @@ const loginurl = "module/mobileapi/tokenform.php";
 export default function openSsoWindow(win) {
     var ssoUrl = this.getWwwroot() + loginurl
         + '?service=' + service
-        + '&component=' + encodeURIComponent(component);
+        + '&component=' + encodeURIComponent(component)
+        + '&clientname=' + encodeURIComponent("Mahara Mobile") // TODO: lang string
+        + '&clientenv=' + encodeURIComponent(device.platform + ', ' + device.manufacturer + ', ' + device.model)
+        + '&clientguid=' + encodeURIComponent(device.uuid);
+
     var ssoWindow = cordova.InAppBrowser.open(
         ssoUrl,
         '_blank',
