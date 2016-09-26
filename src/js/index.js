@@ -7,6 +7,7 @@ import MaharaState          from './state.js';
 import StateStore           from './state.js';
 import Storage              from './storage.js';
 import Router               from './router.js';
+import fsLib                from './mahara-lib/files-lib.js';
 import NavBar               from './components/navbar/navbar.js';
 import LogoBar              from './components/logobar/logobar.js';
 import ServerPage           from './components/server/server.js';
@@ -28,6 +29,7 @@ import {PAGE,
         PAGE_CLASSNAME}     from './constants.js';
 
 var container = document.getElementById('container');
+fsLib.init();
 
 const render = () => {
   var state = StateStore.getState(),

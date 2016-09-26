@@ -1,6 +1,6 @@
 import {maharaServer} from '../state.js';
 
-var httpLib = {
+const httpLib = {
   /**
    * Raw asynchronous HTTP request. (Wrapper around XMLHttpRequest)
    * 

@@ -1,7 +1,7 @@
 import httpLib from './http-lib.js';
 import StateStore from '../state.js';
 import {STORAGE} from '../constants.js';
-import filesLib from './files-lib.js';
+import fsLib from './files-lib.js';
 
 function refreshUserProfile() {
     this.getSyncData(
@@ -98,22 +98,32 @@ function fetchUserIcon(syncData, maharaServer) {
         + "module/mobileapi/download.php?wsfunction=module_mobileapi_get_user_profileicon&wstoken="
         + maharaServer.getAccessToken();
 
-    filesLib.saveRemoteToLocal(
-        url,
+    fsLib.createFile(
         filename,
-        function gotDownload(fileEntry) {
-            StateStore.dispatch(
-                {
-                    type: STORAGE.SET_USER_PROFILE_ICON,
-                    icon: fileEntry.toUrl()
+        function win(fileEntry) {
+            console.log('Opened local file ' + filename);
+            new FileTransfer().download(
+                encodeURI(url),
+                fileEntry.toURL(),
+                function gotDownload(fileEntry) {
+                    StateStore.dispatch(
+                        {
+                            type: STORAGE.SET_USER_PROFILE_ICON,
+                            icon: fileEntry.toUrl()
+                        }
+                    );
+                    return fileEntry;
+                },
+                function failedDownload(error) {
+                    console.log("Failed downloading " + url);
+                    console.log(JSON.stringify(error, null, 4));
+                    return clearUserIcon();
                 }
-            );
-            return fileEntry;
+            )
         },
-        function failedDownload(error) {
-            console.log("Failed downloading " + url);
-            console.log(JSON.stringify(error, null, 4));
-            return clearUserIcon();
+        function fail(e) {
+            console.log('Failed getting FileEntry to save user icon in. Details follow.');
+            console.log(e);
         }
     );
 }
