@@ -20,7 +20,7 @@ function MaharaState(state, action) {
       state = {lang:['en']};
       action.type = PAGE.SERVER;
     } else if(state.server) {
-      maharaServerInstance.loadState(state.server);
+      maharaServerInstance.loadState(state);
     }
   }
 
@@ -45,7 +45,7 @@ function MaharaState(state, action) {
       break;
     case STORAGE.SET_SERVER_URL:
       state.server = state.server || {};
-      state.server.wwwroot = action.serverUrl;
+      maharaServerInstance.wwwroot = state.server.wwwroot = action.serverUrl;
       state.startAutoDetectingProtocolAndLoginMethod = true;
       break;
     case STORAGE.STOP_AUTODETECTING:
@@ -53,13 +53,9 @@ function MaharaState(state, action) {
       break;
     case STORAGE.AUTODETECTED_SERVER:
       state.server = state.server || {};
-      state.server.loginTypes = action.loginTypes;
-      maharaServerInstance.loginTypes = action.loginTypes;
-      break;
-    case STORAGE.SET_SERVER_CHOSEN_LOGIN_TYPE:
-      state.server = state.server || {};
-      state.server.loginType = action.loginType;
-      maharaServerInstance.loginType = action.loginType;
+      maharaServerInstance.loginTypes = state.server.loginTypes = action.server.loginTypes;
+      maharaServerInstance.siteName = state.server.siteName = action.server.siteName;
+      maharaServerInstance.maharaVersion = state.server.maharaVersion = action.server.maharaVersion;
       break;
     case STORAGE.SET_UPLOAD_TOKEN:
       if(console.trace) console.trace();
@@ -89,9 +85,8 @@ function MaharaState(state, action) {
       break;
     case STORAGE.SET_USER_SYNC_DATA:
       state.server = state.server || {};
-      state.server.sync = action.sync;
-      maharaServerInstance.sync = action.sync;
-      state.server.profile = maharaServerInstance.profile = action.sync.userprofile;
+      maharaServerInstance.sync = state.server.sync = action.sync;
+      maharaServerInstance.profile = state.server.profile = action.sync.userprofile;
       
       break;
     case JOURNAL.ADD_ENTRY:
@@ -163,6 +158,7 @@ function MaharaState(state, action) {
       break;
     case LOGIN.AFTER_LOGIN_GET_PROFILE:
       state.getProfile = true;
+      maharaServerInstance.accessToken = state.server.token = action.token;
       break;
     case LOGIN.STOP_GETTING_PROFILE:
       state.getProfile = undefined;

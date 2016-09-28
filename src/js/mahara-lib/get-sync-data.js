@@ -109,7 +109,7 @@ function fetchUserIcon(syncData, maharaServer) {
                     StateStore.dispatch(
                         {
                             type: STORAGE.SET_USER_PROFILE_ICON,
-                            icon: fileEntry.toUrl()
+                            icon: fileEntry.toURL()
                         }
                     );
                     return fileEntry;

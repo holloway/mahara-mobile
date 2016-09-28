@@ -42,17 +42,18 @@ class LoginTypePage extends MaharaBaseComponent {
   };
   
   sso = (e) => {
-    StateStore.dispatch({type:STORAGE.SET_SERVER_CHOSEN_LOGIN_TYPE, loginType: LOGIN_TYPE.SINGLE_SIGN_ON});
     maharaServer.openSsoWindow(this.ssoSuccess);
   };
 
   ssoSuccess = (token) => {
-    StateStore.dispatch({type:LOGIN.AFTER_LOGIN_GET_PROFILE});
+    StateStore.dispatch({
+        type: LOGIN.AFTER_LOGIN_GET_PROFILE,
+        token: token
+    });
     Router.navigate(PAGE_URL.ADD);
   }
   
   local = (e) => {
-    StateStore.dispatch({type:STORAGE.SET_SERVER_CHOSEN_LOGIN_TYPE, loginType: LOGIN_TYPE.LOCAL});
     Router.navigate(PAGE_URL.LOGIN);
   }
 }

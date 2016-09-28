@@ -67,7 +67,6 @@ export default function openSsoWindow(win) {
                             function(token) {
                                 if (token[0]) {
                                     clearInterval(loopid);
-                                    maharaServer.setAccessToken(token[0]);
                                     ssoWindow.close();
                                     win(token[0]);
                                 }

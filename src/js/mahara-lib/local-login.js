@@ -25,17 +25,8 @@ export default function localLogin(username, password, successCallback, errorCal
       if (!json.token) {
         errorCallback.call(this, json, json);
       }
-      this.setAccessToken(json.token);
-      successCallback.call(this, json);
+      successCallback.call(this, json.token);
     },
     errorCallback
   );
-}
-
-export function getAccessToken() {
-  return this.accesstoken;
-}
-
-export function setAcessToken(token) {
-  this.accesstoken = token;
 }

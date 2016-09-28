@@ -1,11 +1,9 @@
 /*jshint esnext: true */
 import httpLib                 from './http-lib.js';
-import getLoginStatus          from './login-status.js';
 import getUserProfile          from './get-user-profile.js';
 import autoDetectServerCapabilities,
        {getWwwroot,
-        parseUrl,
-        updateWwwroot}                from './server-url.js';
+        parseUrl}                from './server-url.js';
 import localLogin              from './local-login.js';
 import logOut                  from './logout.js';
 import uploadJournal           from './upload-journal.js';
@@ -21,35 +19,26 @@ export default class MaharaServer {
     this.usernamePasswordLogin = localLogin.bind(this);
     this.uploadJournal = uploadJournal.bind(this);
     this.uploadFile = uploadFile.bind(this);
-    this.getLoginStatus = getLoginStatus.bind(this);
     this.getUserProfile = getUserProfile.bind(this);
     this.openSsoWindow = openSsoWindow.bind(this);
     this.getSyncData = getSyncData.bind(this);
     this.refreshUserProfile = refreshUserProfile.bind(this);
     this.logOut = logOut.bind(this);
     this.getWwwroot = getWwwroot.bind(this);
-    this.updateWwwroot = updateWwwroot.bind(this);
 
     this.getAccessToken = this.getAccessToken.bind(this);
-    this.setAccessToken = this.setAccessToken.bind(this);
   }
   
   loadState(state){
-    this.wwwroot = state.wwwroot;
-    this.ssoUrl = state.ssoUrl;
-    this.loginTypes = state.loginTypes;
-    this.loginType = state.loginType;
-    this.user = state.user;
-    this.uploadToken = state.uploadToken;
-    this.profile = state.profile;
-    this.sync = state.sync;
+    this.wwwroot = state.server.wwwroot;
+    this.loginTypes = state.server.loginTypes;
+    this.siteName = state.server.siteName;
+    this.maharaVersion = state.server.maharaVersion;
+    this.profile = state.server.profile;
+    this.sync = state.server.sync;
+    this.accesstoken = state.server.accesstoken;
     // console.log("ServerState was", state);
   }
 
   getAccessToken = () => this.accesstoken;
-
-  setAccessToken = (token) => {
-    this.accesstoken = token;
-    return this.accesstoken;
-  }
 }

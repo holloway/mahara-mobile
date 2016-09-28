@@ -62,12 +62,12 @@ const fsLib = {
             return;
         }
 
-        if (cordova.platformId == 'android') {
-            // TODO? Unique directory for each instance of the app?
-//            fsLib.basePath = 'Android/data/' + MM.config.app_id;
-            fsLib.basePath = 'Android/data/' + 'maharamobile';
-            console.log("Android device file path " + fsLib.basePath, "FS");
-        }
+//         if (cordova.platformId == 'android') {
+//             // TODO? Unique directory for each instance of the app?
+// //            fsLib.basePath = 'Android/data/' + MM.config.app_id;
+//             fsLib.basePath = cordova.file.externalApplicationStorageDirectory;
+//             console.log("Android device file path " + fsLib.basePath, "FS");
+//         }
         fsLib.loadFS(callBack);
     },
 
@@ -106,6 +106,7 @@ const fsLib = {
                             var msg = 'Critical error accessing file system, directory ' + fsLib.basePath + ' can\'t be created';
                             console.log(msg, "FS");
                             if (err) {
+                                console.log(err);
                                 //console.log("Error dump", "FS");
                             }
                             // TODO: lang string

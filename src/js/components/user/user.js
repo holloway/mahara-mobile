@@ -6,6 +6,7 @@ import Router              from '../../router.js';
 import {maharaServer}      from '../../state.js';
 import ReactPullToRefresh  from 'react-pull-to-refresh';
 
+const defaultIcon = "image/profile-default.png";
 class User extends MaharaBaseComponent {
     constructor() {
         super();
@@ -16,10 +17,47 @@ class User extends MaharaBaseComponent {
 
     render() {
         //console.log("PROPS?", this.props);
+        var siteName;
+        var icon;
+        var displayName;
+
+        if (this.props.server) {
+            var series = (this.props.server.maharaVersion ? this.props.server.maharaVersion : false);
+            if (this.props.server.siteName) {
+                siteName = this.props.server.siteName + (series ? "(Mahara " + series + ")" : "");
+            }
+            else if (series) {
+                siteName = "Mahara " + series;
+            }
+            else {
+                siteName = "Unknown Mahara";
+            }
+
+            if (this.props.server && this.props.server.profile && this.props.server.profile.icon) {
+                icon = this.props.server.profile.icon;
+            }
+            else {
+                icon = defaultIcon;
+            }
+
+            if (this.props.server && this.props.server.profile && this.props.server.profile.myname) {
+                displayName = this.props.server.profile.myname;
+            }
+            else {
+                displayName = "";
+            }
+        }
+        else {
+            siteName = "(Offline)";
+            icon = defaultIcon;
+            displayName = "";
+        }
+
+
         return <ReactPullToRefresh onRefresh={maharaServer.refreshUserProfile}>
             <section>
-                <h2>{this.props.server && this.props.server.user ? this.props.server.user : ""}</h2>
-                <p className="userBlock"><img src={this.props.server && this.props.server.profile && this.props.server.profile.icon ? this.props.server.profile.icon : "image/profile-default.png"} className="profile"/> {this.props.server && this.props.server.profile && this.props.server.profile.myname ? this.props.server.profile.myname : ""}</p>
+                <h2>{siteName}</h2>
+                <p className="userBlock"><img src={icon} className="profile"/> {displayName}</p>
                 <p>{this.renderServer() }</p>
                 <hr/>
                 <button onClick={this.logoutButton} className="big">{this.gettext("logout_button") }</button>

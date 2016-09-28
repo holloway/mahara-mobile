@@ -9,18 +9,17 @@ export function afterLoginGetProfile() {
 
 
 export function afterInputWwwroot(serverUrl) {
-    maharaServer.updateWwwroot(serverUrl, successCallback, errorCallback);
-
-    function successCallback(response) {
-        StateStore.dispatch({
-            type: STORAGE.AUTODETECTED_SERVER,
-            loginTypes: response.loginTypes
-        });
-    }
-
-    function errorCallback(e) {
-        console.log("Problem...", e);
-        // don't try again. might be network problems.
-        // TODO: alert an error?
-    }
+    maharaServer.autoDetectServerCapabilities(
+        serverUrl,
+        function successCallback(serverData) {
+           StateStore.dispatch({
+                type: STORAGE.AUTODETECTED_SERVER,
+                server: serverData
+            });
+        },
+        function errorCallback(e) {
+            console.log("Problem...", e);
+            alertify.alert("That Mahara server doesn't have webservice set up.");
+        }
+    );
 }

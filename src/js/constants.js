@@ -1,5 +1,4 @@
-/*jshint esnext: true */
-
+// Constants to represent each "page" of the app.
 export const PAGE = {
   SERVER:       "SERVER",
   LOGIN_TYPE:   "LOGIN_TYPE",
@@ -12,28 +11,16 @@ export const PAGE = {
   ADD_JOURNAL_ENTRY:  "ADD_JOURNAL_ENTRY",
 };
 
-export var PAGE_CLASSNAME = {};
-for(var PAGE_ID in PAGE){
-  if(PAGE.hasOwnProperty(PAGE_ID)){
-    PAGE_CLASSNAME[PAGE_ID] = "PAGE_" + PAGE_ID;
-  }
-}
+// Backwards-compatibility, so I don't have to replace every
+// instance of PAGE_URL right now...
+export const PAGE_URL = PAGE;
 
-export var PAGE_URL = {};
-PAGE_URL[PAGE.SERVER]             = "";
-PAGE_URL[PAGE.LOGIN_TYPE]         = "/LoginType";
-PAGE_URL[PAGE.LOGIN]              = "/Login";
-PAGE_URL[PAGE.SSO]                = "/SSO";
-PAGE_URL[PAGE.USER]               = "/User";
-PAGE_URL[PAGE.ADD]                = "/Add";
-PAGE_URL[PAGE.PENDING]            = "/Pending";
-PAGE_URL[PAGE.ADD_JOURNAL_ENTRY]  = "/Add/JournalEntry";
-PAGE_URL[PAGE.EDIT_JOURNAL_ENTRY] = "/Add/JournalEntry/*";
-
+/**
+ * The rest of these are mostly actions to pass to StateStore
+ */
 export const STORAGE = {
   STATE_STORAGE_KEY:            "MaharaMobile",
   SET_SERVER_URL:               "STORAGE_SET_SERVER_URL",
-  SET_SERVER_CHOSEN_LOGIN_TYPE: "SET_SERVER_CHOSEN_LOGIN_TYPE",
   SET_UPLOAD_TOKEN:             "SET_UPLOAD_TOKEN",
   SET_USER_PROFILE:             "SET_USER_PROFILE",
   SET_USER_PROFILE_ICON:        "SET_USER_PROFILE_ICON",

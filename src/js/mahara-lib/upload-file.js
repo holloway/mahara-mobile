@@ -3,9 +3,11 @@ import httpLib               from './http-lib.js';
 import {dataURItoBlob,
         trimString}          from './util.js';
 import http                  from './http-lib.js';
-import {UPLOAD_HANDLER_TYPE,
-        DOWNLOAD_HTML_ELEMENT} from './constants.js';
 
+const UPLOAD_HANDLER_TYPE = {
+  PHONEGAP_UPLOADER: "UPLOAD_HANDLER_PHONEGAP",
+  XHR_UPLOADER:      "UPLOAD_HANDLER_XHR"
+};
 
 
 export default function uploadFile(fileEntry, successCallback, errorCallback){
