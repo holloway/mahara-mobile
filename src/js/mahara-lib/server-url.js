@@ -39,8 +39,8 @@ export default function autoDetectServerCapabilities(wwwroot, finalSuccessCallba
 
     // Data about this server, to store
     var serverData = {
-        maharaVersion: (typeof json.maharaversion === "undefined" ? null : json.maharaversion),
-        siteName: (typeof json.siteName === "undefined" ? null : json.siteName),
+        maharaVersion: json.maharaversion,
+        siteName: json.sitename,
         loginTypes: []
     };
     
@@ -65,8 +65,4 @@ export default function autoDetectServerCapabilities(wwwroot, finalSuccessCallba
     // TODO: Handle this.
     finalErrorCallback();
   }
-}
-
-export function getWwwroot(){
-  return this.wwwroot;
 }

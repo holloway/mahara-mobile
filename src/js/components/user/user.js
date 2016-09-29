@@ -33,8 +33,8 @@ class User extends MaharaBaseComponent {
                 siteName = "Unknown Mahara";
             }
 
-            if (this.props.server && this.props.server.profile && this.props.server.profile.icon) {
-                icon = this.props.server.profile.icon;
+            if (this.props.server.iconurl) {
+                icon = this.props.server.iconurl;
             }
             else {
                 icon = defaultIcon;

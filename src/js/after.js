@@ -7,7 +7,6 @@ export function afterLoginGetProfile() {
     maharaServer.refreshUserProfile();
 }
 
-
 export function afterInputWwwroot(serverUrl) {
     maharaServer.autoDetectServerCapabilities(
         serverUrl,

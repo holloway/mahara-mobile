@@ -3,8 +3,8 @@ import React                from 'react';
 import ReactDOM             from 'react-dom';
 import "babel-polyfill";
 import $                    from 'jquery';
-import MaharaState          from './state.js';
-import StateStore           from './state.js';
+import StateStore,
+       {maharaServer}       from './state.js';
 import Storage              from './storage.js';
 import Router               from './router.js';
 import fsLib                from './mahara-lib/files-lib.js';
@@ -20,8 +20,7 @@ import AddJournalEntryPage  from './components/add-journal-entry/add-journal-ent
 import EditJournalEntryPage from './components/add-journal-entry/edit-journal-entry.js';
 import uploadNextItem       from './upload.js';
 import {afterLoginGetProfile,
-    afterInputWwwroot}
-from './after.js';
+    afterInputWwwroot}    from './after.js';
 import {PAGE,
     LOGIN,
     STORAGE,
@@ -29,6 +28,7 @@ import {PAGE,
 
 var container = document.getElementById('container');
 var previousPage = 'NONE';
+
 /**
  * This function subscribes to StateStore(). It's called every time
  * the app's state changes. It looks at the stored state object, decides
@@ -40,6 +40,12 @@ const render = () => {
     var bar;
     var i;
 
+    // Update the maharaServer class's knowledge of the state
+    // (In a Redux-perfect world, this data would probably flow down through
+    // the React component and be injected into the API libs as needed)
+    maharaServer.loadState(state.server);
+
+    // Set the overall CSS class for the new page
     if (state.page !== previousPage) {
         $('html').removeClass().addClass('PAGE_' + state.page);
     }
@@ -123,7 +129,8 @@ const render = () => {
         afterInputWwwroot(state.server.wwwroot);
     }
     if (state.needToDownloadIcon) {
-        
+        StateStore.dispatch({type: LOGIN.STOP_GET_USER_ICON});
+        maharaServer.refreshUserIcon(state.server.icondata);
     }
 };
 
@@ -137,7 +144,7 @@ setTimeout(function () {
 
 // Load filesystem
 fsLib.init();
-// Render first page
-render();
+
 // Set up render function, to refresh the page in response to changes
 StateStore.subscribe(render);
+StateStore.dispatch({type: 'launch'});

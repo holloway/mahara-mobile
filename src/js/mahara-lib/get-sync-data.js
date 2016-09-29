@@ -3,7 +3,7 @@ import StateStore from '../state.js';
 import {STORAGE} from '../constants.js';
 import fsLib from './files-lib.js';
 
-function refreshUserProfile() {
+export function refreshUserProfile() {
     this.getSyncData(
         function winfn(syncData) {
             StateStore.dispatch(
@@ -33,8 +33,6 @@ function refreshUserProfile() {
         }
     );
 }
-
-export {refreshUserProfile};
 
 /**
  * A function to sync data from the user's account
@@ -67,30 +65,16 @@ export default function getSyncData(winfn, failfn) {
             userprofileicon: {},
         },
         function (syncData) {
-            fetchUserIcon(syncData, maharaServer);
             winfn(syncData);
         },
         failfn
     );
 }
 
-function fetchUserIcon(syncData, maharaServer) {
-    if (
-        typeof syncData.userprofileicon === undefined
-        || syncData.userprofileicon === null
-    ) {
-        console.log("User is on default usericon");
-        return clearUserIcon();
-    }
+export function refreshUserIcon(newicon) {
 
-    var state = StateStore.getState();
-    var newicon = syncData.userprofileicon;
-    if (state.profile !== undefined && state.profile.icon !== undefined) {
-        var oldicon = state.profile.icon;
-        if (newicon.bytes === oldicon.bytes && newicon.name === oldicon.name && newicon.mimetype === oldicon.mimetype) {
-            console.log('Icon unchanged from current version.');
-            return;
-        }
+    if (!newicon) {
+        return clearUserIcon();
     }
 
     var filename = 'userprofileicon';
@@ -109,9 +93,9 @@ function fetchUserIcon(syncData, maharaServer) {
             return clearUserIcon();
     }
 
-    var url = maharaServer.getWwwroot()
+    var url = this.getWwwroot()
         + "module/mobileapi/download.php?wsfunction=module_mobileapi_get_user_profileicon&wstoken="
-        + maharaServer.getWSToken();
+        + this.getWSToken();
 
     fsLib.createFile(
         filename,

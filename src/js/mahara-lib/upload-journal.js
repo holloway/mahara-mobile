@@ -12,7 +12,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
         });
     }
 
-    if (!this.sync || !this.sync.blogs || this.sync.blogs.length === 0){
+    if (!this.getTargetBlogId()){
         return errorCallback({
             error: true,
             message: "No blogs configured on the server.",
@@ -24,7 +24,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
     httpLib.callWebservice(
         wsfunction,
         {
-            blogid: parseInt(that.sync.blogs[0].id, 10),
+            blogid: this.getTargetBlogId,
             title: journalEntry.title,
             body: journalEntry.body,
             tags: journalEntry.tags,
