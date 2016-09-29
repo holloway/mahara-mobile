@@ -9,7 +9,22 @@ function refreshUserProfile() {
             StateStore.dispatch(
                 {
                     type: STORAGE.SET_USER_SYNC_DATA,
-                    sync: syncData
+                    sync: {
+                        // There's some redundant naming here because "Sync" is a batch
+                        // function, and the return object has a separate key for each
+                        // data type it's returning. Many of those keys, in turn, have
+                        // their own key with the same name, representing a list of objects.
+                        // e.g.:
+                        // syncData.blogs = {numblogs: 1, blogs:[...]}
+                        blogs: syncData.blogs.blogs,
+                        folders: syncData.folders.folders,
+                        notifications: syncData.notifications.notifications,
+                        tags: syncData.tags.tags,
+                        // Userprofile and Userprofileicon return only one item each, so no
+                        // double-naming needed. :)
+                        userprofile: syncData.userprofile,
+                        userprofileicon: syncData.userprofileicon
+                    }
                 }
             );
         },
@@ -30,7 +45,7 @@ export default function getSyncData(winfn, failfn) {
     var maharaServer = this;
 
     // Can't sync if the user hasn't authenticated yet.
-    if (!this.getWwwroot() || !this.getAccessToken()) {
+    if (!this.getWwwroot() || !this.getWSToken()) {
         return failfn(
             {
                 error: true,
@@ -96,7 +111,7 @@ function fetchUserIcon(syncData, maharaServer) {
 
     var url = maharaServer.getWwwroot()
         + "module/mobileapi/download.php?wsfunction=module_mobileapi_get_user_profileicon&wstoken="
-        + maharaServer.getAccessToken();
+        + maharaServer.getWSToken();
 
     fsLib.createFile(
         filename,
@@ -119,7 +134,7 @@ function fetchUserIcon(syncData, maharaServer) {
                     console.log(JSON.stringify(error, null, 4));
                     return clearUserIcon();
                 }
-            )
+            );
         },
         function fail(e) {
             console.log('Failed getting FileEntry to save user icon in. Details follow.');

@@ -6,11 +6,11 @@
   };
 
   function ready(){
-    mahara.addResources(deps.json, addScripts, onError);
+    window.mahara.addResources(deps.json, addScripts, onError);
 
     function addScripts(jsons){
-      mahara.i18n.strings = jsons[deps.json[0]];
-      mahara.addResources(deps.scripts);
+      window.mahara.i18n.strings = jsons[deps.json[0]];
+      window.mahara.addResources(deps.scripts);
     }
   }
 

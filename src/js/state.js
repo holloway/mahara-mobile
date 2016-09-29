@@ -6,12 +6,39 @@ import MaharaServer    from './mahara-lib/mahara-server.js';
 import {arrayRemoveIf} from './util.js';
 import {PAGE,
         LOGIN,
+        LOGIN_TYPE,
         STORAGE,
         JOURNAL,
         FILE_ENTRY,
         PENDING}       from './constants.js';
 
 const maharaServerInstance = new MaharaServer();
+
+const initialState = {
+    page: PAGE.SERVER,
+    server: {
+        wwwroot: null,
+        wstoken: null,
+        loginTypes: [LOGIN_TYPE.LOCAL],
+        siteName: null,
+        maharaVersion: null,
+        profile: {
+            'id': null, // User's Mahara ID number
+            'myname': null, // User's Display name
+            'username': null, // User's username
+            'quota': null, // User's storage quota on the server (in bytes)
+            'quotaused': null, // Quota used on server
+            icon: null, // FileEntry.toURI() of image to display
+        },
+        sync: {
+            blogs: [],
+            folders: [],
+            notifications: [],
+            tags: []
+        }
+    },
+    pendingUploads: []
+};
 
 function MaharaState(state, action) {
   if (state === undefined) { //Initial state upon page load
@@ -20,15 +47,11 @@ function MaharaState(state, action) {
       state = {lang:['en']};
       action.type = PAGE.SERVER;
     } else if(state.server) {
-      maharaServerInstance.loadState(state);
+      maharaServerInstance.loadState(state.server);
     }
   }
 
   state = JSON.parse(JSON.stringify(state)); // clone so that we don't accidentally overwrite existing object
-
-  if(window.isCordova !== undefined){   // ok, technically this is a side-effect (a big no no)...
-    state.isCordova = window.isCordova; // but it doesn't change during the app lifecycle (once loaded)
-  }                                     // loading so it's harmless
 
   switch (action.type) {
     case PAGE.SERVER:
@@ -57,27 +80,6 @@ function MaharaState(state, action) {
       maharaServerInstance.siteName = state.server.siteName = action.server.siteName;
       maharaServerInstance.maharaVersion = state.server.maharaVersion = action.server.maharaVersion;
       break;
-    case STORAGE.SET_UPLOAD_TOKEN:
-      if(console.trace) console.trace();
-      console.log("Should not set upload token in state. Check previous trace to remove offending code.");
-      break;
-    case LOGIN.SSO_AVAILABILITY_RESET:
-      state.server = state.server || {};
-      state.server.ssoAvailable = undefined;
-      break;
-    case LOGIN.SSO_IS_AVAILABLE:
-      state.server = state.server || {};
-      state.server.ssoAvailable = true;
-      break;
-    case LOGIN.SSO_NOT_AVAILABLE:
-      state.server = state.server || {};
-      state.server.ssoAvailable = false;
-      break;
-    case STORAGE.SET_USER_PROFILE:
-      state.server = state.server || {};
-      state.server.profile = action.profile;
-      maharaServerInstance.profile = action.profile;
-      break;
     case STORAGE.SET_USER_PROFILE_ICON:
       state.server = state.server || {};
       state.server.profile = state.server.profile || {};
@@ -85,9 +87,13 @@ function MaharaState(state, action) {
       break;
     case STORAGE.SET_USER_SYNC_DATA:
       state.server = state.server || {};
-      maharaServerInstance.sync = state.server.sync = action.sync;
+      maharaServerInstance.sync.blogs = state.server.sync.blogs = action.sync.blogs;
+      maharaServerInstance.sync.folders = state.server.sync.folders = state.folders;
+      maharaServerInstance.sync.notifications = state.server.sync.notifications = action.sync.notifications;
+      maharaServerInstance.tags = state.server.sync.tags = action.sync.tags;
       maharaServerInstance.profile = state.server.profile = action.sync.userprofile;
-      
+      maharaServerInstance.profile.icondata = state.server.profile.icondata = action.sync.userprofileicon;
+      state.needToDownloadIcon = true;
       break;
     case JOURNAL.ADD_ENTRY:
       state.pendingUploads = state.pendingUploads || [];
@@ -158,7 +164,7 @@ function MaharaState(state, action) {
       break;
     case LOGIN.AFTER_LOGIN_GET_PROFILE:
       state.getProfile = true;
-      maharaServerInstance.accessToken = state.server.token = action.token;
+      maharaServerInstance.wstoken = state.server.wstoken = action.wstoken;
       break;
     case LOGIN.STOP_GETTING_PROFILE:
       state.getProfile = undefined;

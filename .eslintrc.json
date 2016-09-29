@@ -1,9 +1,10 @@
 {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "jquery": true
     },
-    "extends": "eslint:recommended",
+    "extends": ["plugin:import/errors", "plugin:react/recommended", "eslint:recommended"],
     "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
@@ -29,11 +30,14 @@
         "no-empty": "off"
     },
     "globals": {
-      "mahara": false,
-        // From alertify plugin
+      // From alertify plugin
       "alertify": false,
-      // From cordova-file-transfer plugin
+      // From cordova-plugin-file-transfer
       "FileUploadOptions": false,
-      "FileTransfer": false
+      "FileTransfer": false,
+      // From cordova-plugin-device
+      "device": false,
+      // From cordova core
+      "cordova": false
     }
 }

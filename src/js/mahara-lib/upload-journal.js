@@ -4,7 +4,7 @@ import httpLib      from './http-lib.js';
 const wsfunction = 'module_mobileapi_upload_blog';
 
 export default function uploadJournal(journalEntry, successCallback, errorCallback) {
-    if (!this.getWwwroot() || !this.getAccessToken()) {
+    if (!this.getWwwroot() || !this.getWSToken()) {
         return errorCallback({
                 error: true,
                 message: "You have not yet connected to a Mahara instance.",
@@ -20,6 +20,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
         });
     }
 
+    var that = this;
     httpLib.callWebservice(
         wsfunction,
         {

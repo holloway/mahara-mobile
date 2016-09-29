@@ -213,7 +213,7 @@ const httpLib = {
   ) {
 
     // TODO: some kind of auto-fallthrough to send you to the auth system when you need to re-auth?
-    if (!maharaServer.getAccessToken()) {
+    if (!maharaServer.getWSToken()) {
       return errorCallback("Not connected to webservice yet");
     }
     
@@ -222,7 +222,7 @@ const httpLib = {
     };
     var postparams = {
       wsfunction: wsfunction,
-      wstoken: maharaServer.getAccessToken(),
+      wstoken: maharaServer.getWSToken(),
     };
     try {
       postparams = Object.assign(postparams, wsparams);

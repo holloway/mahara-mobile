@@ -122,7 +122,9 @@ const render = () => {
         StateStore.dispatch({ type: STORAGE.STOP_AUTODETECTING });
         afterInputWwwroot(state.server.wwwroot);
     }
-
+    if (state.needToDownloadIcon) {
+        
+    }
 };
 
 setTimeout(function () {

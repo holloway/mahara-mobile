@@ -4,9 +4,7 @@ import MaharaBaseComponent from '../base.js';
 import {PAGE_URL,
         FILE_ENTRY}        from '../../constants.js';
 import Router              from '../../router.js';
-import StateStore,
-       {inputTypeFileStore}
-                           from '../../state.js';
+import StateStore          from '../../state.js';
 
 class Add extends MaharaBaseComponent {
   constructor(){
@@ -25,7 +23,7 @@ class Add extends MaharaBaseComponent {
     </section>;
   }
   renderTakePhoto(){
-    if(this.props.isCordova === false) return "";
+    if(window.isCordova === false) return "";
     return <button onClick={this.takePhoto} className="big">{this.gettext('camera_take_photo_button')}</button>;
   }
   renderUpload(){

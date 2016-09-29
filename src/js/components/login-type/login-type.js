@@ -45,10 +45,10 @@ class LoginTypePage extends MaharaBaseComponent {
     maharaServer.openSsoWindow(this.ssoSuccess);
   };
 
-  ssoSuccess = (token) => {
+  ssoSuccess = (wstoken) => {
     StateStore.dispatch({
         type: LOGIN.AFTER_LOGIN_GET_PROFILE,
-        token: token
+        wstoken: wstoken
     });
     Router.navigate(PAGE_URL.ADD);
   }

@@ -3,131 +3,128 @@
 "use strict"; /* jshint -W097 */
 
 var minimumNodeVersion = 4;
-if(parseFloat(process.version.toString().replace(/[^\.0-9]/, '')) < minimumNodeVersion){
-  console.error("FATAL ERROR: You need to have at least Node.js version " + minimumNodeVersion + " but you have " + process.version);
-  process.exit(1);
+if (parseFloat(process.version.toString().replace(/[^\.0-9]/, '')) < minimumNodeVersion) {
+    console.error("FATAL ERROR: You need to have at least Node.js version " + minimumNodeVersion + " but you have " + process.version);
+    process.exit(1);
 }
 
-var gulp       = require('gulp'),
-    concat     = require('gulp-concat'),
+var gulp = require('gulp'),
+    concat = require('gulp-concat'),
     browserify = require('browserify'),
-    postcss    = require('gulp-postcss'),
-    replace    = require('gulp-replace'),
-    source     = require("vinyl-source-stream"),
-    babelify   = require('babelify'),
-    glob       = require("glob"),
-    fs         = require("fs"),
-    source = require('vinyl-source-stream'),
+    postcss = require('gulp-postcss'),
+    replace = require('gulp-replace'),
+    source = require("vinyl-source-stream"),
+    babelify = require('babelify'),
+    glob = require("glob"),
+    fs = require("fs"),
     buffer = require('vinyl-buffer'),
     uglify = require('gulp-uglify'),
-    sourcemaps = require('gulp-sourcemaps'),
-    gutil = require('gulp-util');
+    sourcemaps = require('gulp-sourcemaps');
 
 var paths = {
-  css:       './src/**/*.css',
-  jsentry:   './src/js/index.js',
-  lib:       './src/lib/**',
-  image:     './src/image/**',
-  html:      './src/*.html',
-  ready:     './src/ready.js',
-  dest:      './www',
+    css: './src/**/*.css',
+    jsentry: './src/js/index.js',
+    lib: './src/lib/**',
+    image: './src/image/**',
+    html: './src/*.html',
+    ready: './src/ready.js',
+    dest: './www',
 };
 
-gulp.task('js', function (){
+// Informed by https://gist.github.com/alkrauss48/a3581391f120ec1c3e03
+gulp.task('js', function () {
     // Process JS files into ES5
-    var b = browserify({
-     entries: './src/js/index.js',
-     extensions: ['.js'],
-     debug: true
+    return browserify({
+        entries: './src/js/index.js',
+        extensions: ['.js'],
+        debug: true
     })
     .transform(
-      babelify,
-      {
-        presets: ["latest", "react"],
-        plugins: ["transform-export-extensions", "transform-class-properties"]
-      }
-    );
-
-    return b.bundle()
-      .pipe(source('bundle.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init({loadMaps:true}))
-        // Add transformation tasks to the pipeline here
-//        .pipe(uglify())
-      .pipe(sourcemaps.write(paths.dest))
-      .pipe(gulp.dest(paths.dest));
+        babelify,
+        {
+            presets: ["latest", "react"],
+            plugins: ["transform-export-extensions", "transform-class-properties"]
+        }
+    )
+    .bundle()
+    .pipe(source('bundle.js'))
+    // .pipe(buffer())
+    // .pipe(sourcemaps.init({loadMaps: true}))
+    // .pipe(uglify())
+    // .pipe(sourcemaps.write('./maps'))
+    .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('css', function(){
+gulp.task('css', function () {
     var processors = [
-      require('postcss-import'),
-      require('postcss-mixins'),
-      require('postcss-simple-vars'),
-      require('postcss-nested'),
-      require('autoprefixer')({ browsers: ['last 2 versions', '> 2%'] })
+        require('postcss-import'),
+        require('postcss-mixins'),
+        require('postcss-simple-vars'),
+        require('postcss-nested'),
+        require('autoprefixer')({ browsers: ['last 2 versions', '> 2%'] })
     ];
     gulp.src(paths.css)
-      .pipe(postcss(processors))
-      .pipe(gulp.dest(paths.dest));
+        .pipe(postcss(processors))
+        .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('lib', function(){
+gulp.task('lib', function () {
     gulp.src(paths.lib)
-      .pipe(gulp.dest(paths.dest + "/lib"));
+        .pipe(gulp.dest(paths.dest + "/lib"));
 });
 
-gulp.task('image', function(){
+gulp.task('image', function () {
     gulp.src(paths.image)
-      .pipe(gulp.dest(paths.dest + "/image"));
+        .pipe(gulp.dest(paths.dest + "/image"));
 });
 
-gulp.task('html', function(){
+gulp.task('html', function () {
     gulp.src(paths.html)
-      //.pipe(replace(/<!--\#(.*?)\#-->/, ''))
-      .pipe(gulp.dest(paths.dest));
+        //.pipe(replace(/<!--\#(.*?)\#-->/, ''))
+        .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('ready', function(){
+gulp.task('ready', function () {
     gulp.src(paths.ready)
-      .pipe(gulp.dest(paths.dest));
+        .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('locale', function (){
-  var allStrings = {};
-  glob("./src/i18n/*/strings.txt", function(er, files){
-    var filesRemaining = files.length,
-        readLang = function(path){
-          var lang = path.replace(/^.*?i18n\//,'').replace(/\/strings.txt.*?$/,''),
-              strings = {};
+gulp.task('locale', function () {
+    var allStrings = {};
+    glob("./src/i18n/*/strings.txt", function (er, files) {
+        var filesRemaining = files.length,
+            readLang = function (path) {
+                var lang = path.replace(/^.*?i18n\//, '').replace(/\/strings.txt.*?$/, ''),
+                    strings = {};
 
-          allStrings[lang] = strings;
-          fs.readFile(path, 'utf-8', function(err, data){
-            var lines = data.split("\n");
-            for(var i = 0; i < lines.length; i++){
-              var line = lines[i],
-                  equals = line.indexOf("=");
-              if(equals >= 0) strings[ line.substr(0, equals) ] = line.substr(equals+1);
-            }
-            end();
-          });
-        },
-        end = function(){
-          filesRemaining--;
-          if(filesRemaining > 0) return;
-          fs.mkdir(paths.dest + '/i18n', function(e){
-            if(e && e.code !== 'EEXIST') console.log(e);
-            fs.writeFile(paths.dest + '/i18n/strings.json', JSON.stringify(allStrings, null, 2), 'utf-8');
-          });
-        };
+                allStrings[lang] = strings;
+                fs.readFile(path, 'utf-8', function (err, data) {
+                    var lines = data.split("\n");
+                    for (var i = 0; i < lines.length; i++) {
+                        var line = lines[i],
+                            equals = line.indexOf("=");
+                        if (equals >= 0) strings[line.substr(0, equals)] = line.substr(equals + 1);
+                    }
+                    end();
+                });
+            },
+            end = function () {
+                filesRemaining--;
+                if (filesRemaining > 0) return;
+                fs.mkdir(paths.dest + '/i18n', function (e) {
+                    if (e && e.code !== 'EEXIST') console.log(e);
+                    fs.writeFile(paths.dest + '/i18n/strings.json', JSON.stringify(allStrings, null, 2), 'utf-8');
+                });
+            };
 
-    for(var i = 0; i < files.length; i++){
-      readLang(files[i]);
-    }
-  });
+        for (var i = 0; i < files.length; i++) {
+            readLang(files[i]);
+        }
+    });
 });
 
 gulp.task('default', ['js', 'css', 'lib', 'image', 'html', 'locale', 'ready']);
 
-gulp.task('watch', function(){
-  gulp.watch(['*','**'], ['default']);
+gulp.task('watch', function () {
+    gulp.watch(['*', '**'], ['default']);
 });

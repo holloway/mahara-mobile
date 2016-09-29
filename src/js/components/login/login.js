@@ -51,11 +51,11 @@ class LoginPage extends MaharaBaseComponent {
 
         maharaServer.usernamePasswordLogin(username, password, successCallback, errorCallback);
 
-        function successCallback(token) {
+        function successCallback(wstoken) {
             StateStore.dispatch(
                 { 
                     type: LOGIN.AFTER_LOGIN_GET_PROFILE,
-                    token: token
+                    wstoken: wstoken
                 }
             );
             Router.navigate(PAGE.USER);

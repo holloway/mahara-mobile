@@ -64,11 +64,11 @@ export default function openSsoWindow(win) {
                             // Final expression of the executed code will be
                             // returned here, enclosed in an array for some
                             // reason. 
-                            function(token) {
-                                if (token[0]) {
+                            function(wstoken) {
+                                if (wstoken[0]) {
                                     clearInterval(loopid);
                                     ssoWindow.close();
-                                    win(token[0]);
+                                    win(wstoken[0]);
                                 }
                             }
                         );
@@ -78,4 +78,4 @@ export default function openSsoWindow(win) {
             }
         }
     );
-};
+}

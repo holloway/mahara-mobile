@@ -2,8 +2,7 @@
 import httpLib                 from './http-lib.js';
 import getUserProfile          from './get-user-profile.js';
 import autoDetectServerCapabilities,
-       {getWwwroot,
-        parseUrl}                from './server-url.js';
+       {getWwwroot}                from './server-url.js';
 import localLogin              from './local-login.js';
 import logOut                  from './logout.js';
 import uploadJournal           from './upload-journal.js';
@@ -26,19 +25,18 @@ export default class MaharaServer {
     this.logOut = logOut.bind(this);
     this.getWwwroot = getWwwroot.bind(this);
 
-    this.getAccessToken = this.getAccessToken.bind(this);
+    this.getWSToken = this.getWSToken.bind(this);
   }
   
-  loadState(state){
-    this.wwwroot = state.server.wwwroot;
-    this.loginTypes = state.server.loginTypes;
-    this.siteName = state.server.siteName;
-    this.maharaVersion = state.server.maharaVersion;
-    this.profile = state.server.profile;
-    this.sync = state.server.sync;
-    this.accesstoken = state.server.accesstoken;
-    // console.log("ServerState was", state);
+  loadState(server){
+    this.wwwroot = server.wwwroot;
+    this.loginTypes = server.loginTypes;
+    this.siteName = server.siteName;
+    this.maharaVersion = server.maharaVersion;
+    this.profile = server.profile;
+    this.sync = server.sync;
+    this.wstoken = server.wstoken;
   }
 
-  getAccessToken = () => this.accesstoken;
+  getWSToken = () => this.wstoken;
 }
