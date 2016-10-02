@@ -2,134 +2,158 @@
 import React from 'react';
 import MaharaBaseComponent from '../base.js';
 import {PAGE_URL,
-        FILE_ENTRY}        from '../../constants.js';
+    FILE_ENTRY}        from '../../constants.js';
 import Router              from '../../router.js';
 import StateStore          from '../../state.js';
+import fs from '../../mahara-lib/files-lib.js';
 
 class Add extends MaharaBaseComponent {
-  constructor(){
-    super();
+    constructor() {
+        super();
 
-    this.renderTakePhoto  = this.renderTakePhoto.bind(this);
-    this.renderUpload     = this.renderUpload.bind(this);
-    this.uploadFileChange = this.uploadFileChange.bind(this);
-    this.takePhoto        = this.takePhoto.bind(this);
-  }
-  render() {
-    return <section>
-      <h1>Add New</h1>
-      {this.renderUpload()}
-      <button onClick={this.addJournalEntry} className="big">{this.gettext('add_journal_entry')}</button>
-    </section>;
-  }
-  renderTakePhoto(){
-    if(window.isCordova === false) return "";
-    return <button onClick={this.takePhoto} className="big">{this.gettext('camera_take_photo_button')}</button>;
-  }
-  renderUpload(){
-    if(!isFileInputSupported) return "";
-    
-    var inputId = "fileUpload" + (this.props.pendingUploads ? this.props.pendingUploads.length : 0);
-    return <span>
+        this.renderTakePhoto = this.renderTakePhoto.bind(this);
+        this.renderUpload = this.renderUpload.bind(this);
+        this.uploadFileChange = this.uploadFileChange.bind(this);
+        this.takePhoto = this.takePhoto.bind(this);
+    }
+
+    render() {
+        return <section>
+            <h1>Add New</h1>
+            {this.renderUpload() }
+            <button onClick={this.addJournalEntry} className="big">{this.gettext('add_journal_entry') }</button>
+        </section>;
+    }
+
+    renderTakePhoto() {
+        if (window.isCordova === false) return "";
+        return <button onClick={this.takePhoto} className="big">{this.gettext('camera_take_photo_button') }</button>;
+    }
+
+    renderUpload() {
+        if (!isFileInputSupported) return "";
+
+        var inputId = "fileUpload" + (this.props.pendingUploads ? this.props.pendingUploads.length : 0);
+        return <span>
             <input type="file" id={inputId} onChange={this.uploadFileChange} ref="fileUpload"/>
-            <label htmlFor={inputId} className="big">{this.gettext('upload_file')}</label>
-          </span>;
-  }
-  uploadFileChange(e){
-    var fileUploadElement = this.refs.fileUpload;
+            <label htmlFor={inputId} className="big">{this.gettext('upload_file') }</label>
+        </span>;
+    }
 
-    if(!fileUploadElement || !fileUploadElement.files || fileUploadElement.files.length === 0) return;
+    uploadFileChange(e) {
+        var fileUploadElement = this.refs.fileUpload;
 
-    this.handleInputAsDataUrl(fileUploadElement);
-    //this.handleInputAsFileInputs(fileUploadElement);
+        if (!fileUploadElement || !fileUploadElement.files || fileUploadElement.files.length === 0) return;
 
-    Router.navigate(PAGE_URL.PENDING);
-  }
-  handleInputAsDataUrl = (fileUploadElement) => {
-    // DataURLs are like base64 so they waste bytes
-    // and need processing to be used, and are inefficient
-    // at large sizes, but they can be preserved in localStorage.
-    // More here https://developer.mozilla.org/en-US/docs/Web/HTTP/data_URIs
+        this.handleInputAsDataUrl(fileUploadElement);
+        //this.handleInputAsFileInputs(fileUploadElement);
 
-    var that = this,
-        reader,
-        i;
+        Router.navigate(PAGE_URL.PENDING);
+    }
 
-    var readerLoad = function(fileObj){
-      return function(e){
-        var dataURL = reader.result,
-            fileName = that.uriToFilename(fileObj.name || fileUploadElement.value),
+    handleInputAsDataUrl = (fileUploadElement) => {
+        // DataURLs are like base64 so they waste bytes
+        // and need processing to be used, and are inefficient
+        // at large sizes, but they can be preserved in localStorage.
+        // More here https://developer.mozilla.org/en-US/docs/Web/HTTP/data_URIs
+
+        var that = this,
+            reader,
+            i;
+
+        var fileObj, guid;
+        for (i = 0; i < fileUploadElement.files.length; i++) {
+            fileObj = fileUploadElement.files[i];
+            guid = this.guidGenerator();
+            // Read the file in, and write it into a temp file
+            // TODO: Clear out those temp files from time to time!
+            fs.readFileAsArrayBuffer(
+                fileObj,
+                function fileReadWin(data) {
+                    var fileExtension = fileObj.name.substr(fileObj.name.lastIndexOf('.'));
+                    var tempFileName = 'tmpfileupload' + guid + fileExtension;
+
+                    fs.getFileAndWriteInIt(
+                        tempFileName,
+                        data,
+                        function tempFileWriteWin(tempFileUrl) {
+                            StateStore.dispatch(
+                                {
+                                    type: FILE_ENTRY.ADD_ENTRY,
+                                    fileEntry: {
+                                        type: FILE_ENTRY.TYPE,
+                                        title: fileObj.name,
+                                        fileUrl: tempFileUrl,
+                                        guid: guid,
+                                        fileName: fileObj.name,
+                                        mimeType: fileObj.type || "image/jpeg",
+                                        createdOn: Date.now()
+                                    }
+                                }
+                            );
+                        }
+                    );
+                }
+            );
+        }
+    }
+
+    uriToFilename(uri) {
+        return (uri.indexOf("/") === -1) ? uri : uri.substring(uri.lastIndexOf("/") + 1);
+    }
+
+    takePhoto = (e) => {
+        if (!navigator.camera || !navigator.camera.getPicture || !navigator.camera.DestinationType) {
+            alertify.okBtn(this.gettext('alert_ok_button'));
+            alertify.alert(this.gettext('camera_unavailable'));
+            return;
+        }
+        navigator.camera.getPicture(
+            this.cameraSuccess,
+            this.cameraError,
+            { destinationType: navigator.camera.DestinationType.FILE_URI });
+    }
+
+    cameraSuccess = (imageUri) => {
+        var fileName = this.uriToFilename(imageUri),
             fileEntry = {
-              type:         FILE_ENTRY.TYPE,
-              title:        fileName,
-              guid:         that.guidGenerator(),
-              dataURL:      dataURL,
-              fileName:     fileName,
-              mimeType:     fileObj.type || "image/jpeg",
-              createdOn:    Date.now()
+                type: FILE_ENTRY.TYPE,
+                title: fileName,
+                guid: this.guidGenerator(),
+                uri: imageUri,
+                mimeType: "image/jpeg",
+                fileName: fileName,
+                createdOn: Date.now()
             };
 
-        StateStore.dispatch({type:FILE_ENTRY.ADD_ENTRY, fileEntry:fileEntry});
-      };
-    };
-
-    for(i = 0; i < fileUploadElement.files.length; i++){
-      reader = new FileReader();
-      reader.onload = readerLoad(fileUploadElement.files[i]);
-      reader.readAsDataURL(fileUploadElement.files[i]);
+        StateStore.dispatch({ type: FILE_ENTRY.ADD_ENTRY, fileEntry: fileEntry });
+        Router.navigate(PAGE_URL.PENDING);
     }
-  }
-  uriToFilename(uri){
-    return (uri.indexOf("/") === -1) ? uri : uri.substring(uri.lastIndexOf("/") + 1);
-  }
-  takePhoto = (e) => {
-    if(!navigator.camera || !navigator.camera.getPicture || !navigator.camera.DestinationType){
-      alertify.okBtn(this.gettext('alert_ok_button'));
-      alertify.alert(this.gettext('camera_unavailable'));
-      return;
-    }
-    navigator.camera.getPicture(
-      this.cameraSuccess,
-      this.cameraError,
-      {destinationType: navigator.camera.DestinationType.FILE_URI});
-  }
-  cameraSuccess = (imageUri) => {
-    var fileName = this.uriToFilename(imageUri),
-        fileEntry = {
-          type:      FILE_ENTRY.TYPE,
-          title:     fileName,
-          guid:      this.guidGenerator(),
-          uri:       imageUri,
-          mimeType:  "image/jpeg",
-          fileName:  fileName,
-          createdOn: Date.now()
-        };
 
-    StateStore.dispatch({type:FILE_ENTRY.ADD_ENTRY, fileEntry:fileEntry});
-    Router.navigate(PAGE_URL.PENDING);
-  }
-  cameraError = (message) => {
-    alertify
-        .okBtn(this.gettext("alert_ok_button"))
-        .alert(this.gettext("camera_error") + " " + message);
-  }
-  guidGenerator(){
-    return (Math.random() + 1).toString(36).substring(2, 12) + (Math.random() + 1).toString(36).substring(2, 12);
-  }
-  addJournalEntry = (e) => {
-    Router.navigate(PAGE_URL.ADD_JOURNAL_ENTRY);
-  }
+    cameraError = (message) => {
+        alertify
+            .okBtn(this.gettext("alert_ok_button"))
+            .alert(this.gettext("camera_error") + " " + message);
+    }
+
+    guidGenerator() {
+        return (Math.random() + 1).toString(36).substring(2, 12) + (Math.random() + 1).toString(36).substring(2, 12);
+    }
+
+    addJournalEntry = (e) => {
+        Router.navigate(PAGE_URL.ADD_JOURNAL_ENTRY);
+    }
 }
 
 var isFileInputSupported = (function () {
-  // Handle devices which falsely report support
-  if (navigator.userAgent && navigator.userAgent.match(/(Android (1.0|1.1|1.5|1.6|2.0|2.1))|(Windows Phone (OS 7|8.0))|(XBLWP)|(ZuneWP)|(w(eb)?OSBrowser)|(webOS)|(Kindle\/(1.0|2.0|2.5|3.0))/)) {
-    return false;
-  }
-  // Create test element
-  var el = document.createElement("input");
-  el.type = "file";
-  return !el.disabled;
+    // Handle devices which falsely report support
+    if (navigator.userAgent && navigator.userAgent.match(/(Android (1.0|1.1|1.5|1.6|2.0|2.1))|(Windows Phone (OS 7|8.0))|(XBLWP)|(ZuneWP)|(w(eb)?OSBrowser)|(webOS)|(Kindle\/(1.0|2.0|2.5|3.0))/)) {
+        return false;
+    }
+    // Create test element
+    var el = document.createElement("input");
+    el.type = "file";
+    return !el.disabled;
 })();
 
 export default Add;

@@ -130,8 +130,8 @@ export function refreshUserIcon(newicon) {
 function clearUserIcon() {
     StateStore.dispatch(
         {
-            'type': STORAGE.SET_USER_PROFILE_ICON,
-            'icon': null,
+            type: STORAGE.SET_USER_PROFILE_ICON,
+            icon: null,
         }
     );
     return null;
