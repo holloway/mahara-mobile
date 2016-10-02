@@ -24,13 +24,14 @@ class User extends MaharaBaseComponent {
         if (this.props.server) {
             var series = (this.props.server.maharaVersion ? this.props.server.maharaVersion : false);
             if (this.props.server.siteName) {
-                siteName = this.props.server.siteName + (series ? "(Mahara " + series + ")" : "");
+                siteName = this.props.server.siteName + (series ? " (" + series + ")" : "");
             }
             else if (series) {
+                // TODO: lang strings
                 siteName = "Mahara " + series;
             }
             else {
-                siteName = "Unknown Mahara";
+                siteName = "Mahara";
             }
 
             if (this.props.server.iconurl) {

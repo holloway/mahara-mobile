@@ -53,11 +53,7 @@ export default function autoDetectServerCapabilities(wwwroot, finalSuccessCallba
     }
 
 
-    finalSuccessCallback(
-        {
-            loginTypes: serverData.loginTypes,
-        }
-    );
+    finalSuccessCallback(serverData);
   }
 
   function handleFailure(){
