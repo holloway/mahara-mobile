@@ -128,7 +128,7 @@ const render = () => {
         StateStore.dispatch({ type: STORAGE.STOP_AUTODETECTING });
         afterInputWwwroot(state.server.wwwroot);
     }
-    if (state.needToDownloadIcon) {
+    if (state.needToRefreshIcon) {
         StateStore.dispatch({type: LOGIN.STOP_GET_USER_ICON});
         maharaServer.refreshUserIcon(state.server.icondata);
     }

@@ -140,6 +140,10 @@ function MaharaState(state, action) {
             //     state.server.targetfoldername = action.sync.folders[0].title;
             // }
             break;
+            
+        case LOGIN.STOP_GET_USER_ICON:
+            state.needToRefreshIcon = undefined;
+            break;
 
         case JOURNAL.ADD_ENTRY:
             // state.pendingUploads = state.pendingUploads || [];

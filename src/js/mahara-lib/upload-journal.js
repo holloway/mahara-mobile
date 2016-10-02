@@ -32,7 +32,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
             journalEntry.id = responsejson.blogpost;
             successCallback({journalEntry: journalEntry});
         },
-        function failureFrom(response) {
+        function failFn(response) {
             if (!response) response = { error: true };
             response.journalEntry = journalEntry;
             errorCallback(response);
