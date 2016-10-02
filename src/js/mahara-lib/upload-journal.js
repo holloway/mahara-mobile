@@ -1,7 +1,7 @@
 /*jshint esnext: true */
 import httpLib      from './http-lib.js';
 
-const wsfunction = 'module_mobileapi_upload_blog';
+const wsfunction = 'module_mobileapi_upload_blog_post';
 
 export default function uploadJournal(journalEntry, successCallback, errorCallback) {
     if (!this.getWwwroot() || !this.getWSToken()) {
@@ -20,11 +20,10 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
         });
     }
 
-    var that = this;
     httpLib.callWebservice(
         wsfunction,
         {
-            blogid: this.getTargetBlogId,
+            blogid: this.getTargetBlogId(),
             title: journalEntry.title,
             body: journalEntry.body,
             tags: journalEntry.tags,
