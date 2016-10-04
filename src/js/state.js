@@ -57,13 +57,13 @@ const defaultState = {
 function MaharaState(state, action) {
     if (state === undefined) { //Initial state upon page load
         state = Storage.state.get();
-        if (!state) { // if there was no saved state
-            state = { lang: ['en'] };
-            action.type = PAGE.SERVER;
-        }
-        else if (stateVersion !== state.stateVersion) {
-            // No upgrade script during development. Just wipe the stored data.
+        // If there was no saved state, or if the state is from an
+        // earlier version of the program.
+        // TODO: add an "upgrade" script to migrate state from older
+        // versions.
+        if (!state || stateVersion !== state.stateVersion) {
             state = defaultState;
+            action.type = PAGE.SERVER;
         }
     }
 
