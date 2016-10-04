@@ -3,11 +3,11 @@
   "version": "3.0.0",
   "description": "Mahara Mobile",
   "scripts": {
-    "postinstall": "gulp && cordova prepare",
-    "init": "npm postinstall",
-    "build": "gulp && cordova build browser",
+    "init-cordova": "mkdir -p www && cordova prepare",
+    "postinstall": "npm run init-cordova",
+    "build-browser": "gulp && cordova build browser",
     "android": "gulp && cordova run android",
-    "prestart": "chromium-browser --disable-web-security --user-data-dir=/tmp/cordova/ --app=http://localhost:8000/browser/www/index.html &",
+    "prestart": "npm run build-browser && chromium-browser --disable-web-security --user-data-dir=/tmp/cordova/ --app=http://localhost:8000/browser/www/index.html &",
     "start": "cordova serve 8000"
   },
   "repository": {

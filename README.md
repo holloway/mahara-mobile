@@ -4,39 +4,41 @@ A Mahara app for offline use.
 
 The technology is JavaScript ES6, React, Redux, and Phonegap.
 
-## Smartphone Install
+## Requirements
 
-App packages will be available at a later date.
+* Mahara 16.10+
+  * The Mahara site you're connecting to must have activated the new "mobileapi" module added in Mahara 16.10: https://reviews.mahara.org/#/c/7039/
+  * Once that's added, you'll need to activate the plugin by going to "Administration -> Extensions -> Plugin configuration -> module/mobileapi" and using the auto-configure tool.
+* Node.js (version 4 or later)
+  * Ubuntu 16.04: ``apt-get node-js``
+  * Ubuntu 14.04: The apt "node-js" package for 14.04 is way too old (version 0.10). If you already have it installed, you'll need to uninstall it. Then install a modern version of Node.js from here: https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
+
 
 ## Dev Install
 
-Download this repository and then run,
+To install all the NPM and Cordova dependencies:
 
     npm install
-    npm run init
 
-This will install the cordova dependencies and platforms specified in the config.xml file. Next build the application,
+## Running in a browser
 
-    npm run build
+For basic debugging and development, the site can be run in a Chromium browser on your local machine. (Note: Some Cordova plugins don't work in the browser, so some functionality may be missing.) To launch the browser, just run:
 
-This bundles up the Javascript source code in the `./src` directory and outputs it into the `./www/` directory. The `./www/` output directory will be a static website, intended to be packaged as a Phonegap project.
+    npm start
 
-For basic debugging you can serve this directory up from a static file webserver:
+To rebuild the app in the browser, after you've made changes:
 
-   npm run devwebserver
+    npm run build-browser
 
-This command will also launch the Chromium browser with the "--disable-web-security" and "--user-data-dir" flags. (This is necessary to avoid CORS restrictions that would otherwise apply for a web application running in a web browser.)
+... and then refresh the browser.
 
-Note: Phonegap plugins aren't available in the browser and so feature using these won't be available.
+## Running in an Android emulator or USB-connected device
 
-### Android Build
-
-To build the Android app, first install dependencies (Ubuntu 16.04):
+To build the Android app, you'll need the Oracle version of Java 8. Here's how to install it on Ubuntu:
 
     sudo add-apt-repository -y ppa:webupd8team/java
-    sudo add-apt-repository ppa:paolorotolo/android-studio
     sudo apt-get update
-    sudo apt-get install oracle-java7-installer oracle-java7-set-default
+    sudo apt-get install oracle-java8-installer oracle-java8-set-default
 
 Then download and install Android studio from https://developer.android.com/studio/index.html
 
@@ -51,28 +53,28 @@ Once those are installed, close the SDK Manager and launch the AVD Manager. Crea
 
 Then finally, run:
 
-    npm run cordova-run-android
+    npm run android
 
-## Troubleshooting
+To update the app in Android after you've made changes to the code, run ```npm run android``` again.
 
-#### Running `cordova run android` doesn't start the app on Android 4.x
+## Compiling the Android executable
 
-It might be caused by http://stackoverflow.com/a/30240520
+You can use the cordova command-line tool. To produce an APK that can run on a normal Android device, you'll need an Java keystore to sign it with. See the Android documentation for instructions on how to generate an acceptable keystore.
 
-# TODO
+    `npm bin`/cordova compile \
+        --release \
+        --device android \
+        --keystore=/PATH/TO/YOUR/KEYSTORE.keystore \
+        --alias=YOURKEYALEAS
 
-## Server
+## TODO:
 
-The app currently scrapes details out of a Mahara Server instance which obviously isn't ideal.
-
-So this is a list of Mobile APIs that we need,
-
-* Deprecate/discard tokens, just use sessions like regular users
-* Login
-* Login types available (local user, SSO)
-* SSO URL
-* Current login state
-* Mobile token error should have machine-readable error code
-* Set mobile token
-* Session duration/timeout
-* Get current username from session
+* The app currently does everything in redux using the basic synchronous data flow
+  * For a GUI app, it's recommended to instead use redux-thunk or redux-promise in order to improve UI responsiveness: http://redux.js.org/docs/advanced/AsyncFlow.html).
+* Data is stored in LocalStorage, which is not guaranteed to be persistent in iOS! https://cordova.apache.org/docs/en/latest/cordova/storage/storage.html#disadvantages
+  * The best solution seems to be to move the data storage into a SQLite database file, placed in a location where iOS won't delete it.
+* Camera support (instead of just gallery support)
+* Tags on images
+* More informative error messages
+* Better control flow for situations where the user's token is no longer valid.
+* Testing on iOS
