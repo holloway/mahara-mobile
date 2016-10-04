@@ -26,6 +26,7 @@ var paths = {
     jsentry: './src/js/index.js',
     lib: './src/lib/**',
     image: './src/image/**',
+    font: './src/fonts/**',
     html: './src/*.html',
     ready: './src/ready.js',
     dest: './www',
@@ -78,6 +79,11 @@ gulp.task('image', function () {
         .pipe(gulp.dest(paths.dest + "/image"));
 });
 
+gulp.task('font', function () {
+    gulp.src(paths.font)
+        .pipe(gulp.dest(paths.dest + '/fonts'));
+});
+
 gulp.task('html', function () {
     gulp.src(paths.html)
         //.pipe(replace(/<!--\#(.*?)\#-->/, ''))
@@ -123,7 +129,7 @@ gulp.task('locale', function () {
     });
 });
 
-gulp.task('default', ['js', 'css', 'lib', 'image', 'html', 'locale', 'ready']);
+gulp.task('default', ['js', 'css', 'lib', 'image', 'font', 'html', 'locale', 'ready']);
 
 gulp.task('watch', function () {
     gulp.watch(['*', '**'], ['default']);
