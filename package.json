@@ -6,8 +6,9 @@
     "init-cordova": "mkdir -p www && cordova prepare",
     "postinstall": "npm run init-cordova",
     "build-browser": "gulp && cordova build browser",
+    "launch-browser": "chromium-browser --disable-web-security --user-data-dir=/tmp/cordova/ --app=http://localhost:8000/browser/www/index.html &",
     "android": "gulp && cordova run android",
-    "prestart": "gulp && cordova build browser && chromium-browser --disable-web-security --user-data-dir=/tmp/cordova/ --app=http://localhost:8000/browser/www/index.html &",
+    "prestart": "gulp && cordova build browser && npm run launch-browser",
     "start": "cordova serve 8000"
   },
   "repository": {
