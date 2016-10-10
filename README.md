@@ -64,6 +64,7 @@ You can use the cordova command-line tool. To produce an APK that can run on a n
     `npm bin`/cordova compile \
         --release \
         --device android \
+        -- \
         --keystore=/PATH/TO/YOUR/KEYSTORE.keystore \
         --alias=YOURKEYALEAS
 
