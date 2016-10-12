@@ -25,7 +25,8 @@ if (cordova.platformId === "browser") {
  * is expected to just close the popup window.
  */
 export default function openSsoWindow(win) {
-    var ssoUrl = this.getWwwroot() + loginurl
+    var absoluteUrl = this.getWwwroot() + loginurl;
+    var urlWithParams = this.getWwwroot() + loginurl
         + '?service=' + service
         + '&component=' + encodeURIComponent(component)
         + '&clientname=' + encodeURIComponent("Mahara Mobile") // TODO: lang string
@@ -35,7 +36,7 @@ export default function openSsoWindow(win) {
     ;
 
     var ssoWindowArgs = [
-        ssoUrl,
+        urlWithParams,
         '_blank',
         'clearsessioncache=yes,clearcache=yes,location=yes,enableViewportScale=yes',
     ];
@@ -79,7 +80,7 @@ export default function openSsoWindow(win) {
                 }
             }
 
-            if (loadedUrl.indexOf(ssoUrl) === 0) {
+            if (loadedUrl.indexOf(absoluteUrl + '?') === 0) {
                 if (loopid) {
                     clearInterval(loopid);
                 }
