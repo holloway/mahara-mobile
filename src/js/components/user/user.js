@@ -74,10 +74,10 @@ class User extends MaharaBaseComponent {
             if (e) {
                 maharaServer.logOut(function (isLoggedIn) {
                     console.log("Is logged in?", isLoggedIn);
-                    Router.navigate(PAGE_URL.LOGIN_TYPE);
+                    Router.navigate(PAGE_URL.SERVER);
                 }, function (err) {
                     console.log("Couldn't logout. This probably doesn't matter.", err);
-                    Router.navigate(PAGE_URL.LOGIN_TYPE);
+                    Router.navigate(PAGE_URL.SERVER);
                 });
             } else {
                 //nothing
