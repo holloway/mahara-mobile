@@ -8,11 +8,13 @@ import StateStore,
 import Storage              from './storage.js';
 import Router               from './router.js';
 import fsLib                from './mahara-lib/files-lib.js';
+import {getLangString}      from './i18n.js';
 import NavBar               from './components/navbar/navbar.js';
 import LogoBar              from './components/logobar/logobar.js';
 import ServerPage           from './components/server/server.js';
 import LoginTypePage        from './components/login-type/login-type.js';
 import LoginPage            from './components/login/login.js';
+import TokenPage            from './components/token/token.js';
 import UserPage             from './components/user/user.js';
 import PendingPage          from './components/pending/pending.js';
 import AddPage              from './components/add/add.js';
@@ -61,6 +63,9 @@ const render = () => {
         case PAGE.LOGIN:
             page = <LoginPage {...state}/>;
             break;
+        case PAGE.TOKEN_ENTRY:
+            page = <TokenPage {...state}/>;
+            break;
         case PAGE.USER:
             page = <UserPage {...state}/>;
             break;
@@ -90,6 +95,7 @@ const render = () => {
         case PAGE.SERVER:
         case PAGE.LOGIN_TYPE:
         case PAGE.LOGIN:
+        case PAGE.TOKEN_ENTRY:
             bar = <LogoBar {...state}/>;
             break;
     }
@@ -131,6 +137,21 @@ const render = () => {
     if (state.needToRefreshIcon) {
         StateStore.dispatch({type: LOGIN.STOP_GET_USER_ICON});
         maharaServer.refreshUserIcon(state.server.icondata);
+    }
+    if (state.startVerifyingManualToken) {
+        let lang = state.lang;
+        StateStore.dispatch({type: STORAGE.STOP_VERIFYING_MANUAL_TOKEN});
+        maharaServer.verifyManualToken(
+            function winFn() {
+                Router.navigate(PAGE.USER);
+            },
+            function failFn() {
+                StateStore.dispatch({type: STORAGE.CLEAR_MANUAL_TOKEN});
+                alertify
+                    .okBtn(getLangString(lang, "alert_ok_button"))
+                    .alert(getLangString(lang, "server_login_error"));
+            }
+        );
     }
 };
 

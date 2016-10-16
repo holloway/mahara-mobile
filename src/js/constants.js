@@ -4,6 +4,7 @@ export const PAGE = {
     LOGIN_TYPE: "LOGIN_TYPE",
     LOGIN: "LOGIN",
     SSO: "SSO",
+    TOKEN_ENTRY: "TOKEN_ENTRY",
     USER: "USER",
     ADD: "ADD",
     PENDING: "PENDING",
@@ -26,6 +27,9 @@ export const STORAGE = {
     SET_SERVER_URL: "STORAGE_SET_SERVER_URL",
     SET_USER_SYNC_DATA: "SET_USER_SYNC_DATA",
     SET_USER_PROFILE_ICON: "STORAGE_SET_USER_PROFILE_ICON",
+    SET_MANUAL_TOKEN: "SET_MANUAL_TOKEN",
+    STOP_VERIFYING_MANUAL_TOKEN: "STOP_VERIFYING_MANUAL_TOKEN",
+    CLEAR_MANUAL_TOKEN: "CLEAR_MANUAL_TOKEN",
 };
 
 export const JOURNAL = {
@@ -49,6 +53,7 @@ export const PENDING = {
 export const LOGIN_TYPE = {
     LOCAL: "LOGIN_LOCAL", //NOTE: the value must be identical values to constants of maraha-lib/constants.js too
     SINGLE_SIGN_ON: "LOGIN_SINGLE_SIGN_ON", //NOTE: the value must be identical values to constants of maraha-lib/constants.js too
+    MANUAL_TOKEN: "LOGIN_MANUAL_TOKEN", //NOTE: the value must be identical values to constants of maraha-lib/constants.js too
 };
 
 export const LOGIN = {

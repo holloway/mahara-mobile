@@ -3,6 +3,7 @@ import httpLib                 from './http-lib.js';
 import getUserProfile          from './get-user-profile.js';
 import autoDetectServerCapabilities from './server-url.js';
 import localLogin              from './local-login.js';
+import verifyManualToken       from './manual-token.js';
 import logOut                  from './logout.js';
 import uploadJournal           from './upload-journal.js';
 import getSyncData,
@@ -17,6 +18,7 @@ export default class MaharaServer {
         this.loadState = this.loadState.bind(this);
         this.autoDetectServerCapabilities = autoDetectServerCapabilities.bind(this);
         this.usernamePasswordLogin = localLogin.bind(this);
+        this.verifyManualToken = verifyManualToken.bind(this);
         this.uploadJournal = uploadJournal.bind(this);
         this.uploadFile = uploadFile.bind(this);
         this.getUserProfile = getUserProfile.bind(this);

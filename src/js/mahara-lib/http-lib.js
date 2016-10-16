@@ -216,7 +216,19 @@ const httpLib = {
     ) {
 
         // TODO: some kind of auto-fallthrough to send you to the auth system when you need to re-auth?
-        if (!maharaServer.getWSToken()) {
+        // Allow for a manually-provided token, to make it easier to validate
+        // newly-provided tokens
+        var wstoken = false;
+        if (wsparams.wstoken) {
+            wstoken = wsparams.wstoken;
+            delete wsparams.wstoken;
+        }
+        else if (maharaServer.getWSToken()) {
+            wstoken = maharaServer.getWSToken();
+        }
+
+        if (!wstoken) {
+            // TODO: lang string
             return errorCallback("Not connected to webservice yet");
         }
 
@@ -225,7 +237,7 @@ const httpLib = {
         };
         var postparams = {
             wsfunction: wsfunction,
-            wstoken: maharaServer.getWSToken(),
+            wstoken: wstoken,
         };
         try {
             postparams = Object.assign(postparams, wsparams);

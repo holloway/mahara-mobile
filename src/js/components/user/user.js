@@ -73,7 +73,7 @@ class User extends MaharaBaseComponent {
         alertify.confirm(this.gettext("logout_confirmation"), function (e, str) {
             if (e) {
                 maharaServer.logOut(function (isLoggedIn) {
-                    console.log("Is logged in?", isLoggedIn);
+                    // console.log("Is logged in?", isLoggedIn);
                     Router.navigate(PAGE_URL.SERVER);
                 }, function (err) {
                     console.log("Couldn't logout. This probably doesn't matter.", err);

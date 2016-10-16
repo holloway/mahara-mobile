@@ -73,6 +73,7 @@ function MaharaState(state, action) {
         case PAGE.SERVER:
         case PAGE.LOGIN_TYPE:
         case PAGE.LOGIN:
+        case PAGE.TOKEN_ENTRY:
         case PAGE.SSO:
         case PAGE.USER:
         case PAGE.ADD:
@@ -86,6 +87,16 @@ function MaharaState(state, action) {
             // state.server = state.server || {};
             state.server.wwwroot = action.serverUrl;
             state.startAutoDetectingProtocolAndLoginMethod = true;
+            break;
+        case STORAGE.SET_MANUAL_TOKEN:
+            state.server.wstoken = action.wstoken;
+            state.startVerifyingManualToken = true;
+            break;
+        case STORAGE.STOP_VERIFYING_MANUAL_TOKEN:
+            delete state.startVerifyingManualToken;
+            break;
+        case STORAGE.CLEAR_MANUAL_TOKEN:
+            state.server.wstoken = null;
             break;
         case STORAGE.STOP_AUTODETECTING:
             state.startAutoDetectingProtocolAndLoginMethod = undefined;

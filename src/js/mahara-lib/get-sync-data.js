@@ -3,7 +3,8 @@ import StateStore from '../state.js';
 import {STORAGE} from '../constants.js';
 import fsLib from './files-lib.js';
 
-export function refreshUserProfile() {
+export function refreshUserProfile(successFn = null, failFn = null) {
+
     this.getSyncData(
         function winfn(syncData) {
             StateStore.dispatch(
@@ -27,9 +28,15 @@ export function refreshUserProfile() {
                     }
                 }
             );
+            if (successFn) {
+                successFn(syncData);
+            }
         },
-        function failfn(error) {
+        function failCallback(error) {
             console.log("Problem getting sync data.");
+            if (failFn) {
+                return failFn(error);
+            }
         }
     );
 }
