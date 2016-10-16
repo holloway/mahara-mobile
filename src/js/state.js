@@ -80,8 +80,22 @@ function MaharaState(state, action) {
         case PAGE.ADD_JOURNAL_ENTRY:
         case PAGE.PENDING:
         case PAGE.SYNC:
-            //case PAGE.EDIT_JOURNAL_ENTRY:
+            // Changing the page
+            if (action.type !== state.page) {
+                // If we were editing a journal, clear that now.
+                if (!state.startEditingJournal && state.journalToEdit) {
+                    delete state.journalToEdit;
+                }
+
+                // If we've just started editing a journal, clear the flag that
+                // indicates that we haven't started it yet
+                if (state.startEditingJournal) {
+                    delete state.startEditingJournal;
+                }
+            }
+
             state.page = action.type;
+
             break;
         case STORAGE.SET_SERVER_URL:
             // state.server = state.server || {};
@@ -162,6 +176,19 @@ function MaharaState(state, action) {
             // state.pendingUploads = state.pendingUploads || [];
             state.pendingUploads.push(action.journalEntry);
             break;
+        case JOURNAL.EDIT_ENTRY:
+            {
+                // Update the journal entry in the pending list
+                for (let i = 0; i < state.pendingUploads.length; i++) {
+                    if (state.pendingUploads[i].guid === action.journalEntry.guid) {
+                        state.pendingUploads[i].title = action.journalEntry.title;
+                        state.pendingUploads[i].body = action.journalEntry.body;
+                        state.pendingUploads[i].tags = action.journalEntry.tags;
+                        break;
+                    }
+                }
+            }
+            break;
         case FILE_ENTRY.ADD_ENTRY:
             // state.pendingUploads = state.pendingUploads || [];
             // Don't need to do this because I'm using local temp files instead
@@ -225,6 +252,10 @@ function MaharaState(state, action) {
             if (pendingUploadsBefore === state.pendingUploads.length) {
                 console.log("Warning not able to remove item ", action.guid, state.pendingUploads);
             }
+            break;
+        case PENDING.EDIT_JOURNAL:
+            state.journalToEdit = action.guid;
+            state.startEditingJournal = true;
             break;
         case LOGIN.AFTER_LOGIN_GET_PROFILE:
             state.getProfile = true;

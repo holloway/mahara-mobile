@@ -26,7 +26,8 @@ import {afterLoginGetProfile,
 import {PAGE,
     LOGIN,
     STORAGE,
-    PENDING}     from './constants.js';
+    PENDING,
+    JOURNAL}     from './constants.js';
 
 var container = document.getElementById('container');
 var previousPage = 'NONE';
@@ -137,6 +138,9 @@ const render = () => {
     if (state.needToRefreshIcon) {
         StateStore.dispatch({type: LOGIN.STOP_GET_USER_ICON});
         maharaServer.refreshUserIcon(state.server.icondata);
+    }
+    if (state.startEditingJournal) {
+        Router.navigate(PAGE.ADD_JOURNAL_ENTRY);
     }
     if (state.startVerifyingManualToken) {
         let lang = state.lang;

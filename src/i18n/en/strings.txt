@@ -67,6 +67,7 @@ try_sso_anyway=Try using SSO server anyway
 tags_placeholder=Add your tags...
 add_journal_required=Both title and details are required
 add_journal_title=Add journal entry
+edit_journal_title=Edit journal entry
 add_journal_save_button=Save
 token_page_instructions=To manually generate an access token, log in to your Mahara site in a web browser. Then click on "Settings", and from the Settings page, click on "Apps". Then click the "Generate" button. Copy the generated token here.
 token_field_label=Access token

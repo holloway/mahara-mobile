@@ -55,7 +55,7 @@
     "react-dom": "~15.3.2",
     "react-pull-to-refresh": "~1.0.6",
     "react-redux": "~4.4.5",
-    "react-select2": "https://github.com/agwells/react-select2/releases/download/v4.0.2-beta2/react-select2-4.0.1.tgz",
+    "react-select2": "https://github.com/agwells/react-select2/releases/download/v4.0.2-beta3/react-select2-4.0.1.tgz",
     "redux": "~3.6.0",
     "vinyl-buffer": "~1.0.0",
     "vinyl-source-stream": "~1.1.0"

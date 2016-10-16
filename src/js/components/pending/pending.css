@@ -47,6 +47,7 @@ html.PAGE_PENDING {
 		top: -0.8em;
 		left: 15px;
 
+        button.edit,
 		button.delete {
 			float:right;
 			margin-top: 4px;
