@@ -71,5 +71,12 @@ html.PAGE_PENDING {
 		}
 	}
 
-
+	img.thumbnail {
+		float:left;
+		margin-right:1em;
+		margin-bottom:1em;
+		width:100%;
+/*		border: solid 1px white;*/
+		max-width: 100px;
+	}
 }

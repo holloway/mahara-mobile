@@ -10,12 +10,17 @@ import {PENDING,
 
 class PendingItem extends MaharaBaseComponent {
     render() {
+        var img = '';
+        if (this.props.type == FILE_ENTRY.TYPE) {
+            img = <img className="thumbnail" src={this.props.fileUrl} />;
+        }
         return <div key={this.props.guid} className={"item" + (this.props.lastItem ? " lastItem" : "") } onClick={this.edit}>
             <h2>
-                <button onClick={this.edit} className="edit small">&larr; Edit</button>
                 <button onClick={this.delete} className="delete small">&times; Delete</button>
+                <button onClick={this.edit} className="edit small">&larr; Edit</button>
                 {this.props.title || this.props.filename}
             </h2>
+            {img}
             <p>{this.props.body}</p>
         </div>;
     }
