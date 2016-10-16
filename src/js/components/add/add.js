@@ -83,6 +83,8 @@ class Add extends MaharaBaseComponent {
                                     fileEntry: {
                                         type: FILE_ENTRY.TYPE,
                                         title: fileObj.name,
+                                        description: null,
+                                        tags: [],
                                         fileUrl: tempFileUrl,
                                         guid: guid,
                                         fileName: fileObj.name,

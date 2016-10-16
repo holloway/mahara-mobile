@@ -18,6 +18,7 @@ import TokenPage            from './components/token/token.js';
 import UserPage             from './components/user/user.js';
 import PendingPage          from './components/pending/pending.js';
 import AddPage              from './components/add/add.js';
+import AddImage             from './components/add-image/add-image.js';
 import AddJournalEntryPage  from './components/add-journal-entry/add-journal-entry.js';
 import EditJournalEntryPage from './components/add-journal-entry/edit-journal-entry.js';
 import uploadNextItem       from './upload.js';
@@ -76,11 +77,11 @@ const render = () => {
         case PAGE.ADD_JOURNAL_ENTRY:
             page = <AddJournalEntryPage {...state}/>;
             break;
+        case PAGE.ADD_IMAGE:
+            page = <AddImage {...state} />;
+            break;
         case PAGE.PENDING:
             page = <PendingPage {...state}/>;
-            break;
-        case PAGE.EDIT_JOURNAL_ENTRY:
-            page = <EditJournalEntryPage {...state}/>;
             break;
     }
 
@@ -89,7 +90,7 @@ const render = () => {
         case PAGE.USER:
         case PAGE.ADD:
         case PAGE.ADD_JOURNAL_ENTRY:
-        case PAGE.EDIT_JOURNAL_ENTRY:
+        case PAGE.ADD_IMAGE:
         case PAGE.PENDING:
             bar = <NavBar {...state}/>;
             break;
@@ -141,6 +142,9 @@ const render = () => {
     }
     if (state.startEditingJournal) {
         Router.navigate(PAGE.ADD_JOURNAL_ENTRY);
+    }
+    if (state.startEditingImage) {
+        Router.navigate(PAGE.ADD_IMAGE);
     }
     if (state.startVerifyingManualToken) {
         let lang = state.lang;

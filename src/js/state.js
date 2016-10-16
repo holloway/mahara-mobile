@@ -78,6 +78,7 @@ function MaharaState(state, action) {
         case PAGE.USER:
         case PAGE.ADD:
         case PAGE.ADD_JOURNAL_ENTRY:
+        case PAGE.ADD_IMAGE:
         case PAGE.PENDING:
         case PAGE.SYNC:
             // Changing the page
@@ -91,6 +92,17 @@ function MaharaState(state, action) {
                 // indicates that we haven't started it yet
                 if (state.startEditingJournal) {
                     delete state.startEditingJournal;
+                }
+
+                // If we were editing an image, clear that now.
+                if (!state.startEditingImage && state.imageToEdit) {
+                    delete state.imageToEdit;
+                }
+
+                // If we've just started editing an image, clear the flag that
+                // indicates that we haven't started it yet
+                if (state.startEditingImage) {
+                    delete state.startEditingImage;
                 }
             }
 
@@ -204,6 +216,19 @@ function MaharaState(state, action) {
             // }
             state.pendingUploads.push(action.fileEntry);
             break;
+        case FILE_ENTRY.EDIT_ENTRY:
+            {
+                // Update the file entry in the pending list
+                for (let i = 0; i < state.pendingUploads.length; i++) {
+                    if (state.pendingUploads[i].guid === action.imageDetails.guid) {
+                        state.pendingUploads[i].title = action.imageDetails.title;
+                        state.pendingUploads[i].description = action.imageDetails.description;
+                        state.pendingUploads[i].tags = action.imageDetails.tags;
+                        break;
+                    }
+                }
+            }
+            break;
         case PENDING.STARTED_UPLOAD_AT:
             // state.pendingUploads = state.pendingUploads || [];
             var foundItem = false;
@@ -256,6 +281,10 @@ function MaharaState(state, action) {
         case PENDING.EDIT_JOURNAL:
             state.journalToEdit = action.guid;
             state.startEditingJournal = true;
+            break;
+        case PENDING.EDIT_IMAGE:
+            state.imageToEdit = action.guid;
+            state.startEditingImage = true;
             break;
         case LOGIN.AFTER_LOGIN_GET_PROFILE:
             state.getProfile = true;

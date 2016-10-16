@@ -45,6 +45,14 @@ class PendingItem extends MaharaBaseComponent {
                     }
                 );
                 break;
+            case FILE_ENTRY.TYPE:
+                StateStore.dispatch(
+                    {
+                        type: PENDING.EDIT_IMAGE,
+                        guid: this.props.guid
+                    }
+                );
+                break;
         }
     }
 }

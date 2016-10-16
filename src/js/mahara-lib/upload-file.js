@@ -28,12 +28,19 @@ export default function uploadFile(fileEntry, successCallback, errorCallback) {
         });
     }
 
+    var wsParams = {};
+    wsParams.foldername = this.getTargetFolderName();
+    wsParams.title = fileEntry.title;
+    if (fileEntry.description) {
+        wsParams.description = fileEntry.description;
+    }
+    if (fileEntry.tags) {
+        wsParams.tags = fileEntry.tags;
+    }
+
     httpLib.callWebservice(
         wsfunction,
-        {
-            foldername: this.getTargetFolderName(),
-            title: fileEntry.fileName
-        },
+        wsParams,
         function winFn(responsejson) {
             successCallback(
                 {

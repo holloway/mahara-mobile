@@ -90,7 +90,7 @@ export function refreshUserIcon(newicon) {
             filename = filename + '.jpg';
             break;
         case 'image/gif':
-            filename = filename + '.png';
+            filename = filename + '.gif';
             break;
         case 'image/png':
             filename = filename + '.png';

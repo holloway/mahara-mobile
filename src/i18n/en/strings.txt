@@ -73,3 +73,7 @@ token_page_instructions=To manually generate an access token, log in to your Mah
 token_field_label=Access token
 token_button=Proceed
 token_empty_validation=Please provide an access token.
+add_image_title=Add image
+edit_image_title=Edit image
+add_image_save_button=Save
+edit_image_required=A title is required
