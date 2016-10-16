@@ -109,20 +109,22 @@ function MaharaState(state, action) {
             state.server.sync.tags = action.sync.tags;
             state.server.profile = action.sync.userprofile;
 
+            // TODO: more selective deciding whether to refresh the downloaded
+            // user icon. For now, just do it every time we sync.
             // Check to see whether the user's icon has changed, requiring
             // us to download the new one.
-            {
-                let newicon = action.sync.userprofileicon;
-                let oldicon = state.server.icondata;
-                if (
-                        !newicon
-                        || oldicon.bytes !== newicon.bytes
-                        || oldicon.name !== newicon.name
-                        || oldicon.mimetype !== newicon.mimetype
-                ) {
+            // {
+            //     let newicon = action.sync.userprofileicon;
+            //     let oldicon = state.server.icondata;
+            //     if (
+            //             !newicon
+            //             || oldicon.bytes !== newicon.bytes
+            //             || oldicon.name !== newicon.name
+            //             || oldicon.mimetype !== newicon.mimetype
+            //     ) {
                     state.needToRefreshIcon = true;
-                }
-            }
+            //     }
+            // }
             state.server.icondata = action.sync.userprofileicon;
             if (!state.server.icondata) {
                 state.server.icondata = defaultState.server.icondata;

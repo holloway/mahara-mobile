@@ -34,8 +34,8 @@ class User extends MaharaBaseComponent {
                 siteName = "Mahara";
             }
 
-            if (this.props.server.iconurl) {
-                icon = this.props.server.iconurl;
+            if (this.props.server.profile.iconurl) {
+                icon = this.props.server.profile.iconurl;
             }
             else {
                 icon = defaultIcon;
