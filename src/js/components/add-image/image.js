@@ -7,20 +7,21 @@ import {maharaServer}      from '../../state.js';
 class ImageDetails extends MaharaBaseComponent {
     constructor(props) {
         super(props);
-        var existingTags = [];
+        var userTags = [];
 
         if (maharaServer.sync && maharaServer.sync.tags) {
             for (var i = 0; i < maharaServer.sync.tags.length; i++) {
-                existingTags.push(maharaServer.sync.tags[i].id);
+                userTags.push(maharaServer.sync.tags[i].id);
             }
         }
 
         this.imageToEdit = props.imageToEdit;
 
         this.state = {
-            existingTags: existingTags
+            userTags: userTags
         };
         this.changeTags = this.changeTags.bind(this);
+        this.tags = this.props.imageToEdit.tags;
     }
     render() {
         var title = this.props.imageToEdit.title;
@@ -38,7 +39,7 @@ class ImageDetails extends MaharaBaseComponent {
                 multiple
                 onChange={this.changeTags}
                 ref="reactSelect2"
-                data={this.state.existingTags.concat(tags)}
+                data={this.state.userTags.concat(tags)}
                 defaultValue={tags}
                 options={
                     {

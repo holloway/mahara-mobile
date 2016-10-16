@@ -7,20 +7,24 @@ import {maharaServer}      from '../../state.js';
 class JournalEntry extends MaharaBaseComponent {
     constructor(props) {
         super(props);
-        var existingTags = [];
+        var userTags = [];
 
         if (maharaServer.sync && maharaServer.sync.tags) {
             for (var i = 0; i < maharaServer.sync.tags.length; i++) {
-                existingTags.push(maharaServer.sync.tags[i].id);
+                userTags.push(maharaServer.sync.tags[i].id);
             }
         }
 
         if (props.guid) {
             this.guid = props.guid;
+            this.tags = this.props.tags;
+        }
+        else {
+            this.tags = [];
         }
 
         this.state = {
-            existingTags: existingTags
+            userTags: userTags
         };
         this.changeTags = this.changeTags.bind(this);
     }
@@ -44,7 +48,7 @@ class JournalEntry extends MaharaBaseComponent {
                 multiple
                 onChange={this.changeTags}
                 ref="reactSelect2"
-                data={this.state.existingTags.concat(tags)}
+                data={this.state.userTags.concat(tags)}
                 defaultValue={tags}
                 options={
                     {
