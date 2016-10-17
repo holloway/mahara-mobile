@@ -50,28 +50,9 @@ class AddImage extends MaharaBaseComponent {
         }
 
         // Check to make sure it still has the right file extension.
-        var fileExtension;
-        if (imageDetails.title.lastIndexOf('.') === -1) {
-            fileExtension = false;
-        }
-        else {
-            fileExtension = imageDetails.title.substr(imageDetails.title.lastIndexOf('.'));
-        }
-        switch (oldImage.mimeType) {
-            case 'image/jpeg':
-                if (fileExtension !== 'jpg' && fileExtension !== 'jpeg') {
-                    imageDetails.title = imageDetails.title + '.jpg';
-                }
-                break;
-            case 'image/gif':
-                if (fileExtension !== 'gif') {
-                    imageDetails.title = imageDetails.title + '.gif';
-                }
-                break;
-            case 'image/png':
-                if (fileExtension !== 'png') {
-                    imageDetails.title = imageDetails.title + '.png';
-                }
+        var oldExtension = oldImage.title.substr(oldImage.title.lastIndexOf('.'));
+        if (oldExtension && imageDetails.title.lastIndexOf(oldExtension) !== (imageDetails.title.length - oldExtension.length)) {
+            imageDetails.title = imageDetails.title + oldExtension;
         }
 
         StateStore.dispatch({ type: FILE_ENTRY.EDIT_ENTRY, imageDetails: imageDetails });
