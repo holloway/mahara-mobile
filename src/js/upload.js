@@ -76,9 +76,9 @@ function afterUploadComplete(response){
   StateStore.dispatch({type:PENDING.UPLOAD_NEXT});
 }
 
-function afterUploadError(response){
+function afterUploadError(errormessage){
   StateStore.dispatch({type:PENDING.STOP_UPLOADS});
-  if(response && response.error){
+//   if(response && response.error){
     // if(response.hasOwnProperty("isLoggedIn")){
     //   alertify.alert(getLangString(langCodes, "cant_sync_session_expired"), function (e, str) {
     //     Router.navigate(PAGE_URL.LOGIN_TYPE);
@@ -92,9 +92,12 @@ function afterUploadError(response){
     // } else if(response.hasOwnProperty("message")){
     //   alertify.alert(getLangString(langCodes, "server_response_prefix") + "\n" + response.message);
     // }
-    alertify.alert("Problem uploading. Response was: " + response.message);
-    console.log("Problem uploading. Response was", response);
+    if (errormessage) {
+        alertify.alert("Problem uploading. Response was: " + errormessage);
+    }
+    else {
+        alertify.alert("Error: upload failed.");
+    }
     return;
-  }
-  console.log("There was a problem uploading.", arguments);
+//   }
 }

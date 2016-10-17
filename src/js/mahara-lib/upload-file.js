@@ -49,10 +49,19 @@ export default function uploadFile(fileEntry, successCallback, errorCallback) {
                 }
             );
         },
-        function failFn(response) {
-            if (!response) response = {error:true};
-            response.fileEntry = fileEntry;
-            errorCallback(response);
+        function failFn(raw, jsException, json) {
+            console.warn("Error during upload:", arguments);
+            var message = false;
+            if (json) {
+                if (json.error_message) {
+                    message = json.error_message;
+                }
+                if (json.message) {
+                    message = json.message;
+                }
+            }
+
+            return errorCallback(message);
         },
         fileEntry,
         'filetoupload'
