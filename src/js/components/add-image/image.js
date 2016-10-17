@@ -2,17 +2,14 @@
 import React               from 'react';
 import MaharaBaseComponent from '../base.js';
 import Select2             from 'react-select2';
-import {maharaServer}      from '../../state.js';
 
 class ImageDetails extends MaharaBaseComponent {
     constructor(props) {
         super(props);
         var userTags = [];
 
-        if (maharaServer.sync && maharaServer.sync.tags) {
-            for (var i = 0; i < maharaServer.sync.tags.length; i++) {
-                userTags.push(maharaServer.sync.tags[i].id);
-            }
+        for (var i = 0; i < props.server.sync.tags.length; i++) {
+            userTags.push(props.server.sync.tags[i].tag);
         }
 
         this.imageToEdit = props.imageToEdit;
