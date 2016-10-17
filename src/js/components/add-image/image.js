@@ -27,9 +27,13 @@ class ImageDetails extends MaharaBaseComponent {
         var title = this.props.imageToEdit.title;
         var description = this.props.imageToEdit.description;
         var tags = this.props.imageToEdit.tags;
+        var img = "";
+        if (this.props.imageToEdit.mimeType.indexOf('image/') === 0) {
+            img = <img src={this.props.imageToEdit.fileUrl} className="fileUploadPreview"/>;
+        }
 
         return <div>
-            <img src={this.props.imageToEdit.fileUrl} />
+            {img}
             <h2>Title</h2>
             <input ref="title" type="text" className="subject" defaultValue={title} />
             <h2>Description</h2>

@@ -11,7 +11,7 @@ import {PENDING,
 class PendingItem extends MaharaBaseComponent {
     render() {
         var img = '';
-        if (this.props.type == FILE_ENTRY.TYPE) {
+        if (this.props.type == FILE_ENTRY.TYPE && this.props.mimeType.indexOf('image/') === 0) {
             img = <img className="thumbnail" src={this.props.fileUrl} />;
         }
         return <div key={this.props.guid} className={"item" + (this.props.lastItem ? " lastItem" : "") } onClick={this.edit}>
