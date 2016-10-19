@@ -61,7 +61,7 @@ To update the app in Android after you've made changes to the code, run ```npm r
 
 You can use the cordova command-line tool. To produce an APK that can run on a normal Android device, you'll need an Java keystore to sign it with. See the Android documentation for instructions on how to generate an acceptable keystore.
 
-    `npm bin`/cordova compile \
+    `npm bin`/cordova build \
         --release \
         --device android \
         -- \
