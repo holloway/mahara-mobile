@@ -17,21 +17,13 @@ class User extends MaharaBaseComponent {
 
     render() {
         //console.log("PROPS?", this.props);
-        var siteName;
+        var siteName = 'Mahara';
         var icon;
         var displayName;
 
         if (this.props.server) {
-            var series = (this.props.server.maharaVersion ? this.props.server.maharaVersion : false);
             if (this.props.server.siteName) {
-                siteName = this.props.server.siteName + (series ? " (" + series + ")" : "");
-            }
-            else if (series) {
-                // TODO: lang strings
-                siteName = "Mahara " + series;
-            }
-            else {
-                siteName = "Mahara";
+                siteName = this.props.server.siteName;
             }
 
             if (this.props.server.profile.iconurl) {
