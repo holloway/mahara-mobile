@@ -27,6 +27,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
             title: journalEntry.title,
             body: journalEntry.body,
             tags: journalEntry.tags,
+            isdraft: false
         },
         function winFn(responsejson) {
             journalEntry.id = responsejson.blogpost;
