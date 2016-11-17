@@ -32,6 +32,7 @@ To rebuild the app in the browser, after you've made changes:
 
 ... and then refresh the browser.
 
+
 ## Running in an Android emulator or USB-connected device
 
 To build the Android app, you'll need the Oracle version of Java 8. Here's how to install it on Ubuntu:
@@ -67,6 +68,10 @@ You can use the cordova command-line tool. To produce an APK that can run on a n
         -- \
         --keystore=/PATH/TO/YOUR/KEYSTORE.keystore \
         --alias=YOURKEYALEAS
+
+## Running on IOS
+
+  npm run build-ios
 
 ## TODO:
 
