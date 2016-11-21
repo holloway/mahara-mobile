@@ -7,6 +7,7 @@
     "postinstall": "npm run init-cordova",
     "build-browser": "gulp && cordova build browser",
     "launch-browser": "chromium-browser --disable-web-security --user-data-dir=/tmp/cordova/ --app=http://localhost:8000/browser/www/index.html &",
+    "build-ios": "./node_modules/.bin/gulp && ./node_modules/.bin/cordova build ios --release --buildConfig ./cordova.json",
     "android": "gulp && cordova run android",
     "prestart": "gulp && cordova build browser && npm run launch-browser",
     "start": "cordova serve 8000"
@@ -15,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/holloway/mahara-mobile.git"
   },
-  "author": "Matthew Hollowy <matthew@holloway.co.nz>",
+  "author": "Matthew Holloway <matthew@holloway.co.nz>",
   "license": "SEE LICENSE IN 'LICENSE'",
   "bugs": {
     "url": "https://github.com/holloway/mahara-mobile/issues"
@@ -31,7 +32,7 @@
     "babel-preset-react": "~6.3.13",
     "babelify": "~7.2.0",
     "browserify": "~13.1.0",
-    "cordova": "~6.3.1",
+    "cordova": "~6.4.0",
     "cordova-serve": "~1.0.0",
     "glob": "~7.0.3",
     "grapnel": "~0.6.2",
