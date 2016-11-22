@@ -18,10 +18,11 @@ import {PAGE,
  * and upgrade from the old structure to the new structure if necessary.
  */
 const stateVersion = 2;
+const DEFAULT_LANGUAGE = 'en';
 
 const defaultState = {
     stateVersion: stateVersion,
-    lang: ['en'],
+    lang: [DEFAULT_LANGUAGE],
     page: PAGE.SERVER,
     server: {
         wwwroot: null,
@@ -54,6 +55,19 @@ const defaultState = {
     pendingUploads: []
 };
 
+function getDeviceLanguage() {
+  let lang;
+  navigator.globalization.getPreferredLanguage(
+    function(locale) {
+      lang = window.mahara.i18n.strings.hasOwnProperty(locale.value) ? locale.value : DEFAULT_LANGUAGE;
+    },
+    function() {
+      lang = 'en';
+    }
+   );
+   return lang;
+}
+
 function MaharaState(state, action) {
     if (state === undefined) { //Initial state upon page load
         state = Storage.state.get();
@@ -65,8 +79,9 @@ function MaharaState(state, action) {
             state = defaultState;
             action.type = PAGE.SERVER;
         }
+        // update language
+        state.lang = [getDeviceLanguage()];
     }
-
     state = JSON.parse(JSON.stringify(state)); // clone so that we don't accidentally overwrite existing object
 
     switch (action.type) {
@@ -179,7 +194,7 @@ function MaharaState(state, action) {
             //     state.server.targetfoldername = action.sync.folders[0].title;
             // }
             break;
-            
+
         case LOGIN.STOP_GET_USER_ICON:
             state.needToRefreshIcon = undefined;
             break;
