@@ -18,11 +18,10 @@ import {PAGE,
  * and upgrade from the old structure to the new structure if necessary.
  */
 const stateVersion = 2;
-const DEFAULT_LANGUAGE = 'en';
 
 const defaultState = {
     stateVersion: stateVersion,
-    lang: [DEFAULT_LANGUAGE],
+    lang: [STORAGE.DEFAULT_LANGUAGE],
     page: PAGE.SERVER,
     server: {
         wwwroot: null,
