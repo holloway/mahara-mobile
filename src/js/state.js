@@ -21,7 +21,7 @@ const stateVersion = 2;
 
 const defaultState = {
     stateVersion: stateVersion,
-    lang: ['en'],
+    lang: [STORAGE.DEFAULT_LANGUAGE],
     page: PAGE.SERVER,
     server: {
         wwwroot: null,
@@ -54,6 +54,7 @@ const defaultState = {
     pendingUploads: []
 };
 
+
 function MaharaState(state, action) {
     if (state === undefined) { //Initial state upon page load
         state = Storage.state.get();
@@ -65,8 +66,10 @@ function MaharaState(state, action) {
             state = defaultState;
             action.type = PAGE.SERVER;
         }
-    }
 
+        // // update language
+        // state.lang = [window.mahara.language];
+    }
     state = JSON.parse(JSON.stringify(state)); // clone so that we don't accidentally overwrite existing object
 
     switch (action.type) {
@@ -145,7 +148,6 @@ function MaharaState(state, action) {
             state.server.sync.notifications = action.sync.notifications;
             state.server.sync.tags = action.sync.tags;
             state.server.profile = action.sync.userprofile;
-
             // TODO: more selective deciding whether to refresh the downloaded
             // user icon. For now, just do it every time we sync.
             // Check to see whether the user's icon has changed, requiring
@@ -179,7 +181,11 @@ function MaharaState(state, action) {
             //     state.server.targetfoldername = action.sync.folders[0].title;
             // }
             break;
-            
+        case STORAGE.SET_USER_LANGUAGE:
+            // e.g. ["en-GB", 'en', 'en']
+            state.lang = [action.language, action.language.split('-')[0], STORAGE.DEFAULT_LANGUAGE];
+            break;
+
         case LOGIN.STOP_GET_USER_ICON:
             state.needToRefreshIcon = undefined;
             break;

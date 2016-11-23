@@ -5,6 +5,17 @@
     scripts: ['bundle.js', 'lib/ripple.js/ripple.js', 'lib/alertify.js/alertify.js']
   };
 
+  function getDeviceLanguage() {
+    return navigator.globalization.getPreferredLanguage(
+      function(locale) {
+        window.mahara.i18n.lang = window.mahara.i18n.strings.hasOwnProperty(locale.value) ? locale.value : 'en';
+      },
+      function() {
+        window.mahara.language = 'en';
+      }
+     );
+  }
+
   function ready(){
     window.mahara.addResources(deps.json, addScripts, onError);
 

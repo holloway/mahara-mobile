@@ -3,9 +3,9 @@
   "version": "3.0.0",
   "description": "Mahara Mobile",
   "scripts": {
-    "init-cordova": "mkdir -p www && cordova prepare",
+    "init-cordova": "mkdir -p www && ./node_modules/.bin/cordova prepare",
     "postinstall": "npm run init-cordova",
-    "build-browser": "gulp && cordova build browser",
+    "build-browser": "gulp && ./node_modules/.bin/cordova build browser",
     "launch-browser": "chromium-browser --disable-web-security --user-data-dir=/tmp/cordova/ --app=http://localhost:8000/browser/www/index.html &",
     "build-ios": "./node_modules/.bin/gulp && ./node_modules/.bin/cordova build ios --release --buildConfig ./cordova.json",
     "android": "gulp && cordova run android",
