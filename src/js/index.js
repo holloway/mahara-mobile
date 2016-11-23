@@ -177,3 +177,15 @@ fsLib.init();
 // Set up render function, to refresh the page in response to changes
 StateStore.subscribe(render);
 StateStore.dispatch({type: 'launch'});
+
+// Set user language
+
+
+navigator.globalization.getPreferredLanguage(
+  function(locale) {
+    StateStore.dispatch({type: 'SET_USER_LANGUAGE', language: locale.value});
+  },
+  function() {
+    StateStore.dispatch({type: 'SET_USER_LANGUAGE', language: STORAGE.DEFAULT_LANGUAGE});
+  }
+ );
