@@ -36,11 +36,11 @@ class JournalEntry extends MaharaBaseComponent {
         }
 
         return <div>
-            <h2>Title</h2>
+            <h2>{this.gettext('library_title')}</h2>
             <input ref="title" type="text" className="subject" defaultValue={title} />
-            <h2>Detail</h2>
+            <h2>{this.gettext('library_body')}</h2>
             <textarea ref="textarea" className="body" defaultValue={body} />
-            <h2>Tags</h2>
+            <h2>{this.gettext('library_tags')}</h2>
             <Select2
                 multiple
                 onChange={this.changeTags}

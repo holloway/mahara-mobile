@@ -45,10 +45,12 @@ html.PAGE_SERVER {
 		font-size: 18px;
 
 		&.next {
+			margin: 5px auto;
 			margin-left: 5px;
 		}
 
 		&.skip {
+			margin: 5px auto;
 			margin-right: 5px;
 		}
 	}
