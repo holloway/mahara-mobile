@@ -41,7 +41,7 @@ class User extends MaharaBaseComponent {
             }
         }
         else {
-            siteName = "(Offline)";
+            siteName = `(${this.gettext('offline')})`;
             icon = defaultIcon;
             displayName = "";
         }
@@ -84,7 +84,7 @@ class User extends MaharaBaseComponent {
             <span className="changeServerBrackets">(<a onClick={this.changeServer} className="changeServer">{this.gettext("change_server") }</a>) </span>
         </span>;
     }
-    
+
     changeServer() {
         Router.navigate(PAGE_URL.SERVER);
     }

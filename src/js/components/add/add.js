@@ -19,7 +19,7 @@ class Add extends MaharaBaseComponent {
 
     render() {
         return <section>
-            <h1>Add New</h1>
+            <h1>{this.gettext('add_new')}</h1>
             {this.renderUpload() }
             <button onClick={this.addJournalEntry} className="big">{this.gettext('add_journal_entry') }</button>
         </section>;
