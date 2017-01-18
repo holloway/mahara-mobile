@@ -3,8 +3,9 @@ import React from 'react';
 import MaharaBaseComponent from '../base.js';
 import ExpandCollapse      from '../expand-collapse/expand-collapse.js';
 import StateStore          from '../../state.js';
-import {PENDING}           from '../../constants.js';
+import {PENDING, PAGE_URL}           from '../../constants.js';
 import PendingItem         from './pending-item.js';
+import Router              from '../../router.js';
 
 class Pending extends MaharaBaseComponent {
     constructor() {
@@ -37,7 +38,14 @@ class Pending extends MaharaBaseComponent {
 
         if (!this.props.pendingUploads || this.props.pendingUploads.length === 0) return;
 
-        StateStore.dispatch({ type: PENDING.UPLOAD_NEXT });
+        // if user not loged in redirect to server setup....
+        if (!this.props.server.wwwroot || !this.props.server.wstoken) {
+          alertify.okBtn(this.gettext("alert_ok_button")).alert(this.gettext("cant_login_no_server_configured"), function () {
+              Router.navigate(PAGE_URL.SERVER);
+          });
+        } else {
+          StateStore.dispatch({ type: PENDING.UPLOAD_NEXT });
+        }
     }
 
     renderButtonTray() {

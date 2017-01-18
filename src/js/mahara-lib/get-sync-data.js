@@ -1,5 +1,6 @@
 import httpLib from './http-lib.js';
 import StateStore from '../state.js';
+import {getLangString}      from '../i18n.js';
 import {STORAGE} from '../constants.js';
 import fsLib from './files-lib.js';
 
@@ -19,7 +20,8 @@ export function refreshUserProfile(successFn = null, failFn = null) {
                         // syncData.blogs = {numblogs: 1, blogs:[...]}
                         blogs: syncData.blogs.blogs,
                         folders: syncData.folders.folders,
-                        notifications: syncData.notifications.notifications,
+                        // TODO: notifications is commented out, because currently it not used anywhere in the app
+                        // notifications: syncData.notifications.notifications,
                         tags: syncData.tags.tags,
                         // Userprofile and Userprofileicon return only one item each, so no
                         // double-naming needed. :)
@@ -34,6 +36,10 @@ export function refreshUserProfile(successFn = null, failFn = null) {
         },
         function failCallback(error) {
             console.log("Problem getting sync data.");
+            var lang = StateStore.getState().lang;
+            alertify
+                .okBtn(getLangString(lang, "alert_ok_button"))
+                .alert(getLangString(lang, "server_sync_error"));
             if (failFn) {
                 return failFn(error);
             }
@@ -64,9 +70,10 @@ export default function getSyncData(winfn, failfn) {
         {
             blogs: {},
             folders: {},
-            notifications: {
-                lastsync: 0 // TODO: Store lastsync
-            },
+            // TODO: notifications is commented out, because currently it not used anywhere in the app
+            // notifications: {
+            //     lastsync: 0 // TODO: Store lastsync
+            // },
             tags: {},
             userprofile: {},
             userprofileicon: {},

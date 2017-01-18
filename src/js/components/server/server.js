@@ -25,7 +25,14 @@ export default class ServerPage extends MaharaBaseComponent {
   render() {
     return <section>
       <label htmlFor="serverUrl">{this.gettext('server_question')}</label>
-      <input type="url" ref="serverUrl" value={this.state.serverUrl} onChange={this.onChange} placeholder={this.gettext('server_url_example')} id="serverUrl"/>
+      <input
+        type="url" ref="serverUrl"
+        value={this.state.serverUrl}
+        onChange={this.onChange}
+        placeholder={this.gettext('server_url_example')}
+        id="serverUrl"
+        onKeyPress={this.handleUrlSubmit}
+        />
       <button onClick={this.skipButton} className="skip">{this.gettext('wizard_skip_button')}</button>
       <button onClick={this.nextButton} className="next">{this.gettext('wizard_next_button')}</button>
     </section>;
@@ -33,6 +40,12 @@ export default class ServerPage extends MaharaBaseComponent {
 
   onChange = (e) => {
     this.setState({serverUrl: this.refs.serverUrl.value});
+  }
+
+  handleUrlSubmit = (e) => {
+      if(e.charCode == 13) {
+          this.nextButton();
+      }
   }
 
   nextButton(){

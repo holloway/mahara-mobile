@@ -1,7 +1,11 @@
 /*jshint esnext: true */
 import httpLib      from './http-lib.js';
+import StateStore   from '../state.js';
+import { LOGIN }    from '../constants.js';
 
 export default function logOut(successCallback, errorCallback){
-    // TODO: Make this "log out" button actually remove your auth token
+    // TODO: send logout request to the server ...
+    StateStore.dispatch( { type: LOGIN.LOGOUT });
+
     successCallback(false);
 }

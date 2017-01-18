@@ -20,7 +20,7 @@ class LoginPage extends MaharaBaseComponent {
             <label htmlFor="username">{this.gettext('username') }</label>
             <input type="text" ref="username" id="username"/>
             <label htmlFor="password">{this.gettext('password') }</label>
-            <input type="password" ref="password" id="password"/>
+            <input onKeyPress={this.handlePasswordSubmit} type="password" ref="password" id="password"/>
             <button onClick={this.nextButton} className="next">{this.gettext('wizard_login_button') }</button>
         </section>;
     }
@@ -34,6 +34,11 @@ class LoginPage extends MaharaBaseComponent {
     }
     backButton = (e) => {
         Router.navigate(PAGE_URL.SERVER);
+    }
+    handlePasswordSubmit = (e) => {
+        if(e.charCode == 13) {
+            this.nextButton();
+        }
     }
     nextButton = (e) => {
         var that = this;
