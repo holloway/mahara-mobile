@@ -1,11 +1,11 @@
 /*jshint esnext: true */
-import React from 'react';
-import MaharaBaseComponent from '../base.js';
-import ExpandCollapse      from '../expand-collapse/expand-collapse.js';
-import StateStore          from '../../state.js';
-import {PENDING, PAGE_URL}           from '../../constants.js';
-import PendingItem         from './pending-item.js';
-import Router              from '../../router.js';
+import React                from 'react';
+import MaharaBaseComponent  from '../base.js';
+import ExpandCollapse       from '../expand-collapse/expand-collapse.js';
+import StateStore           from '../../state.js';
+import {PENDING, PAGE_URL}  from '../../constants.js';
+import PendingItem          from './pending-item.js';
+import Router               from '../../router.js';
 
 class Pending extends MaharaBaseComponent {
     constructor() {
@@ -14,7 +14,7 @@ class Pending extends MaharaBaseComponent {
         this.uploadAll = this.uploadAll.bind(this);
         this.renderButtonTray = this.renderButtonTray.bind(this);
     }
-    
+
     render() {
         return <section>
             {this.renderPendingUploads() }

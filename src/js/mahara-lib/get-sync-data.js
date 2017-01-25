@@ -122,7 +122,7 @@ export function refreshUserIcon(newicon) {
                     StateStore.dispatch(
                         {
                             type: STORAGE.SET_USER_PROFILE_ICON,
-                            icon: fileEntry.toURL()
+                            icon: `${fileEntry.toURL()}?d=${Date.now()}`
                         }
                     );
                     return fileEntry;

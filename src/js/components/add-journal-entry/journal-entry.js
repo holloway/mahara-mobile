@@ -45,7 +45,7 @@ class JournalEntry extends MaharaBaseComponent {
                 multiple
                 onChange={this.changeTags}
                 ref="reactSelect2"
-                data={this.state.userTags.concat(tags)}
+                data={this.state.userTags.concat(tags).filter((tag, id, tags) => tags.indexOf(tag) === id)}
                 defaultValue={tags}
                 options={
                     {
