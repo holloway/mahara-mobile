@@ -45,8 +45,6 @@ class User extends MaharaBaseComponent {
             icon = defaultIcon;
             displayName = "";
         }
-        // add timestamp to query to prevent image caching, because we're using same name 
-        icon += `?${Date.now() || ''}`;
         return <ReactPullToRefresh onRefresh={maharaServer.refreshUserProfile}>
             <section>
                 <h2>{siteName}</h2>
