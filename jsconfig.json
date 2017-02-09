@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es7",
+        "target": "es2017",
         "allowSyntheticDefaultImports": true
     },
     "exclude": [
