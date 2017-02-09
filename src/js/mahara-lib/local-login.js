@@ -7,7 +7,7 @@ const basicLoginUrl = "module/mobileapi/json/token.php";
 export default function localLogin(username, password, successCallback, errorCallback) {
     var url = this.getWwwroot() + basicLoginUrl;
 
-    httpLib.postAsJSON(
+    httpLib.postText(
         url,
         null,
         {
@@ -19,12 +19,15 @@ export default function localLogin(username, password, successCallback, errorCal
             "clientenv": device.platform + ', ' + device.manufacturer + ', ' + device.model,
             "clientguid": device.uuid,
         },
-        (json) => {
-            if (!json.token) {
-                errorCallback.call(this, json, json);
-            }
-            successCallback.call(this, json.token);
-        },
+        httpLib.asJSON(
+            (json) => {
+                if (!json.token) {
+                    errorCallback.call(this, json, json);
+                }
+                successCallback.call(this, json.token);
+            },
+            errorCallback
+        ),
         errorCallback
     );
 }
