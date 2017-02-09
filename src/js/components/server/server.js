@@ -24,10 +24,18 @@ export default class ServerPage extends MaharaBaseComponent {
 
   render() {
     return <section>
-      <label htmlFor="serverUrl">{this.gettext('server_question')}</label>
-      <input type="url" ref="serverUrl" value={this.state.serverUrl} onChange={this.onChange} placeholder={this.gettext('server_url_example')} id="serverUrl"/>
-      <button onClick={this.skipButton} className="skip">{this.gettext('wizard_skip_button')}</button>
-      <button onClick={this.nextButton} className="next">{this.gettext('wizard_next_button')}</button>
+        <form onSubmit={this.nextButton} noValidate>
+            <label htmlFor="serverUrl">{this.gettext('server_question')}</label>
+            <input
+              type="url" ref="serverUrl"
+              value={this.state.serverUrl}
+              onChange={this.onChange}
+              placeholder={this.gettext('server_url_example')}
+              id="serverUrl"
+              />
+            <button type="button" onClick={this.skipButton} className="skip">{this.gettext('wizard_skip_button')}</button>
+            <button type="submit" className="next">{this.gettext('wizard_next_button')}</button>
+        </form>
     </section>;
   }
 
@@ -35,7 +43,8 @@ export default class ServerPage extends MaharaBaseComponent {
     this.setState({serverUrl: this.refs.serverUrl.value});
   }
 
-  nextButton(){
+  nextButton = (p, a, e) =>  {
+    e.preventDefault();
     var serverUrl = this.refs.serverUrl.value;
     if(serverUrl.trim().length === 0) {
       alertify.alert(this.gettext("server_url_empty_validation"));

@@ -17,11 +17,13 @@ class LoginPage extends MaharaBaseComponent {
                 {this.props.server && this.props.server.wwwroot ? "(" + this.props.server.wwwroot + ")" : ""}
                 <button onClick={this.backButton} className="changeServer">{this.gettext('wizard_change_server') }</button>
             </p>
-            <label htmlFor="username">{this.gettext('username') }</label>
-            <input type="text" ref="username" id="username"/>
-            <label htmlFor="password">{this.gettext('password') }</label>
-            <input type="password" ref="password" id="password"/>
-            <button onClick={this.nextButton} className="next">{this.gettext('wizard_login_button') }</button>
+            <form onSubmit={this.nextButton} noValidate>
+                <label htmlFor="username">{this.gettext('username') }</label>
+                <input type="text" ref="username" id="username"/>
+                <label htmlFor="password">{this.gettext('password') }</label>
+                <input type="password" ref="password" id="password"/>
+                <button type="submit" className="next">{this.gettext('wizard_login_button') }</button>
+            </form>
         </section>;
     }
 
@@ -35,7 +37,8 @@ class LoginPage extends MaharaBaseComponent {
     backButton = (e) => {
         Router.navigate(PAGE_URL.SERVER);
     }
-    nextButton = (e) => {
+    nextButton = (p, a, e) =>  {
+        e.preventDefault();
         var that = this;
         var username = this.refs.username.value;
         var password = this.refs.password.value;
@@ -53,7 +56,7 @@ class LoginPage extends MaharaBaseComponent {
 
         function successCallback(wstoken) {
             StateStore.dispatch(
-                { 
+                {
                     type: LOGIN.AFTER_LOGIN_GET_PROFILE,
                     wstoken: wstoken
                 }

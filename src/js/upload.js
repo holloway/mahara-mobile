@@ -77,7 +77,7 @@ function afterUploadComplete(response){
   StateStore.dispatch({type:PENDING.UPLOAD_NEXT});
 }
 
-function afterUploadError(errormessage){
+function afterUploadError(response){
   var item = response.journalEntry || response.fileEntry;
   StateStore.dispatch({type:PENDING.UPLOAD_ITEM_FINISHED, guid:item.guid});
   StateStore.dispatch({type:PENDING.STOP_UPLOADS});
@@ -95,8 +95,8 @@ function afterUploadError(errormessage){
     // } else if(response.hasOwnProperty("message")){
     //   alertify.alert(getLangString(langCodes, "server_response_prefix") + "\n" + response.message);
     // }
-    if (errormessage) {
-        alertify.alert("Problem uploading. Response was: " + errormessage);
+    if (response.message) {
+        alertify.alert("Problem uploading. Response was: " + response.message);
     }
     else {
         alertify.alert("Error: upload failed.");

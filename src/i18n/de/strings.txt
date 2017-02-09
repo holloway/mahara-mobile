@@ -53,6 +53,7 @@ sesskey_scrape_error=Die Session konnte nicht von Mahara abgerufen werden.
 cant_set_upload_token_error=Der Upload-Token kann nicht gesetzt werden. Es kann nichts hochgeladen werden, bis das Problem behoben ist.
 login_type_error_choose_server=Ein Server konnte nicht gefunden werden. Bitte konfigurieren Sie einen.
 server_login_error=Ein Login am Server ist nicht möglich. Ist die Server-Adresse korrekt?
+server_sync_error=Daten können nicht mit dem Server sznchronisiert werden.
 add_journal_entry=Füge einen Blogeintrag hinzu
 change_server=Server-Wechsel
 wizard_skip_button=Überspringen

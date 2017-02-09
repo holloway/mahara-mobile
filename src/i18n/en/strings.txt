@@ -53,6 +53,7 @@ sesskey_scrape_error=Unable to retrieve session from Mahara.
 cant_set_upload_token_error=Unable to set upload token. Sorry, uploads will not work until this is resolved.
 login_type_error_choose_server=No server found. Please configure one.
 server_login_error=Unable to login to server. Is the server address correct?
+server_sync_error=Unable to sync data with the server.
 add_journal_entry=Add journal entry
 change_server=Change server
 wizard_skip_button=Skip

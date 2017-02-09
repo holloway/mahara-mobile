@@ -7,6 +7,10 @@ var menuItems = [
   {menuType: PAGE.USER,    stringId:'menu_user'},
   {menuType: PAGE.ADD,     stringId:'menu_add'},
   {menuType: PAGE.PENDING, stringId:'menu_pending', states: {
+    loggedIn: {
+      stringId: 'not_syncing',
+      imageUrl: 'image/network-access-grey.svg',
+    },
       inactive: {
         stringId: 'not_syncing',
         imageUrl: 'image/no-network-access.svg',
@@ -83,7 +87,18 @@ class NavBar extends MaharaBaseComponent {
   }
   renderStyles = (item) => {
     if(item.menuType !== PAGE.PENDING) return {};
-    var activeOrInactive = this.props.uploadGuid ? item.states.active : item.states.inactive;
+    var activeOrInactive;
+
+    if (this.props.server.wwwroot && this.props.server.wstoken) {
+        if (this.props.uploadGuid) {
+            activeOrInactive = item.states.active;
+        } else {
+            activeOrInactive = item.states.loggedIn;
+        }
+    } else {
+        activeOrInactive = item.states.inactive
+    }
+
     return {backgroundImage: 'url("' + activeOrInactive.imageUrl + '")'};
   }
 }

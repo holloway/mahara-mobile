@@ -267,6 +267,7 @@ function MaharaState(state, action) {
             }
             break;
         case PENDING.UPLOAD_ITEM_FINISHED:
+            state.uploadGuid = undefined;
             state.pendingUploads.forEach(function(upload) {
               if (upload.guid === action.guid) {
                 upload.loading = false;
@@ -306,6 +307,9 @@ function MaharaState(state, action) {
             break;
         case LOGIN.STOP_GETTING_PROFILE:
             state.getProfile = undefined;
+            break;
+        case LOGIN.LOGOUT:
+            state.server = defaultState.server;
             break;
     }
 
