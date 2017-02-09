@@ -7,6 +7,10 @@ var menuItems = [
   {menuType: PAGE.USER,    stringId:'menu_user'},
   {menuType: PAGE.ADD,     stringId:'menu_add'},
   {menuType: PAGE.PENDING, stringId:'menu_pending', states: {
+    loggedIn: {
+      stringId: 'not_syncing',
+      imageUrl: 'image/network-access-grey.svg',
+    },
       inactive: {
         stringId: 'not_syncing',
         imageUrl: 'image/no-network-access.svg',
@@ -17,7 +21,7 @@ var menuItems = [
       },
     }
   }
-]
+];
 
 class NavBar extends MaharaBaseComponent {
   render() {
@@ -62,7 +66,7 @@ class NavBar extends MaharaBaseComponent {
         that.refs.navbarActiveHighlight.style.left  = liPosition.left + "px";
         that.refs.navbarActiveHighlight.style.width = liPosition.width + "px";
       }
-    })
+    });
   }
   getPropsMenuBase = () => {
    var propsMenuBase = this.props.page;
@@ -83,7 +87,18 @@ class NavBar extends MaharaBaseComponent {
   }
   renderStyles = (item) => {
     if(item.menuType !== PAGE.PENDING) return {};
-    var activeOrInactive = this.props.uploadGuid ? item.states.active : item.states.inactive;
+    var activeOrInactive;
+
+    if (this.props.server.wwwroot && this.props.server.wstoken) {
+        if (this.props.uploadGuid) {
+            activeOrInactive = item.states.active;
+        } else {
+            activeOrInactive = item.states.loggedIn;
+        }
+    } else {
+        activeOrInactive = item.states.inactive
+    }
+
     return {backgroundImage: 'url("' + activeOrInactive.imageUrl + '")'};
   }
 }

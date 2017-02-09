@@ -1,40 +1,152 @@
-/*jshint esnext: true */
 import httpLib from './http-lib.js';
+import StateStore from '../state.js';
+import {getLangString}      from '../i18n.js';
+import {STORAGE} from '../constants.js';
+import fsLib from './files-lib.js';
 
-export default function getSyncData(successCallback, errorCallback){
-  var protocolAndDomain = this.getUrl(),
-      syncPath = "/api/mobile/sync.php",
-      that = this;
+export function refreshUserProfile(successFn = null, failFn = null) {
 
-  if(!protocolAndDomain) return errorCallback({error:true});
+    this.getSyncData(
+        function winfn(syncData) {
+            StateStore.dispatch(
+                {
+                    type: STORAGE.SET_USER_SYNC_DATA,
+                    sync: {
+                        // There's some redundant naming here because "Sync" is a batch
+                        // function, and the return object has a separate key for each
+                        // data type it's returning. Many of those keys, in turn, have
+                        // their own key with the same name, representing a list of objects.
+                        // e.g.:
+                        // syncData.blogs = {numblogs: 1, blogs:[...]}
+                        blogs: syncData.blogs.blogs,
+                        folders: syncData.folders.folders,
+                        // TODO: notifications is commented out, because currently it not used anywhere in the app
+                        // notifications: syncData.notifications.notifications,
+                        tags: syncData.tags.tags,
+                        // Userprofile and Userprofileicon return only one item each, so no
+                        // double-naming needed. :)
+                        userprofile: syncData.userprofile,
+                        userprofileicon: syncData.userprofileicon
+                    }
+                }
+            );
+            if (successFn) {
+                successFn(syncData);
+            }
+        },
+        function failCallback(error) {
+            console.log("Problem getting sync data.");
+            var lang = StateStore.getState().lang;
+            alertify
+                .okBtn(getLangString(lang, "alert_ok_button"))
+                .alert(getLangString(lang, "server_sync_error"));
+            if (failFn) {
+                return failFn(error);
+            }
+        }
+    );
+}
 
-  if(!that.profile || !that.profile.username)  return errorCallback({error:true, isLoggedIn:false});
+/**
+ * A function to sync data from the user's account
+ */
+export default function getSyncData(winfn, failfn) {
+    var wsfunction = "module_mobileapi_sync";
+    var wscomponent = "module/mobileapi/webservice";
+    var maharaServer = this;
 
-  this.setMobileUploadToken(that.generateUploadToken(), function(uploadToken){
-    httpLib.get(protocolAndDomain + syncPath, {token:uploadToken, username:that.profile.username}, successFrom(successCallback, errorCallback), failureFrom(errorCallback));
-  }, failureFrom(errorCallback));
+    // Can't sync if the user hasn't authenticated yet.
+    if (!this.getWwwroot() || !this.getWSToken()) {
+        return failfn(
+            {
+                error: true,
+                isLoggedin: false
+            }
+        );
+    }
 
-  function successFrom(successCallback, errorCallback){
-    return function(response){
-      var jsonResponse;
+    httpLib.callWebservice(
+        wsfunction,
+        {
+            blogs: {},
+            folders: {},
+            // TODO: notifications is commented out, because currently it not used anywhere in the app
+            // notifications: {
+            //     lastsync: 0 // TODO: Store lastsync
+            // },
+            tags: {},
+            userprofile: {},
+            userprofileicon: {},
+        },
+        function (syncData) {
+            winfn(syncData);
+        },
+        failfn
+    );
+}
 
-      if(!response || !response.target || !response.target.response) return errorCallback({error:true, syncDataError:true});
+export function refreshUserIcon(newicon) {
 
-      try {
-        jsonResponse = JSON.parse(response.target.response);
-      } catch(e){
-      }
+    if (!newicon) {
+        return clearUserIcon();
+    }
 
-      if(!jsonResponse || jsonResponse.fail) return errorCallback({error:true, noPermission:true, message:jsonResponse.fail, data:jsonResponse});
+    var filename = 'userprofileicon';
+    switch (newicon.mimetype) {
+        case 'image/jpeg':
+            filename = filename + '.jpg';
+            break;
+        case 'image/gif':
+            filename = filename + '.gif';
+            break;
+        case 'image/png':
+            filename = filename + '.png';
+            break;
+        default:
+            console.log("Unsupported mimetype for profileicon: " + newicon.mimetype);
+            return clearUserIcon();
+    }
 
-      successCallback(jsonResponse);
-    };
-  }
+    var url = this.getWwwroot()
+        + "module/mobileapi/download.php?wsfunction=module_mobileapi_get_user_profileicon&wstoken="
+        + this.getWSToken();
 
-  function failureFrom(callback){
-    return function(response){
-      callback(response);
-    };
-  }
+    fsLib.createFile(
+        filename,
+        function win(fileEntry) {
+            console.log('Opened local file ' + filename);
+            new FileTransfer().download(
+                encodeURI(url),
+                fileEntry.toURL(),
+                function gotDownload(fileEntry) {
+                    StateStore.dispatch(
+                        {
+                            type: STORAGE.SET_USER_PROFILE_ICON,
+                            icon: `${fileEntry.toURL()}?d=${Date.now()}`
+                        }
+                    );
+                    return fileEntry;
+                },
+                function failedDownload(error) {
+                    console.log("Failed downloading " + url);
+                    console.log(JSON.stringify(error, null, 4));
+                    return clearUserIcon();
+                }
+            );
+        },
+        function fail(e) {
+            console.log('Failed getting FileEntry to save user icon in. Details follow.');
+            console.log(e);
+        }
+    );
+}
 
+function clearUserIcon() {
+    StateStore.dispatch(
+        {
+            type: STORAGE.SET_USER_PROFILE_ICON,
+            icon: null,
+        }
+    );
+    return null;
 }

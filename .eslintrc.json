@@ -1,0 +1,43 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jquery": true
+    },
+    "extends": ["plugin:import/errors", "plugin:react/recommended", "eslint:recommended"],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-unused-vars": "off",
+        "no-console": "off",
+        "no-empty": "off"
+    },
+    "globals": {
+      // From alertify plugin
+      "alertify": false,
+      // From cordova-plugin-file-transfer
+      "FileUploadOptions": false,
+      "FileTransfer": false,
+      // From cordova-plugin-device
+      "device": false,
+      // From cordova core
+      "cordova": false
+    }
+}

@@ -5,12 +5,23 @@
     scripts: ['bundle.js', 'lib/ripple.js/ripple.js', 'lib/alertify.js/alertify.js']
   };
 
+  function getDeviceLanguage() {
+    return navigator.globalization.getPreferredLanguage(
+      function(locale) {
+        window.mahara.i18n.lang = window.mahara.i18n.strings.hasOwnProperty(locale.value) ? locale.value : 'en';
+      },
+      function() {
+        window.mahara.language = 'en';
+      }
+     );
+  }
+
   function ready(){
-    mahara.addResources(deps.json, addScripts, onError);
+    window.mahara.addResources(deps.json, addScripts, onError);
 
     function addScripts(jsons){
-      mahara.i18n.strings = jsons[deps.json[0]];
-      mahara.addResources(deps.scripts);
+      window.mahara.i18n.strings = jsons[deps.json[0]];
+      window.mahara.addResources(deps.scripts);
     }
   }
 
@@ -58,7 +69,7 @@
       } else if(resource.match(/\.json$/)){
         var req = http.getAsJSON(resource, undefined, oneResourceLoaded(resource));
       } else {
-        log.warning("Unable to add resource: " + resource);
+        console.log("Unable to add resource: " + resource);
       }
     }
   };
