@@ -37,7 +37,7 @@ class LoginPage extends MaharaBaseComponent {
     backButton = (e) => {
         Router.navigate(PAGE_URL.SERVER);
     }
-    nextButton = (p, a, e) =>  {
+    nextButton = (e) =>  {
         e.preventDefault();
         var that = this;
         var username = this.refs.username.value;

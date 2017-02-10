@@ -43,7 +43,7 @@ export default class ServerPage extends MaharaBaseComponent {
     this.setState({serverUrl: this.refs.serverUrl.value});
   }
 
-  nextButton = (p, a, e) =>  {
+  nextButton = (e) =>  {
     e.preventDefault();
     var serverUrl = this.refs.serverUrl.value;
     if(serverUrl.trim().length === 0) {
