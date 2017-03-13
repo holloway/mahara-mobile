@@ -97,7 +97,6 @@ class User extends MaharaBaseComponent {
           Router.navigate(PAGE_URL.SERVER);
       });
     }
-    
     renderServer() {
         if (!this.props.server || !this.props.server.wwwroot) return "";
         return  <div className="setting">
