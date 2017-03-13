@@ -18,7 +18,7 @@ class LoginTypePage extends MaharaBaseComponent {
             </section>;
         } else {
             return <section>
-                <p className="textLinks">({this.props.server.wwwroot}) <a onClick={this.changeServer} className="changeServer">{this.gettext('wizard_change_server') }</a></p>
+                <p className="textLinks">{this.props.server.wwwroot} <a onClick={this.changeServer} className="changeServer">{this.gettext('change') }</a></p>
                 <h2>{this.gettext('login_types_header') }</h2>
                 {this.supportsSingleSignOn() }
                 {this.supportsLocalLogin() }

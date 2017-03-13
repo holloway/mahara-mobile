@@ -23,7 +23,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
     httpLib.callWebservice(
         wsfunction,
         {
-            blogid: this.getTargetBlogId(),
+            blogid: journalEntry.targetBlogId,
             title: journalEntry.title,
             body: journalEntry.body,
             tags: journalEntry.tags,

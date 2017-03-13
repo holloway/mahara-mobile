@@ -14,8 +14,8 @@ class TokenPage extends MaharaBaseComponent {
     render() {
         return <section>
             <p className="textLinks">
-                {this.props.server && this.props.server.wwwroot ? "(" + this.props.server.wwwroot + ")" : ""}
-                <button onClick={this.backButton} className="changeServer">{this.gettext('wizard_change_server') }</button>
+                {this.props.server && this.props.server.wwwroot ? this.props.server.wwwroot : ""}
+                <button onClick={this.backButton} className="changeServer">{this.gettext('change') }</button>
             </p>
             <p className="helpText">{this.gettext('token_page_instructions') }</p>
             <label htmlFor="token">{this.gettext('token_field_label') }</label>
