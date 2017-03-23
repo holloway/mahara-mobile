@@ -21,5 +21,5 @@ MaharaBaseComponent.propTypes = {
 };
 
 MaharaBaseComponent.defaultProps = {
-  lang: STORAGE.DEFAULT_LANGUAGE
+  lang: [STORAGE.DEFAULT_LANGUAGE]
 };

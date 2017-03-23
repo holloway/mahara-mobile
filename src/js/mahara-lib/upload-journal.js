@@ -12,7 +12,7 @@ export default function uploadJournal(journalEntry, successCallback, errorCallba
         });
     }
 
-    if (!this.getTargetBlogId()){
+    if (!this.getDefaultBlogId()){
         return errorCallback({
             error: true,
             message: "No blogs configured on the server.",

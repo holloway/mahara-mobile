@@ -5,7 +5,10 @@ import {PAGE_URL}          from '../../constants.js';
 import Router              from '../../router.js';
 import {maharaServer}      from '../../state.js';
 import ReactPullToRefresh  from 'react-pull-to-refresh';
-import SelectJournal       from '../select-journal/select-journal.js';
+import MaharaSelector      from './mahara-selector/selector.js';
+import StateStore          from '../../state.js';
+import {STORAGE}           from '../../constants.js';
+
 
 const defaultIcon = "image/profile-default.png";
 class User extends MaharaBaseComponent {
@@ -16,6 +19,10 @@ class User extends MaharaBaseComponent {
         this.logout = this.logout.bind(this);
         this.renderServer = this.renderServer.bind(this);
         this.changeServer = this.changeServer.bind(this);
+
+        this.setLanguage = this.setLanguage.bind(this);
+        this.setJournal = this.setJournal.bind(this);
+        this.setFolder = this.setFolder.bind(this);
     }
 
     render() {
@@ -53,6 +60,24 @@ class User extends MaharaBaseComponent {
                   <button onClick={this.loginButton} className="big">{this.gettext('wizard_login_button') }</button>
                 </section>;
         } else {
+          let langOptions = Object.keys(window.mahara.i18n.strings);
+          let journalOptions = this.props.server.sync.blogs.map(blog =>  {
+                    return {
+                      'id': blog.id,
+                      'text': blog.title
+                    };
+                  });
+          let folderOptions = this.props.server.sync.folders.map(folder =>  {
+                    return {
+                      'id': folder.title,
+                      'text': folder.title
+                    };
+                  });
+          let defaultFolder = this.props.server.defaultFolderName ? folderOptions.find(folder => folder.id === this.props.server.defaultFolderName) : { 'id': '', 'title': ''};
+          let defaultJournal = this.props.server.defaultBlogId ? journalOptions.find(blog => blog.id === this.props.server.defaultBlogId) : { 'id': '', 'title': ''};
+
+          let lang = this.props.lang.find(l => langOptions.indexOf(l) > -1);
+
         return <ReactPullToRefresh onRefresh={maharaServer.refreshUserProfile} hammerOptions={{'touchAction': 'auto'}}>
                 <section>
                   <h2>{siteName}</h2>
@@ -63,13 +88,47 @@ class User extends MaharaBaseComponent {
                   </div>
                   <div className="userInfoBlock">
                     {this.renderServer() }
-                    <SelectJournal {...this.props} />
+
+                    <MaharaSelector
+                      label={this.gettext("default_journal")}
+                      defaultOption={defaultJournal}
+                      name="journalSelect"
+                      options={journalOptions}
+                      onSetSelection={this.setJournal}
+                      ></MaharaSelector>
+
+                    <MaharaSelector
+                      label={this.gettext("default_language")}
+                      defaultOption={{'text': lang, 'id': lang}}
+                      name="languageSelect"
+                      options={langOptions}
+                      onSetSelection={this.setLanguage}
+                      ></MaharaSelector>
+
+                      <MaharaSelector
+                        label={this.gettext("default_folder")}
+                        defaultOption={defaultFolder}
+                        name="folderSelect"
+                        options={folderOptions}
+                        onSetSelection={this.setFolder}
+                        ></MaharaSelector>
                   </div>
                   <hr/>
                 </section>
             </ReactPullToRefresh>
         ;
       }
+    }
+
+    setLanguage(lang) {
+      StateStore.dispatch({ type: STORAGE.SET_USER_LANGUAGE, language: lang });
+    }
+    setJournal(journal) {
+      StateStore.dispatch({ type: STORAGE.SET_DEFAULT_JOURNAL, journal: parseInt(journal, 10) });
+    }
+
+    setFolder(folder) {
+      StateStore.dispatch({ type: STORAGE.SET_DEFAULT_FOLDER, folder: folder});
     }
 
     logoutButton() {
