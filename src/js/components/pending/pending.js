@@ -1,5 +1,4 @@
-/*jshint esnext: true */
-import React                from 'react';
+import React, { PropTypes } from 'react';
 import MaharaBaseComponent  from '../base.js';
 import ExpandCollapse       from '../expand-collapse/expand-collapse.js';
 import StateStore           from '../../state.js';
@@ -79,3 +78,9 @@ class Pending extends MaharaBaseComponent {
 }
 
 export default Pending;
+
+Pending.propTypes = {
+  pendingUploads: PropTypes.array.isRequired,
+  server: PropTypes.object.isRequired,
+  lang: PropTypes.array.isRequired
+};

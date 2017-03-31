@@ -1,8 +1,7 @@
-/*jshint esnext: true */
-import React from 'react';
-import MaharaBaseComponent from '../base.js';
-import StateStore          from '../../state.js';
-import Router              from '../../router.js';
+import React, { PropTypes }   from 'react';
+import MaharaBaseComponent    from '../base.js';
+import StateStore             from '../../state.js';
+import Router                 from '../../router.js';
 import {PENDING,
     FILE_ENTRY,
     JOURNAL,
@@ -58,3 +57,14 @@ class PendingItem extends MaharaBaseComponent {
 }
 
 export default PendingItem;
+
+PendingItem.propTypes = {
+  type: PropTypes.string.isRequired,
+  guid: PropTypes.string.isRequired,
+  lastItem: PropTypes.bool.isRequired,
+  body: PropTypes.string,
+  title: PropTypes.string,
+  filename: PropTypes.string,
+  fileUrl: PropTypes.string,
+  mimeType: PropTypes.string,
+};

@@ -1,5 +1,4 @@
-/*jshint esnext: true */
-import React               from 'react';
+import React, { PropTypes }   from 'react';
 import MaharaBaseComponent from '../base.js';
 import Select2             from 'react-select2';
 
@@ -119,3 +118,21 @@ class JournalEntry extends MaharaBaseComponent {
 }
 
 export default JournalEntry;
+
+JournalEntry.propTypes = {
+  server: PropTypes.object.isRequired,
+  onChangeJournal: PropTypes.func.isRequired,
+  guid: PropTypes.string,
+  title: PropTypes.string,
+  body: PropTypes.string,
+  targetBlogId: PropTypes.number,
+  tags: PropTypes.array,
+};
+
+JournalEntry.defaultProps = {
+  guid: undefined,
+  title: undefined,
+  body: undefined,
+  targetBlogId: undefined,
+  tags: [],
+};

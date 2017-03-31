@@ -1,4 +1,3 @@
-/*jshint esnext: true */
 import React                from 'react';
 import ReactDOM             from 'react-dom';
 import "babel-polyfill";

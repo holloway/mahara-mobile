@@ -1,4 +1,3 @@
-/*jshint esnext: true */
 import React, { PropTypes }     from 'react';
 import MaharaBaseComponent from '../../base.js';
 import StateStore,
@@ -41,7 +40,7 @@ export default class MaharaSelector extends MaharaBaseComponent {
                       }
                       />
                   </div>
-                <a onClick={this.setSelection} className="save-button"></a>
+                <button onClick={this.setSelection} className="btn save"></button>
               </div>;
       } else {
         return  <div className="setting">
@@ -49,7 +48,7 @@ export default class MaharaSelector extends MaharaBaseComponent {
                     <label htmlFor="default-journal">{this.props.label}:&nbsp;</label>
                     <div id="default-journal">{this.props.defaultOption.text}</div>
                   </div>
-                  <a onClick={this.makeEditable} className="change-settings"></a>
+                  <button onClick={this.makeEditable} className="btn change-settings"></button>
                 </div>;
       }
   }

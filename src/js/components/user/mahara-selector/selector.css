@@ -1,7 +1,15 @@
-/* PostCSS */
-.save-button {
-  background-image: url(../image/save.svg);
-  display: inline-block;
-  width: 32px;
-  height: 32px;
+ /*PostCSS */
+html.PAGE_USER {
+  div.setting button {
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: 0px;
+    &.save {
+      background-image: url(../image/save.svg);
+    }
+    &.change-settings {
+      background-image: url(../image/cog-32.svg);
+    }
+  }
 }

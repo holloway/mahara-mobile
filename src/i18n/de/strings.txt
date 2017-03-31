@@ -87,3 +87,4 @@ change=Change
 default_journal=Default journal
 default_language=Default language
 default_folder=Default folder
+default_settings=Default settings

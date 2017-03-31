@@ -223,6 +223,7 @@ function MaharaState(state, action) {
             //     window.localStorage.setItem(action.fileEntry.guid, action.fileEntry.dataURL);
             //     action.fileEntry.dataURL = true;
             // }
+            action.fileEntry.targetFolderName = state.server.defaultFolderName;
             state.pendingUploads.push(action.fileEntry);
             break;
         case FILE_ENTRY.EDIT_ENTRY:

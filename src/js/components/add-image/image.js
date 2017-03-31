@@ -1,7 +1,6 @@
-/*jshint esnext: true */
-import React               from 'react';
-import MaharaBaseComponent from '../base.js';
-import Select2             from 'react-select2';
+import React, { PropTypes } from 'react';
+import MaharaBaseComponent  from '../base.js';
+import Select2              from 'react-select2';
 
 class ImageDetails extends MaharaBaseComponent {
     constructor(props) {
@@ -116,3 +115,9 @@ class ImageDetails extends MaharaBaseComponent {
 }
 
 export default ImageDetails;
+
+ImageDetails.propTypes = {
+  server: PropTypes.object.isRequired,
+  onChangeFolder: PropTypes.func.isRequired,
+  imageToEdit: PropTypes.object.isRequired,
+};

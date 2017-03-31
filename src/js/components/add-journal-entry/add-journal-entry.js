@@ -1,11 +1,10 @@
-/*jshint esnext: true */
-import React               from 'react';
-import MaharaBaseComponent from '../base.js';
-import Router              from '../../router.js';
+import React, { PropTypes }   from 'react';
+import MaharaBaseComponent    from '../base.js';
+import Router                 from '../../router.js';
 import StateStore,
-{maharaServer}      from '../../state.js';
-import JournalEntry        from './journal-entry.js';
-import {JOURNAL, PAGE_URL} from '../../constants.js';
+{maharaServer}                from '../../state.js';
+import JournalEntry           from './journal-entry.js';
+import {JOURNAL, PAGE_URL}    from '../../constants.js';
 
 class AddJournalEntry extends MaharaBaseComponent {
     constructor(props) {
@@ -92,3 +91,17 @@ class AddJournalEntry extends MaharaBaseComponent {
 }
 
 export default AddJournalEntry;
+
+AddJournalEntry.propTypes = {
+  server: PropTypes.object.isRequired,
+  pendingUploads: PropTypes.array.isRequired,
+  guid: PropTypes.string,
+  targetBlogId: PropTypes.number,
+  journalToEdit: PropTypes.string,
+};
+
+AddJournalEntry.defaultProps = {
+  guid: undefined,
+  targetBlogId: undefined,
+  journalToEdit: ""
+};

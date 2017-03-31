@@ -1,4 +1,3 @@
-/*jshint esnext: true */
 import React, { PropTypes }     from 'react';
 import { getLangString }          from '../i18n.js';
 import { STORAGE } from '../constants.js';

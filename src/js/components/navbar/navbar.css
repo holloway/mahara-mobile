@@ -8,6 +8,12 @@
 nav {
   @mixin reset;
 	text-align:center;
+	&.main {
+		position:fixed;
+		top:0;
+		width: 100%;
+	}
+
 
   ul {
     @mixin reset;

@@ -1,10 +1,9 @@
-/*jshint esnext: true */
-import React               from 'react';
-import MaharaBaseComponent from '../base.js';
-import Router              from '../../router.js';
+import React, { PropTypes }   from 'react';
+import MaharaBaseComponent    from '../base.js';
+import Router                 from '../../router.js';
 import StateStore,
-       {maharaServer}      from '../../state.js';
-import ImageDetails        from './image.js';
+       {maharaServer}         from '../../state.js';
+import ImageDetails           from './image.js';
 import {FILE_ENTRY, PAGE_URL} from '../../constants.js';
 
 class AddImage extends MaharaBaseComponent {
@@ -82,3 +81,9 @@ class AddImage extends MaharaBaseComponent {
 }
 
 export default AddImage;
+
+AddImage.propTypes = {
+  pendingUploads: PropTypes.array.isRequired,
+  imageToEdit: PropTypes.string.isRequired,
+  server: PropTypes.object.isRequired
+};
