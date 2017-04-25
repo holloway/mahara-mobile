@@ -5,12 +5,15 @@ import {PAGE_URL}          from '../../constants.js';
 import Router              from '../../router.js';
 import {maharaServer}      from '../../state.js';
 import ReactPullToRefresh  from 'react-pull-to-refresh';
+import SelectJournal       from '../select-journal/select-journal.js';
 
 const defaultIcon = "image/profile-default.png";
 class User extends MaharaBaseComponent {
     constructor() {
         super();
         this.logoutButton = this.logoutButton.bind(this);
+        this.loginButton = this.loginButton.bind(this);
+        this.logout = this.logout.bind(this);
         this.renderServer = this.renderServer.bind(this);
         this.changeServer = this.changeServer.bind(this);
     }
@@ -45,42 +48,67 @@ class User extends MaharaBaseComponent {
             icon = defaultIcon;
             displayName = "";
         }
-        return <ReactPullToRefresh onRefresh={maharaServer.refreshUserProfile}>
-            <section>
-                <h2>{siteName}</h2>
-                <p className="userBlock"><img src={icon} className="profile"/> {displayName}</p>
-                <p>{this.renderServer() }</p>
-                <hr/>
-                <button onClick={this.logoutButton} className="big">{this.gettext("logout_button") }</button>
-            </section>
-        </ReactPullToRefresh>
+        if (!this.props.server.profile.id) {
+        return  <section>
+                  <button onClick={this.loginButton} className="big">{this.gettext('wizard_login_button') }</button>
+                </section>;
+        } else {
+        return <ReactPullToRefresh onRefresh={maharaServer.refreshUserProfile} hammerOptions={{'touchAction': 'auto'}}>
+                <section>
+                  <h2>{siteName}</h2>
+                  <div className="userBlock">
+                    <img src={icon} className="profile"/>
+                    <div style={{'marginRight': '1em'}}>{displayName}</div>
+                    <a onClick={this.logoutButton} className="logout">{this.gettext("logout_button") }</a>
+                  </div>
+                  <div className="userInfoBlock">
+                    {this.renderServer() }
+                    <SelectJournal {...this.props} />
+                  </div>
+                  <hr/>
+                </section>
+            </ReactPullToRefresh>
         ;
+      }
     }
 
     logoutButton() {
         alertify.okBtn(this.gettext("alert_ok_button"));
         alertify.cancelBtn(this.gettext("button_cancel"));
-        alertify.confirm(this.gettext("logout_confirmation"), function (e, str) {
+        alertify.confirm(this.gettext("logout_confirmation"), (e, str) => {
             if (e) {
-                maharaServer.logOut(function (isLoggedIn) {
-                    // console.log("Is logged in?", isLoggedIn);
-                    Router.navigate(PAGE_URL.SERVER);
-                }, function (err) {
-                    console.log("Couldn't logout. This probably doesn't matter.", err);
-                    Router.navigate(PAGE_URL.SERVER);
-                });
+              this.logout();
             } else {
                 //nothing
             }
         });
     }
+
+    loginButton() {
+      this.logout();
+    }
+
+    logout() {
+      maharaServer.logOut(function (isLoggedIn) {
+          // console.log("Is logged in?", isLoggedIn);
+          Router.navigate(PAGE_URL.SERVER);
+      }, function (err) {
+          console.log("Couldn't logout. This probably doesn't matter.", err);
+          Router.navigate(PAGE_URL.SERVER);
+      });
+    }
+    
     renderServer() {
         if (!this.props.server || !this.props.server.wwwroot) return "";
-        return <span>
-            {this.props.server.wwwroot}
-
-            <span className="changeServerBrackets">(<a onClick={this.changeServer} className="changeServer">{this.gettext("change_server") }</a>) </span>
-        </span>;
+        return  <div className="setting">
+                  <div>
+                    <label htmlFor="user-server">{this.gettext("site")}: </label>
+                    <div id="user-server">
+                      <span>{this.props.server.wwwroot}</span>
+                    </div>
+                  </div>
+                  <a onClick={this.changeServer} className="changeServer change-settings" ></a>
+                </div>;
     }
 
     changeServer() {

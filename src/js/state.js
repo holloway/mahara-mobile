@@ -26,7 +26,7 @@ const defaultState = {
     server: {
         wwwroot: null,
         wstoken: null,
-        targetblogid: null,
+        defaultBlogId: null,
         targetfoldername: null,
         loginTypes: [LOGIN_TYPE.LOCAL],
         siteName: null,
@@ -169,10 +169,9 @@ function MaharaState(state, action) {
                 state.server.icondata = defaultState.server.icondata;
             }
 
-            // TODO: Let the user select the blog, instead of just using
-            // the first one
-            if (action.sync.blogs.length) {
-                state.server.targetblogid = action.sync.blogs[0].id;
+            // set first blog as default if haven't been selected previously
+            if (!state.server.defaultBlogId && action.sync.blogs.length) {
+                state.server.defaultBlogId = action.sync.blogs[0].id;
             }
 
             // TODO: Let the user select the folder, instead of just using one.
@@ -185,7 +184,9 @@ function MaharaState(state, action) {
             // e.g. ["en-GB", 'en', 'en']
             state.lang = [action.language, action.language.split('-')[0], STORAGE.DEFAULT_LANGUAGE];
             break;
-
+        case STORAGE.SET_DEFAULT_JOURNAL:
+            state.server.defaultBlogId = action.journal;
+            break;
         case LOGIN.STOP_GET_USER_ICON:
             state.needToRefreshIcon = undefined;
             break;

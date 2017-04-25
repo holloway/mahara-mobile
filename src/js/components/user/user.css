@@ -18,6 +18,31 @@ html.PAGE_USER {
 	section {
 		padding: 20px 30px 20px 30px;
 		margin: 0px auto;
+		.userInfoBlock {
+			float: left;
+			width: 100%;
+			.setting {
+				display: flex;
+				align-items: center;
+				margin-bottom: 10px;
+				label {
+					font-weight: bold;
+				}
+				> div{
+					flex: 4;
+					overflow-wrap: break-word;
+					word-wrap: break-word;
+					word-break: break-word;
+					margin-right: 5px;
+				}
+				.change-settings {
+					background-image: url(../image/cog.svg);
+					display: inline-block;
+					width: 32px;
+					height: 32px;
+				}
+			}
+		}
 	}
 
 	h2 {
@@ -46,12 +71,25 @@ html.PAGE_USER {
 		max-width: 100px;
 	}
 
-	p.userBlock {
+	div.userBlock {
 		font-size:large;
 
 		&::after {
 			content: "";
 			clear:both;
+		}
+		> div {
+			display: inline-block;
+		}
+
+		a.logout {
+			background: url(../image/exit.svg) no-repeat;
+			display: inline-block;
+			width: 32px;
+			height: 32px;
+			padding-left: 32px;
+			text-decoration: underline;
+			margin: 5px;
 		}
 	}
 
@@ -62,8 +100,4 @@ html.PAGE_USER {
 	span.changeServerBrackets {
 		margin-left:0.8em;
 	}
-
-
-
-
 }

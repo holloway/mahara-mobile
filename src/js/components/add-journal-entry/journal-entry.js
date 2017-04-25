@@ -21,9 +21,11 @@ class JournalEntry extends MaharaBaseComponent {
         }
 
         this.state = {
-            userTags: userTags
+            userTags: userTags,
+            targetBlogId: props.guid ? this.props.targetBlogId : this.props.server.defaultBlogId
         };
         this.changeTags = this.changeTags.bind(this);
+        this.changeJournal = this.changeJournal.bind(this);
     }
     render() {
         var title = '';
@@ -34,6 +36,34 @@ class JournalEntry extends MaharaBaseComponent {
             body = this.props.body;
             tags = this.props.tags;
         }
+
+        let blogOptions = this.props.server.sync.blogs.map(blog =>  {
+            return {
+              'id': blog.id,
+              'text': blog.title
+            };
+          });
+
+          // display journal selector only if there is more than one journal
+          let journalSelectNode = null;
+          if (this.props.server.sync.blogs.length > 1) {
+              journalSelectNode =
+                  <div>
+                      <h2>{this.gettext('library_blog')}</h2>
+                      <Select2
+                            defaultValue={this.state.targetBlogId}
+                            onChange={this.changeJournal}
+                            ref="journalSelect"
+                            data={blogOptions}
+                            options={
+                                {
+                                    width: '100%',
+                                    minimumResultsForSearch: -1,
+                                }
+                            }
+                        />
+                    </div>;
+          }
 
         return <div>
             <h2>{this.gettext('library_title')}</h2>
@@ -55,6 +85,7 @@ class JournalEntry extends MaharaBaseComponent {
                     }
                 }
             />
+          {journalSelectNode}
         </div>;
     }
     changeTags(event) {
@@ -69,6 +100,12 @@ class JournalEntry extends MaharaBaseComponent {
         //console.log("new tags", tags);
         this.tags = tags; // parent component accesses it this way
     }
+
+    changeJournal() {
+        let targetBlogId = parseInt(this.refs.journalSelect.el.select2('data')[0].id, 10);
+        this.props.onChangeJournal(targetBlogId);
+    }
+
     componentDidMount() {
         var textarea = this.refs.textarea,
             saveButtonHeight = 100, //todo: approximate height most of the time

@@ -1,0 +1,7 @@
+/* PostCSS */
+.save-button {
+  background-image: url(../image/save.svg);
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}

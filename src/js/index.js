@@ -125,6 +125,7 @@ const render = () => {
     // these were in a different function, also subscribed
     // to the statestore.
     if (state.uploadGuid) {
+        StateStore.dispatch({ type: PENDING.STOP_UPLOADS });
         uploadNextItem(state);
     }
     if (state.getProfile) {

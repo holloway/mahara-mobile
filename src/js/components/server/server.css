@@ -46,7 +46,7 @@ html.PAGE_SERVER {
 
 		&.next {
 			margin: 5px auto;
-			margin-left: 5px;
+			margin-left: 0.8em;
 		}
 
 		&.skip {
