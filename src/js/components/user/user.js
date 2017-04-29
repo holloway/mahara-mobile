@@ -1,75 +1,91 @@
-/*jshint esnext: true */
-import React               from 'react';
-import MaharaBaseComponent from '../base.js';
-import {PAGE_URL}          from '../../constants.js';
-import Router              from '../../router.js';
-import {maharaServer}      from '../../state.js';
-import ReactPullToRefresh  from 'react-pull-to-refresh';
-import SelectJournal       from '../select-journal/select-journal.js';
+import React, { PropTypes } from 'react';
+import MaharaBaseComponent  from '../base.js';
+import {PAGE_URL}           from '../../constants.js';
+import Router               from '../../router.js';
+import {maharaServer}       from '../../state.js';
+import ReactPullToRefresh   from 'react-pull-to-refresh';
+import MaharaSelector       from './mahara-selector/selector.js';
+import StateStore           from '../../state.js';
+import {STORAGE}            from '../../constants.js';
+
+import SettingsTab          from './settings/settings-tab.js';
+import MainTab              from './main/main-tab.js';
 
 const defaultIcon = "image/profile-default.png";
+const defaultTab = 'main';
+
 class User extends MaharaBaseComponent {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+
+
+        this.state = {
+          'activeTab': props.server.profile.id ? 'main' : 'login'
+        };
+
         this.logoutButton = this.logoutButton.bind(this);
         this.loginButton = this.loginButton.bind(this);
         this.logout = this.logout.bind(this);
-        this.renderServer = this.renderServer.bind(this);
-        this.changeServer = this.changeServer.bind(this);
+
+        this.showSettings = this.showSettings.bind(this);
+        this.hideSettings = this.hideSettings.bind(this);
+    }
+
+    componentWillReceiveProps() {
+      // if we receive a profile but still on login tab -> change to main tab
+      if (this.state.activeTab === 'login' && this.props.server.profile.id) {
+        this.setState({'activeTab': 'main'});
+      }
     }
 
     render() {
-        //console.log("PROPS?", this.props);
-        var siteName = 'Mahara';
-        var icon;
-        var displayName;
+      let activeTab, siteName, icon, displayName;
+
+      siteName = 'Mahara';
 
         if (this.props.server) {
-            if (this.props.server.siteName) {
-                siteName = this.props.server.siteName;
-            }
+          siteName = this.props.server.siteName || 'Mahara';
 
-            if (this.props.server.profile.iconurl) {
-                icon = this.props.server.profile.iconurl;
-            }
-            else {
-                icon = defaultIcon;
-            }
-
-            if (this.props.server && this.props.server.profile && this.props.server.profile.myname) {
-                displayName = this.props.server.profile.myname;
-            }
-            else {
-                displayName = "";
-            }
-        }
-        else {
+          if (this.props.server.profile) {
+            icon = this.props.server.profile.iconurl || defaultIcon;
+            displayName = this.props.server.profile.myname || "";
+          }
+        } else {
             siteName = `(${this.gettext('offline')})`;
             icon = defaultIcon;
             displayName = "";
         }
-        if (!this.props.server.profile.id) {
-        return  <section>
-                  <button onClick={this.loginButton} className="big">{this.gettext('wizard_login_button') }</button>
-                </section>;
-        } else {
-        return <ReactPullToRefresh onRefresh={maharaServer.refreshUserProfile} hammerOptions={{'touchAction': 'auto'}}>
-                <section>
-                  <h2>{siteName}</h2>
-                  <div className="userBlock">
-                    <img src={icon} className="profile"/>
-                    <div style={{'marginRight': '1em'}}>{displayName}</div>
-                    <a onClick={this.logoutButton} className="logout">{this.gettext("logout_button") }</a>
-                  </div>
-                  <div className="userInfoBlock">
-                    {this.renderServer() }
-                    <SelectJournal {...this.props} />
-                  </div>
-                  <hr/>
-                </section>
-            </ReactPullToRefresh>
-        ;
-      }
+
+        // select tab to display
+        switch (this.state.activeTab) {
+          case 'settings':
+            activeTab = <SettingsTab server={this.props.server} onGoBack={this.hideSettings} lang={this.props.lang}></SettingsTab>;
+          break;
+          case 'main':
+            activeTab = <MainTab
+                          siteName={siteName}
+                          displayName={displayName}
+                          icon={icon}
+                          onShowSettings={this.showSettings}
+                          lang={this.props.lang}
+                        ></MainTab>;
+          break;
+          default:
+            activeTab = <section>
+                          <button onClick={this.loginButton} className="big login">{this.gettext('wizard_login_button') }</button>
+                        </section>
+                        ;
+        }
+
+        return activeTab;
+    }
+
+    showSettings() {
+      this.setState({'activeTab': 'settings' });
+    }
+
+    hideSettings() {
+      this.setState({'activeTab': 'main' });
     }
 
     logoutButton() {
@@ -97,23 +113,10 @@ class User extends MaharaBaseComponent {
           Router.navigate(PAGE_URL.SERVER);
       });
     }
-    
-    renderServer() {
-        if (!this.props.server || !this.props.server.wwwroot) return "";
-        return  <div className="setting">
-                  <div>
-                    <label htmlFor="user-server">{this.gettext("site")}: </label>
-                    <div id="user-server">
-                      <span>{this.props.server.wwwroot}</span>
-                    </div>
-                  </div>
-                  <a onClick={this.changeServer} className="changeServer change-settings" ></a>
-                </div>;
-    }
-
-    changeServer() {
-        Router.navigate(PAGE_URL.SERVER);
-    }
 }
 
 export default User;
+
+User.propTypes = {
+  server: PropTypes.object.isRequired
+};

@@ -20,7 +20,7 @@ export default function uploadFile(fileEntry, successCallback, errorCallback) {
         });
     }
 
-    if (!this.getTargetFolderName()){
+    if (!this.getDefaultFolderName()){
         return errorCallback({
             error: true,
             message: "No folder configured as upload target.",
@@ -29,7 +29,7 @@ export default function uploadFile(fileEntry, successCallback, errorCallback) {
     }
 
     var wsParams = {};
-    wsParams.foldername = this.getTargetFolderName();
+    wsParams.foldername = fileEntry.targetFolderName || this.getDefaultFolderName();
     wsParams.title = fileEntry.title;
     if (fileEntry.description) {
         wsParams.description = fileEntry.description;
@@ -67,4 +67,3 @@ export default function uploadFile(fileEntry, successCallback, errorCallback) {
         'filetoupload'
     );
 }
-

@@ -33,11 +33,11 @@ export default class MaharaServer {
         this.wstoken = server.wstoken;
         this.wwwroot = server.wwwroot;
         this.defaultBlogId = server.defaultBlogId;
-        this.targetfoldername = server.targetfoldername;
+        this.defaultFolderName = server.defaultFolderName;
     }
 
     getWSToken = () => this.wstoken;
     getWwwroot = () => this.wwwroot;
-    getTargetBlogId = () => this.defaultBlogId;
-    getTargetFolderName = () => this.targetfoldername;
+    getDefaultBlogId = () => this.defaultBlogId;
+    getDefaultFolderName = () => this.defaultFolderName;
 }

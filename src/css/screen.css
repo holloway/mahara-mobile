@@ -25,6 +25,10 @@ body,
 	min-height: 100%;
 }
 
+#container > div {
+	margin-top: 50px;
+}
+
 @import "./fonts.css";
 @import "./buttons.css";
 @import "./headings.css";
@@ -32,7 +36,6 @@ body,
 @import "./select2.css";
 @import "../js/components/server/server.css";
 @import "../js/components/login-type/login-type.css";
-@import "../js/components/select-journal/select-journal.css";
 @import "../js/components/login/login.css";
 @import "../js/components/token/token.css";
 @import "../js/components/logobar/logobar.css";

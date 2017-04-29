@@ -1,13 +1,12 @@
-/*jshint esnext: true */
-import React               from 'react';
-import MaharaBaseComponent from '../base.js';
+import React, { PropTypes } from 'react';
+import MaharaBaseComponent  from '../base.js';
 import StateStore,
-{maharaServer}      from '../../state.js';
-import Router              from '../../router.js';
+{maharaServer}              from '../../state.js';
+import Router               from '../../router.js';
 import {PAGE,
     LOGIN,
     PAGE_URL,
-    STORAGE}           from '../../constants.js';
+    STORAGE}                from '../../constants.js';
 
 class TokenPage extends MaharaBaseComponent {
 
@@ -52,3 +51,7 @@ class TokenPage extends MaharaBaseComponent {
 }
 
 export default TokenPage;
+
+TokenPage.propTypes = {
+  server: PropTypes.object.isRequired
+};

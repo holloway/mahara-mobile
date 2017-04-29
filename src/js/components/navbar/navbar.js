@@ -1,7 +1,6 @@
-/*jshint esnext: true */
-import React               from 'react';
-import {PAGE, PAGE_URL}    from '../../constants.js';
-import MaharaBaseComponent from '../base.js';
+import React, { PropTypes }   from 'react';
+import {PAGE, PAGE_URL}       from '../../constants.js';
+import MaharaBaseComponent    from '../base.js';
 
 var menuItems = [
   {menuType: PAGE.USER,    stringId:'menu_user'},
@@ -27,15 +26,13 @@ class NavBar extends MaharaBaseComponent {
   render() {
     var that = this;
     var propsMenuBase = this.getPropsMenuBase();
-    return <nav>
+    return <nav className="main">
         <ul>
-
-
           {menuItems.map(function(item, index){
             return <li key={item.menuType} ref={"menu" + item.menuType} className={item.menuType === propsMenuBase ? "active": ""} style={that.renderStyles(item)}>
               <a href={"#" + PAGE_URL[item.menuType]}>
                 {that.gettext(item.stringId)}
-                {item.menuType === that.props.menu ? <span className="sr-only"> ({that.gettext('menu_active')})</span>: ""}
+                {item.menuType === propsMenuBase ? <span className="sr-only"> ({that.gettext('menu_active')})</span>: ""}
                 {that.renderBadge(item.menuType)}
               </a>
             </li>;
@@ -96,7 +93,7 @@ class NavBar extends MaharaBaseComponent {
             activeOrInactive = item.states.loggedIn;
         }
     } else {
-        activeOrInactive = item.states.inactive
+        activeOrInactive = item.states.inactive;
     }
 
     return {backgroundImage: 'url("' + activeOrInactive.imageUrl + '")'};
@@ -104,3 +101,14 @@ class NavBar extends MaharaBaseComponent {
 }
 
 export default NavBar;
+
+NavBar.propTypes = {
+  pendingUploads: PropTypes.array.isRequired,
+  server: PropTypes.object.isRequired,
+  page: PropTypes.string.isRequired,
+  uploadGuid: PropTypes.string
+};
+
+NavBar.defaultProps = {
+  uploadGuid: undefined
+};

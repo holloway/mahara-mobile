@@ -1,7 +1,6 @@
-/*jshint esnext: true */
-import React               from 'react';
-import MaharaBaseComponent from '../base.js';
-import Select2             from 'react-select2';
+import React, { PropTypes } from 'react';
+import MaharaBaseComponent  from '../base.js';
+import Select2              from 'react-select2';
 
 class ImageDetails extends MaharaBaseComponent {
     constructor(props) {
@@ -15,9 +14,12 @@ class ImageDetails extends MaharaBaseComponent {
         this.imageToEdit = props.imageToEdit;
 
         this.state = {
-            userTags: userTags
+            userTags: userTags,
+            targetFolderName: props.imageToEdit.guid ? this.imageToEdit.targetFolderName : this.props.server.defaultFolderName
         };
+
         this.changeTags = this.changeTags.bind(this);
+        this.changeFolder = this.changeFolder.bind(this);
         this.tags = this.props.imageToEdit.tags;
     }
     render() {
@@ -28,6 +30,35 @@ class ImageDetails extends MaharaBaseComponent {
         if (this.props.imageToEdit.mimeType.indexOf('image/') === 0) {
             img = <img src={this.props.imageToEdit.fileUrl} className="fileUploadPreview"/>;
         }
+
+        let folderOptions = this.props.server.sync.folders.map(folder =>  {
+            return {
+              'id': folder.title,
+              'text': folder.title
+            };
+          });
+
+          // display journal selector only if there is more than one journal
+          let folderSelectNode = null;
+          if (this.props.server.sync.folders.length > 1) {
+              folderSelectNode =
+                  <div>
+                      <h2>{this.gettext('library_folder')}</h2>
+                      <Select2
+                            defaultValue={this.state.targetFolderName}
+                            onChange={this.changeFolder}
+                            ref="folderSelect"
+                            data={folderOptions}
+                            options={
+                                {
+                                    width: '100%',
+                                    minimumResultsForSearch: -1,
+                                }
+                            }
+                        />
+                    </div>;
+          }
+
 
         return <div>
             {img}
@@ -50,6 +81,7 @@ class ImageDetails extends MaharaBaseComponent {
                     }
                 }
             />
+            {folderSelectNode}
         </div>;
     }
     changeTags(event) {
@@ -64,6 +96,12 @@ class ImageDetails extends MaharaBaseComponent {
         //console.log("new tags", tags);
         this.tags = tags; // parent component accesses it this way
     }
+
+    changeFolder() {
+        let targetFolderName = this.refs.folderSelect.el.select2('data')[0].id;
+        this.props.onChangeFolder(targetFolderName);
+    }
+
     componentDidMount() {
         var textarea = this.refs.textarea,
             saveButtonHeight = 100, //todo: approximate height most of the time
@@ -77,3 +115,9 @@ class ImageDetails extends MaharaBaseComponent {
 }
 
 export default ImageDetails;
+
+ImageDetails.propTypes = {
+  server: PropTypes.object.isRequired,
+  onChangeFolder: PropTypes.func.isRequired,
+  imageToEdit: PropTypes.object.isRequired,
+};

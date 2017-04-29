@@ -1,4 +1,3 @@
-/*jshint esnext: true */
 import React, { PropTypes }     from 'react';
 import { getLangString }          from '../i18n.js';
 import { STORAGE } from '../constants.js';
@@ -21,5 +20,5 @@ MaharaBaseComponent.propTypes = {
 };
 
 MaharaBaseComponent.defaultProps = {
-  lang: STORAGE.DEFAULT_LANGUAGE
+  lang: [STORAGE.DEFAULT_LANGUAGE]
 };

@@ -1,11 +1,10 @@
-/*jshint esnext: true */
-import React from 'react';
-import MaharaBaseComponent from '../base.js';
+import React, { PropTypes }   from 'react';
+import MaharaBaseComponent    from '../base.js';
 import {PAGE_URL,
-    FILE_ENTRY}        from '../../constants.js';
-import Router              from '../../router.js';
-import StateStore          from '../../state.js';
-import fs from '../../mahara-lib/files-lib.js';
+    FILE_ENTRY}               from '../../constants.js';
+import Router                 from '../../router.js';
+import StateStore             from '../../state.js';
+import fs                     from '../../mahara-lib/files-lib.js';
 
 class Add extends MaharaBaseComponent {
     constructor() {
@@ -159,6 +158,10 @@ var isFileInputSupported = (function () {
 })();
 
 export default Add;
+
+Add.propTypes = {
+  pendingUploads: PropTypes.array.isRequired
+};
 
 /*
 html5Camera = (e) => {

@@ -1,6 +1,5 @@
-/*jshint esnext: true */
-import React               from 'react';
-import MaharaBaseComponent from '../base.js';
+import React, { PropTypes }   from 'react';
+import MaharaBaseComponent    from '../base.js';
 
 class ExpandCollapse extends MaharaBaseComponent {
   constructor(props) {
@@ -27,3 +26,9 @@ class ExpandCollapse extends MaharaBaseComponent {
 }
 
 export default ExpandCollapse;
+
+ExpandCollapse.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.object.isRequired,
+  loading: PropTypes.bool
+};
