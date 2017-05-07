@@ -21,17 +21,15 @@ class MainTab extends MaharaBaseComponent {
     }
 
     render() {
-      return <ReactPullToRefresh onRefresh={maharaServer.refreshUserProfile} hammerOptions={{'touchAction': 'auto'}}>
-              <section>
-                <h2>{this.props.siteName}</h2>
-                <div className="userBlock">
-                  <img src={this.props.icon} className="profile"/>
-                  <div className="username">{this.props.displayName}</div>
-                  <a onClick={this.props.onShowSettings} className="tab-nav settings">{this.gettext('default_settings')}</a>
-                  <a onClick={this.logoutButton} className="tab-nav logout">{this.gettext("logout_button") }</a>
-                </div>
-              </section>
-            </ReactPullToRefresh>
+      return <section>
+              <h2>{this.props.siteName}</h2>
+              <div className="userBlock">
+                <img src={this.props.icon} className="profile"/>
+                <div className="username">{this.props.displayName}</div>
+                <a onClick={this.props.onShowSettings} className="tab-nav settings">{this.gettext('default_settings')}</a>
+                <a onClick={this.logoutButton} className="tab-nav logout">{this.gettext("logout_button") }</a>
+              </div>
+            </section>
       ;
     }
 

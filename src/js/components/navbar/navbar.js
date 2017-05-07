@@ -26,7 +26,7 @@ class NavBar extends MaharaBaseComponent {
   render() {
     var that = this;
     var propsMenuBase = this.getPropsMenuBase();
-    return <nav className="main">
+    return <nav>
         <ul>
           {menuItems.map(function(item, index){
             return <li key={item.menuType} ref={"menu" + item.menuType} className={item.menuType === propsMenuBase ? "active": ""} style={that.renderStyles(item)}>
