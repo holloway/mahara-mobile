@@ -62,13 +62,13 @@ class User extends MaharaBaseComponent {
             activeTab = <SettingsTab server={this.props.server} onGoBack={this.hideSettings} lang={this.props.lang}></SettingsTab>;
           break;
           case 'main':
-            activeTab = <MainTab
+            activeTab = <ReactPullToRefresh onRefresh={maharaServer.refreshUserProfile}><MainTab
                           siteName={siteName}
                           displayName={displayName}
                           icon={icon}
                           onShowSettings={this.showSettings}
                           lang={this.props.lang}
-                        ></MainTab>;
+                        ></MainTab></ReactPullToRefresh>;
           break;
           default:
             activeTab = <section>
