@@ -1,12 +1,15 @@
-/*jshint esnext: true */
-import React               from 'react';
-import {PAGE, PAGE_URL}    from '../../constants.js';
-import MaharaBaseComponent from '../base.js';
+import React, { PropTypes }   from 'react';
+import {PAGE, PAGE_URL}       from '../../constants.js';
+import MaharaBaseComponent    from '../base.js';
 
 var menuItems = [
   {menuType: PAGE.USER,    stringId:'menu_user'},
   {menuType: PAGE.ADD,     stringId:'menu_add'},
   {menuType: PAGE.PENDING, stringId:'menu_pending', states: {
+    loggedIn: {
+      stringId: 'not_syncing',
+      imageUrl: 'image/network-access-grey.svg',
+    },
       inactive: {
         stringId: 'not_syncing',
         imageUrl: 'image/no-network-access.svg',
@@ -17,7 +20,7 @@ var menuItems = [
       },
     }
   }
-]
+];
 
 class NavBar extends MaharaBaseComponent {
   render() {
@@ -25,13 +28,11 @@ class NavBar extends MaharaBaseComponent {
     var propsMenuBase = this.getPropsMenuBase();
     return <nav>
         <ul>
-
-
           {menuItems.map(function(item, index){
             return <li key={item.menuType} ref={"menu" + item.menuType} className={item.menuType === propsMenuBase ? "active": ""} style={that.renderStyles(item)}>
               <a href={"#" + PAGE_URL[item.menuType]}>
                 {that.gettext(item.stringId)}
-                {item.menuType === that.props.menu ? <span className="sr-only"> ({that.gettext('menu_active')})</span>: ""}
+                {item.menuType === propsMenuBase ? <span className="sr-only"> ({that.gettext('menu_active')})</span>: ""}
                 {that.renderBadge(item.menuType)}
               </a>
             </li>;
@@ -62,7 +63,7 @@ class NavBar extends MaharaBaseComponent {
         that.refs.navbarActiveHighlight.style.left  = liPosition.left + "px";
         that.refs.navbarActiveHighlight.style.width = liPosition.width + "px";
       }
-    })
+    });
   }
   getPropsMenuBase = () => {
    var propsMenuBase = this.props.page;
@@ -83,9 +84,31 @@ class NavBar extends MaharaBaseComponent {
   }
   renderStyles = (item) => {
     if(item.menuType !== PAGE.PENDING) return {};
-    var activeOrInactive = this.props.uploadGuid ? item.states.active : item.states.inactive;
+    var activeOrInactive;
+
+    if (this.props.server.wwwroot && this.props.server.wstoken) {
+        if (this.props.uploadGuid) {
+            activeOrInactive = item.states.active;
+        } else {
+            activeOrInactive = item.states.loggedIn;
+        }
+    } else {
+        activeOrInactive = item.states.inactive;
+    }
+
     return {backgroundImage: 'url("' + activeOrInactive.imageUrl + '")'};
   }
 }
 
 export default NavBar;
+
+NavBar.propTypes = {
+  pendingUploads: PropTypes.array.isRequired,
+  server: PropTypes.object.isRequired,
+  page: PropTypes.string.isRequired,
+  uploadGuid: PropTypes.string
+};
+
+NavBar.defaultProps = {
+  uploadGuid: undefined
+};

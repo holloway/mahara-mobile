@@ -1,0 +1,38 @@
+html.PAGE_USER section {
+	div.userBlock {
+		img.profile {
+			float:left;
+			margin-right:1em;
+			margin-bottom:1em;
+			width:100%;
+			max-width: 100px;
+		}
+
+		.username {
+			font-size:large;
+			margin-right: 0.8em;
+		}
+
+		&::after {
+			content: "";
+			clear:both;
+		}
+		> div {
+			display: inline-block;
+		}
+
+		a.tab-nav {
+			display: inline-block;
+			height: 20px;
+			padding-left: 20px;
+			text-decoration: underline;
+			margin: 5px;
+			&.logout {
+				background: url(../image/exit-16.svg) no-repeat;
+			}
+			&.settings {
+				background: url(../image/cog-16.svg) no-repeat;
+			}
+		}
+	}
+}

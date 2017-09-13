@@ -72,29 +72,35 @@ function uploadFile(fileEntry){
 function afterUploadComplete(response){
   var item = response.journalEntry || response.fileEntry;
   console.log("Uploaded item", item);
+  StateStore.dispatch({type:PENDING.UPLOAD_ITEM_FINISHED, guid:item.guid});
   StateStore.dispatch({type:PENDING.DELETE, guid:item.guid});
   StateStore.dispatch({type:PENDING.UPLOAD_NEXT});
 }
 
 function afterUploadError(response){
+  var item = response.journalEntry || response.fileEntry;
+  StateStore.dispatch({type:PENDING.UPLOAD_ITEM_FINISHED, guid:item.guid});
   StateStore.dispatch({type:PENDING.STOP_UPLOADS});
-  if(response && response.error){
-    if(response.hasOwnProperty("isLoggedIn")){
-      alertify.alert(getLangString(langCodes, "cant_sync_session_expired"), function (e, str) {
-        Router.navigate(PAGE_URL.LOGIN_TYPE);
-      });
-    } else if(response.hasOwnProperty('sesskeyError')){
-      alertify.alert(getLangString(langCodes, "sesskey_scrape_error"));
-    } else if(response.hasOwnProperty("noProtocolAndDomain")){
-      alertify.alert(getLangString(langCodes, "no_server_found"), function(e, str){
-        Router.navigate(PAGE_URL.SERVER);
-      });
-    } else if(response.hasOwnProperty("message")){
-      alert("sdfsd");
-      alertify.alert(getLangString(langCodes, "server_response_prefix") + "\n" + response.message);
+//   if(response && response.error){
+    // if(response.hasOwnProperty("isLoggedIn")){
+    //   alertify.alert(getLangString(langCodes, "cant_sync_session_expired"), function (e, str) {
+    //     Router.navigate(PAGE_URL.LOGIN_TYPE);
+    //   });
+    // } else if(response.hasOwnProperty('sesskeyError')){
+    //   alertify.alert(getLangString(langCodes, "sesskey_scrape_error"));
+    // } else if(response.hasOwnProperty("noProtocolAndDomain")){
+    //   alertify.alert(getLangString(langCodes, "no_server_found"), function(e, str){
+    //     Router.navigate(PAGE_URL.SERVER);
+    //   });
+    // } else if(response.hasOwnProperty("message")){
+    //   alertify.alert(getLangString(langCodes, "server_response_prefix") + "\n" + response.message);
+    // }
+    if (response.message) {
+        alertify.alert("Problem uploading. Response was: " + response.message);
     }
-    console.log("Problem uploading. Response was", response);
+    else {
+        alertify.alert("Error: upload failed.");
+    }
     return;
-  }
-  console.log("There was a problem uploading.", arguments);
+//   }
 }

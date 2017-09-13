@@ -1,3 +1,8 @@
+@import "../../../css/pull-to-refresh.css";
+@import "./settings/settings-tab.css";
+@import "./main/main-tab.css";
+@import "./mahara-selector/selector.css";
+
 /* PostCSS */
 
 @define-mixin reset {
@@ -16,6 +21,10 @@ html.PAGE_USER {
 	section {
 		padding: 20px 30px 20px 30px;
 		margin: 0px auto;
+
+		.login {
+			margin-top: 10px;
+		}
 	}
 
 	h2 {
@@ -34,34 +43,5 @@ html.PAGE_USER {
 		padding: 0.5em 0px;
 		margin: 0px 0px 0.7em 0px;
 	}
-
-	img.profile {
-		float:left;
-		margin-right:1em;
-		margin-bottom:1em;
-		width:100%;
-		border: solid 1px white;
-		max-width: 100px;
-	}
-
-	p.userBlock {
-		font-size:large;
-
-		&::after {
-			content: "";
-			clear:both;
-		}
-	}
-
-	a.changeServer {
-		text-decoration: underline;
-	}
-
-	span.changeServerBrackets {
-		margin-left:0.8em;
-	}
-
-
-
 
 }

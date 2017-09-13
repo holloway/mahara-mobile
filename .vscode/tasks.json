@@ -1,0 +1,44 @@
+{
+    // See http://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "0.1.0",
+    "command": "sh",    // for windows "command": "cmd"
+    "isShellCommand": true,
+    "args": [ "-c" ],   // for windows "args": ["/C"]
+    "tasks": [
+        {
+            "taskName": "eslint",
+            "suppressTaskName": true,
+            "args": [
+                "./node_modules/eslint/bin/eslint.js --format=stylish ./src/js"
+            ],
+            "problemMatcher": "$eslint-stylish"
+            // "problemMatcher" : [
+            //     {
+            //         "owner": "eslint",
+            //         "base": "$eslint-stylish",
+            //         "fileLocation": "absolute",
+            //         "pattern":
+            //             {
+            //                 "regexp": "/^([^\\s].*)$/",
+            //                 "file": 1
+            //             }
+            //         // "pattern": [
+            //         //     {
+            //         //         "regexp": "/^([^\\s].*)$/",
+            //         //         "file": 1
+            //         //     },
+            //         //     {
+            //         //         "regexp": "/^\\s+(\\d+):(\\d+)\\s+(error|warning|info)\\s+(.+?)$/",
+            //         //         "line": 1,
+            //         //         "column": 2,
+            //         //         "severity": 3,
+            //         //         "message": 4,
+            //         //         "loop": true
+            //         //     }            
+            //         // ]
+            //     }
+            // ]
+        }
+    ]
+}

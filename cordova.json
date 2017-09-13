@@ -1,8 +1,21 @@
 {
      "android": {
          "release": {
-             "keystore": "mahara-mobile-production.keystore",
              "alias": "maharamobile"
+         }
+     },
+     "ios": {
+         "debug": {
+             "codeSignIdentity": "iPhone Development",
+             "provisioningProfile": "a7c9e2bc-8752-4f03-b50a-2846e6227691",
+             "developmentTeam": "B6SWKBKRQH",
+             "packageType": "development"
+         },
+         "release": {
+             "codeSignIdentity": "iPhone Distribution: Catalyst .Net Limited (B6SWKBKRQH)",
+             "provisioningProfile": "a7c9e2bc-8752-4f03-b50a-2846e6227691",
+             "developmentTeam": "B6SWKBKRQH",
+             "packageType": "app-store"
          }
      }
  }

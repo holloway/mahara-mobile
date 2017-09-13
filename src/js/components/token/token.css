@@ -1,0 +1,78 @@
+/* PostCSS */
+
+html.PAGE_TOKEN_ENTRY {
+  background: url(../image/blurbkgd.jpg) no-repeat 0 0;
+  background-size: cover;
+	overflow:hidden;
+
+	section {
+		padding: 20px 30px 20px 30px;
+		margin: 0px auto;
+		text-align:center;
+	}
+
+	input {
+		padding: 13px 13px;
+		border: 0;
+		border-bottom: 2px solid #61733e;
+		box-shadow: none;
+		background-color: #51632e;
+		text-align: left;
+		display: block;
+		box-sizing: border-box;
+		width:100%;
+		color: #c1e494;
+		margin-bottom: 20px;
+	}
+
+	label {
+		display: block;
+		text-align: left;
+		margin: 5px 0px;
+		padding: 0;
+    font-size: 18px;
+	}
+
+	button.next {
+		margin-top: 20px;
+		color: #a7ce74;
+		padding: 13px 40px;
+		background: #33510c;
+		border: 0;
+		font-size: 16px;
+	}
+
+	button.changeServer {
+		background: transparent;
+		color: #ecff64;
+		border: none;
+		text-decoration: underline;
+		padding: 0px;
+		margin-left:1em;
+		font-size: 14px;
+	}
+
+	p.textLinks {
+		text-align: center;
+		padding: 0px;
+		margin: 0 0 15px 0;
+		font-size: 16px;
+	}
+
+    p.helpText {
+        text-align: left;
+        padding: 0px;
+        font-size: 16px;
+    }
+
+	button.forgotPassword {
+		margin-top: 0.5em;
+		font-size:medium;
+		float:right;
+		color: white;
+		text-decoration:underline;
+		border: none;
+		background: none;
+	}
+
+}
